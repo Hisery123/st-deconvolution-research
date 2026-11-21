@@ -1,9 +1,16 @@
 # PROJECT_STATE — CTW-RF × CARR-lite V2
 
 - 更新：2026-11-21（Asia/Taipei）
-- 阶段：**RCTD no_marker_features 已运行完成；等待 CARD 同项消融，再汇总十组指标**
+- 阶段：**CARR RCTD/CARD 各五配置均由用户日志确认完成，十组均值已读取；进入按 base 的结果分析与作图阶段**
 - 当前仓库：`Hisery123/st-deconvolution-research`（公开，main）
 - 注意：本文件只记录已检查的稿件内容和明确的待办；**论文数字尚未用原始 CSV/代码独立复算**。不得将文中叙述等同于已复现实验。
+
+## 2026-11-21 CARR 五配置消融全量均值已获得（最新）
+
+- [RUN_LOG_CONFIRMED] CARD `no_marker_features` 正式运行末尾 `FINISHED 260 result rows`，输出 `D:\Research\STdeconv_benchmark\results\CARRliteV2_ablation_20261121_v1\CARD\no_marker_features`。
+- [USER_CONSOLE_SUMMARY] 用户读取 RCTD/CARD × 5 配置 `HGBC_a30` 的五项均值，每配置 52 个场景。CARD no_marker 相对 Full：RMSE `0.03137→0.03137`，AUPRC `0.55561→0.55645`；RCTD RMSE `0.03096→0.03106`，AUPRC `0.55710→0.55755`；其他指标与四组消融数据完整转录在下列两文件中。
+- [REPORT] [10 组消融分析](CARR-lite-V2/experiments/records/2026-11-21_five_config_ablation_summary.md)，[10 行控制台转录 CSV](CARR-lite-V2/experiments/records/2026-11-21_five_config_console_means.csv)。原始 CSV 尚未直接进入仓库或独立复算；**不得把小幅均值差异称为显著**。
+- [NEXT] 不再拓展特征消融；先做 13 base 配对变化与 SVG 绘图数据，再回 CTW-RF 计划扩充。
 
 ## 2026-11-21 RCTD no_marker_features 已完成（用户日志）
 
