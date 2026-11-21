@@ -1,9 +1,17 @@
 # PROJECT_STATE — CTW-RF × CARR-lite V2
 
 - 更新：2026-11-21（Asia/Taipei）
-- 阶段：**CARR 104 行按 base 配对 CSV 已由用户本地导出成功，待上传以供核验和科研绘图**
+- 阶段：**CARR 10 组消融、104 行 base 配对汇总已完成；按 Claude 原计划转入严格类别留出，脚本已提交待用户本地验证**
 - 当前仓库：`Hisery123/st-deconvolution-research`（公开，main）
 - 注意：本文件只记录已检查的稿件内容和明确的待办；**论文数字尚未用原始 CSV/代码独立复算**。不得将文中叙述等同于已复现实验。
+
+## 2026-11-22 下一实验：严格类别留出（最新）
+
+- 用户明确：不增加空间预测点位图；遵循 Claude 的八项补实验原计划。
+- [SCRIPT_COMMITTED_NOT_RUN] [新独立验证脚本](CARR-lite-V2/experiments/category_holdout_carr_v2.py) 提交 main。[协议与证据边界](CARR-lite-V2/experiments/records/2026-11-22_category_holdout_protocol.md)。
+- 4 折逐类别留出：stable(4 base/16视图)、medium(3/12)、confusable(3/12)、lowref(3/12)，总计13个base×4深度=52视图。RCTD/CARD 各独立重训。严格不覆盖旧的13-base实验。
+- [NEXT] 用户手动 Git pull → RCTD dry-run → 正式运行，再轮到 CARD。无任何新类别留出结果可报告。
+- 104 行按 base 配对表已经收到用户上传并曾核对结构，生成了本轮绘图数据；新实验不改变该表。
 
 ## 2026-11-22 按 base 配对结果导出完成（最新）
 
