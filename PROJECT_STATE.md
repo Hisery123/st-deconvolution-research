@@ -1,9 +1,16 @@
 # PROJECT_STATE — CTW-RF × CARR-lite V2
 
 - 更新：2026-11-21（Asia/Taipei）
-- 阶段：**CARR RCTD 与 CARD no_depth 特征消融均已由用户日志确认完成；正在做两方法四数据表的指标对照**
+- 阶段：**CARR RCTD/CARD no_depth 均完成，四组 HGBC_a30 均值已读取；下一步 no_residual 特征消融**
 - 当前仓库：`Hisery123/st-deconvolution-research`（公开，main）
 - 注意：本文件只记录已检查的稿件内容和明确的待办；**论文数字尚未用原始 CSV/代码独立复算**。不得将文中叙述等同于已复现实验。
+
+## 2026-11-21 no_depth 均值对比（用户终端最新）
+
+- [USER_CONSOLE_SUMMARY] HGBC_a30，各组 52 视图：CARD full `target_RMSE=0.03137`、no_depth `0.03139`；RCTD full `0.03096`、no_depth `0.03097`。
+- AUPRC：CARD full `0.55561`、no_depth `0.55607`；RCTD full `0.55710`、no_depth `0.55681`。两种方法 recall@10%FPR 在 no_depth 下均略有增加。
+- [RECORD] [均值报告](CARR-lite-V2/experiments/records/2026-11-21_no_depth_ablation_mean_results.md)及 [CSV](CARR-lite-V2/experiments/records/2026-11-21_no_depth_console_means.csv)。均值来自用户终端四舍五入数值，不等于原始结果已上传；尚不能声称统计等效。
+- [NEXT] RCTD `--ablation no_residual --dry-run`；再视输入验证运行 RCTD/CARD 两组 no_residual。
 
 ## 2026-11-21 CARD no_depth 消融已完成（用户日志）
 
