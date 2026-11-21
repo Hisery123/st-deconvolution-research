@@ -1,9 +1,16 @@
 # PROJECT_STATE — CTW-RF × CARR-lite V2
 
 - 更新：2026-11-21（Asia/Taipei）
-- 阶段：**三项扩充实验成功；CARR 逐基础场景对照完成；准备 no_depth 消融**
+- 阶段：**CARR RCTD no_depth 特征消融已有用户成功运行日志；准备 CARD no_depth**
 - 当前仓库：`Hisery123/st-deconvolution-research`（公开，main）
 - 注意：本文件只记录已检查的稿件内容和明确的待办；**论文数字尚未用原始 CSV/代码独立复算**。不得将文中叙述等同于已复现实验。
+
+## 2026-11-21 RCTD no_depth 消融已完成（用户日志）
+
+- [RUN_LOG_CONFIRMED] RCTD `--ablation no_depth` dry-run 显示排除 `depth_fraction`，52 场景输入验证通过。
+- 正式执行：终端 `FINISHED 260 result rows`，本地输出 `D:\Research\STdeconv_benchmark\results\CARRliteV2_ablation_20261121_v1\RCTD\no_depth`。
+- [运行记录](CARR-lite-V2/experiments/records/2026-11-21_rctd_no_depth_v1.md)。未收到实际指标 CSV，尚不能评价 no_depth 对性能的影响。
+- [NEXT] CARD no_depth dry-run 和正式运行，之后再进行同方法配对性能对比。
 
 ## 2026-11-21 CARR 按基础场景的配对比较（最新）
 
