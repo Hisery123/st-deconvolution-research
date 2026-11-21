@@ -1,9 +1,15 @@
 # PROJECT_STATE — CTW-RF × CARR-lite V2
 
 - 更新：2026-11-21（Asia/Taipei）
-- 阶段：**CARR RCTD no_residual 已由用户日志确认成功；CARD no_residual 待运行**
+- 阶段：**CARR no_residual 的 CARD 目录已存在 52 场景、260 行和 run_config；先验证配置并读取三配置指标**
 - 当前仓库：`Hisery123/st-deconvolution-research`（公开，main）
 - 注意：本文件只记录已检查的稿件内容和明确的待办；**论文数字尚未用原始 CSV/代码独立复算**。不得将文中叙述等同于已复现实验。
+
+## 2026-11-21 CARD no_residual 已存在完整规模输出（最新）
+
+- [USER_CONSOLE_DIR_CHECK] 用户运行 CARD no_residual 命令时被防覆盖检查拦截；本次**未重新训练**。随后只读检查目标目录，发现 52 子目录、`metrics_by_scenario.csv` 260 条记录和 `run_config.json`，修改时间均为 2026-11-21 18:48:48。
+- [记录](CARR-lite-V2/experiments/records/2026-11-21_card_no_residual_existing_output.md)；这是已有文件的证据，尚未核对 run_config 内容，不能直接断定算法结果已复核。
+- [NEXT] 一条只读命令验证 JSON 确认 `base_method=CARD`、`ablation=no_residual` 后，汇总 RCTD/CARD × Full/No-depth/No-residual 指标。
 
 ## 2026-11-21 RCTD no_residual 消融（最新用户终端）
 
