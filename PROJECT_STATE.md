@@ -1,9 +1,18 @@
 # PROJECT_STATE — CTW-RF × CARR-lite V2
 
 - 更新：2026-11-21（Asia/Taipei）
-- 阶段：**RCTD 与 CARD 的 no_confusion_features 均已由用户日志确认成功；准备八组指标汇总**
+- 阶段：**八组 RCTD/CARD 特征消融指标已由用户汇总；准备最后一组 no_marker_features**
 - 当前仓库：`Hisery123/st-deconvolution-research`（公开，main）
 - 注意：本文件只记录已检查的稿件内容和明确的待办；**论文数字尚未用原始 CSV/代码独立复算**。不得将文中叙述等同于已复现实验。
+
+## 2026-11-21 八组消融对照实际指标（最新）
+
+- [USER_CONSOLE_SUMMARY] 用户从八份原始 `metrics_by_scenario.csv` 中筛选 `HGBC_a30`，每组 52 条记录，汇总 `target_RMSE`、`target_MAE`、`balanced_AUPRC`、`recall_at_10pct_FPR`、`matrix_RMSE`。
+- CARD：Full vs No_confusion_features，target_RMSE `0.03137→0.03110`，AUPRC `0.55561→0.55432`，Recall `0.14690→0.14341`。
+- RCTD：Full vs No_confusion_features，target_RMSE `0.03096→0.03068`，AUPRC `0.55710→0.55483`，Recall `0.14184→0.13750`。
+- [INTERPRETATION] 去掉混淆特征使丰度误差改善，但检测指标下降，属于可信的方向性权衡而不是“全面提升”。仍为用户终端五位小数的场景描述性均值。
+- [RECORD] [八组消融汇总](CARR-lite-V2/experiments/records/2026-11-21_four_config_ablation_summary.md)及 [CSV 控制台转录](CARR-lite-V2/experiments/records/2026-11-21_four_config_console_means.csv)；本地原始指标 CSV 未上传，未作独立复算。
+- [NEXT] RCTD `--ablation no_marker_features --dry-run`，随后 RCTD/CARD 同项消融，保持当前执行优先级。
 
 ## 2026-11-21 CARD no_confusion_features 运行成功（最新）
 
