@@ -1,14 +1,22 @@
 # PROJECT_STATE — CTW-RF × CARR-lite V2
 
 - 更新：2026-11-21（Asia/Taipei）
-- 阶段：**CARR no_residual 的 CARD 目录已存在 52 场景、260 行和 run_config；先验证配置并读取三配置指标**
+- 阶段：**CARR 双方法 Full/No-depth/No-residual 的六组均值已从用户终端读取；准备 no_confusion_features 消融**
 - 当前仓库：`Hisery123/st-deconvolution-research`（公开，main）
 - 注意：本文件只记录已检查的稿件内容和明确的待办；**论文数字尚未用原始 CSV/代码独立复算**。不得将文中叙述等同于已复现实验。
+
+## 2026-11-21 双基础方法三配置消融结果（最新）
+
+- [USER_CONSOLE_SUMMARY] CARD no_residual `run_config.json` 已核实 `base_method=CARD`、`ablation=no_residual`。六组 `HGBC_a30` 指标各 52 条数据。
+- CARD Target RMSE：Full `0.03137`，No_depth `0.03139`，No_residual `0.03163`；RCTD：`0.03096/0.03097/0.03114`。
+- No_residual 较 Full 的 Target RMSE 变化：CARD +0.00026（约 +0.83%），RCTD +0.00018（约 +0.58%）。AUPRC：CARD 小幅下降，RCTD 小幅上升。均为模拟场景均值与五位小数精度，尚不构成统计显著/独立外部泛化证据。
+- [RECORD] [三配置汇总](CARR-lite-V2/experiments/records/2026-11-21_three_config_ablation_summary.md)及 [六行 CSV 转录](CARR-lite-V2/experiments/records/2026-11-21_three_config_console_means.csv)。**原始输出仍仅在研究者本地，未独立复算。**
+- [NEXT] `RCTD --ablation no_confusion_features --dry-run`；若检查通过则正式运行，随后 CARD。保留对照和负结果。
 
 ## 2026-11-21 CARD no_residual 已存在完整规模输出（最新）
 
 - [USER_CONSOLE_DIR_CHECK] 用户运行 CARD no_residual 命令时被防覆盖检查拦截；本次**未重新训练**。随后只读检查目标目录，发现 52 子目录、`metrics_by_scenario.csv` 260 条记录和 `run_config.json`，修改时间均为 2026-11-21 18:48:48。
-- [记录](CARR-lite-V2/experiments/records/2026-11-21_card_no_residual_existing_output.md)；这是已有文件的证据，尚未核对 run_config 内容，不能直接断定算法结果已复核。
+- [记录](CARR-lite-V2/experiments/records/2026-11-21_card_no_residual_existing_output.md)；这是已有文件的证据，随后用户已核对 run_config 字段为 `CARD/no_residual`，并读取指标汇总；但仍未上传原始 CSV。
 - [NEXT] 一条只读命令验证 JSON 确认 `base_method=CARD`、`ablation=no_residual` 后，汇总 RCTD/CARD × Full/No-depth/No-residual 指标。
 
 ## 2026-11-21 RCTD no_residual 消融（最新用户终端）
