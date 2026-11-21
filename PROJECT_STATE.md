@@ -1,11 +1,19 @@
 # PROJECT_STATE — CTW-RF × CARR-lite V2
 
-- 更新：2026-11-21（Asia/Taipei）
-- 阶段：**CARR 10 组消融、104 行 base 配对汇总已完成；按 Claude 原计划转入严格类别留出，脚本已提交待用户本地验证**
+- 更新：2026-11-22（Asia/Taipei）
+- 阶段：**2026-11-22 已归档第二篇十组消融与已核验104行派生数据；下一步严格类别留出，仅远端脚本提交，Windows 本地同步与运行未确认；今日工作已结束**
 - 当前仓库：`Hisery123/st-deconvolution-research`（公开，main）
-- 注意：本文件只记录已检查的稿件内容和明确的待办；**论文数字尚未用原始 CSV/代码独立复算**。不得将文中叙述等同于已复现实验。
+- 注意：104 行用户上传的**按 base 派生 CSV** 已直接读取并复核差值/计数；但十份原始 52-view 指标 CSV、全部训练与模型权重**仍未直接取得或独立复算**。不得将文中叙述等同于所有实验已复现。
 
-## 2026-11-22 下一实验：严格类别留出（最新）
+## 2026-11-22 日终交接（最新，冻结状态）
+
+- [USER_DECISION] 用户明确结束今日工作、要求存档；**不补空间预测点位图**，继续 Claude 原八项补实验。
+- [GITHUB_ARCHIVED] [104 行配对数据 CSV](CARR-lite-V2/experiments/records/2026-11-21_ablation_base_paired_104rows.csv) 已由用户上传文本存入 GitHub（commit `14f28811aa6de2d0b523652ddc2613d8011f5631`）。对上传文件直接检查：104×18，0 缺失，0 配对键重复，五种差值重算在浮点精度内一致；RMSE/AUPRC 八组改善计数全部与终端记录相符。数据是四深度按13 base 聚合的派生表，并非原始逐52视图结果。
+- [RESEARCH_JOURNAL] [2026-11-22 归档与五点交接提醒](RESEARCH_JOURNAL/2026-11-22.md)；含输入路径、证据级别、原上传文件 SHA-256 `4d6f58bc549a6136fefa901174a063f0a908d2b327f66dc442ee85c651113d07`（GitHub 文本换行可能不同）。
+- [CODE_READY_NOT_RUN] 严格类别留出脚本 commit `4da4c29076c757467d7704a151fca40c64c5fc13`，未获本地 Git pull / dry-run / 训练日志。不能声称新实验已执行；旧的十组消融无需重跑。
+- [NEXT_SINGLE_ACTION] 下次唯一手动步骤：研究者 Windows 本地同步 `git -c http.proxy=http://127.0.0.1:7897 -C "D:\Research\st-deconvolution-research" pull --ff-only`。成功后才能给 RCTD category holdout `--dry-run` 命令，随后再按计划安排训练。不应在日终额外启动工作。
+
+## 2026-11-22 下一实验：严格类别留出（历史计划）
 
 - 用户明确：不增加空间预测点位图；遵循 Claude 的八项补实验原计划。
 - [SCRIPT_COMMITTED_NOT_RUN] [新独立验证脚本](CARR-lite-V2/experiments/category_holdout_carr_v2.py) 提交 main。[协议与证据边界](CARR-lite-V2/experiments/records/2026-11-22_category_holdout_protocol.md)。
@@ -16,7 +24,7 @@
 ## 2026-11-22 按 base 配对结果导出完成（最新）
 
 - [USER_CONSOLE_EXPORT_LOG] 用户执行修正后的 pandas 多对一合并导出，终端 `WROTE D:\Research\STdeconv_benchmark\results\CARRliteV2_ablation_base_paired_20261121_v1.csv ROWS 104`。
-- 当前证据只证明用户本地生成 104 行文件。**未收到文件本体，不能说 GitHub 已有 CSV 或逐行验证成功**。
+- **该条为上传前的历史记录，已被 2026-11-22 日终交接更新取代**：用户随后上传了文件，助手核验 104 行、18 列及差值和计数，且已将文本版派生 CSV 写入 GitHub。完整逐52视图的原始指标 CSV 仍未上传。
 - [记录](CARR-lite-V2/experiments/records/2026-11-22_base_paired_export_log.md)。
 - [NEXT] 用户上传该文件到对话后，核验 13-base 配对差值与此前改善方向计数，再制作可编辑 SVG 与 Results 文本；不增加训练。
 
