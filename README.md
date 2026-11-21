@@ -11,6 +11,14 @@ Reproducible research and **evidence-driven extension planning** for two separat
 | [CTW-RF](CTW-RF/EXPERIMENT_PLAN.md) | Cell-type-wise reliability fusion of existing deconvolution predictions | Audit pseudo-spot/reference cell overlap; out-of-fold evaluation; compare nearest ensemble baselines |
 | [CARR-lite V2](CARR-lite-V2/EXPERIMENT_PLAN.md) | Rare-cell-aware post-calibration on a Tangram base model | Audit feature availability and FOV/reference split; then test alternative base deconvolvers |
 
+## New source archive (2026-11-21)
+
+On GitHub commit [5666894](https://github.com/Hisery123/st-deconvolution-research/commit/5666894905eb7e49d83158fbbcaf88e92ed8a03c), 62 files were imported from historical Windows folders (14 Python scripts, 46 CSV tables, 2 READMEs). They are **source snapshots, not a complete reproducible environment or a new experiment**.
+
+- [CTW-RF historical source snapshot](CTW-RF/source-snapshot/README.md)
+- [CARR-lite V2 historical source snapshot](CARR-lite-V2/source-snapshot/README.md)
+- [First source audit: code evidence, leakage and selection risks](SOURCE_AUDIT_2026-11-21.md)
+
 ## Project memory / handoff
 
 Read in this order when resuming with ChatGPT or Claude:
@@ -23,7 +31,7 @@ Read in this order when resuming with ChatGPT or Claude:
 
 ## Scope and limitations
 
-- This public repository currently contains **governance and experimental planning documents**, not published raw data, verified reproduction scripts or checked-in manuscript drafts.
+- This public repository contains **governance/planning documents plus partial historical script and CSV source snapshots**. No complete reproducible environment, independent recomputation or checked-in manuscript drafts are established.
 - Do not confuse reported manuscript values with independently reproduced results.
 - A spot, FOV, slice, donor and random seed are different levels of observation. Statistical inference must respect the independent unit.
 - Real DLPFC Visium spots lack ground-truth cell-type composition here; pseudo-spot calibration errors are **not** real-spot errors.
