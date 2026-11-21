@@ -1,9 +1,18 @@
 # PROJECT_STATE — CTW-RF × CARR-lite V2
 
 - 更新：2026-11-21（Asia/Taipei）
-- 阶段：**历史源码归档已完成；开始静态审计（尚未复现）**
+- 阶段：**SCI 扩充实验执行准备（代码已提交；尚未在本地运行）**
 - 当前仓库：`Hisery123/st-deconvolution-research`（公开，main）
 - 注意：本文件只记录已检查的稿件内容和明确的待办；**论文数字尚未用原始 CSV/代码独立复算**。不得将文中叙述等同于已复现实验。
+
+## 2026-11-21 最新决策：先执行扩充、终期集中审计
+
+- [USER DECISION] 先按扩充计划推进两篇论文的新对照实验，**不再因每个潜在审计问题反复停工**；最终稿前集中审计。
+- [CODE_READY] CTW 实验脚本：[`global_stacking_cv.py`](CTW-RF/experiments/global_stacking_cv.py)，实现单方法、等权和全局非负 stacking 的同一五折比较；**未运行**。
+- [CODE_READY] CARR 实验脚本：[`cross_method_carr_v2.py`](CARR-lite-V2/experiments/cross_method_carr_v2.py)，支持 RCTD/CARD 基础方法的留出场景实验；**未运行**。
+- [PLANNED] 先完成 CTW stacking 自检与本机输出，然后 CARR RCTD→CARD，后续才做更全面的消融、文献比较和终期审计。
+- 操作队列与验收：[`EXECUTION_QUEUE.md`](EXECUTION_QUEUE.md)。
+- 之前发现的风险仍保留在历史审计记录中，但不再作为每日新增的工作队列；最基本的无测试真值训练、记录完整和不覆盖输出仍需遵守。
 
 ## 2026-11-21 午间增量更新（已核实 GitHub）
 
@@ -14,7 +23,7 @@
 - [VERIFIED-CODE] CARR 的 `depth_fraction` 在模拟中由已知深度标签直接构造；不应直接宣称真实未知深度可部署。
 - [VERIFIED-CODE] CARR 脚本确有 leave-one-base-out 分组留出结构，但不同 base 之间是否共享源细胞/供体尚未验证。
 - [UNVERIFIED] 归档只有部分脚本及历史汇总 CSV；**未取得原始输入、所有基础方法的真实预测和完整环境，未执行新实验或独立复算**。
-- 本轮最优先下一步：只读核对 CTW 的实际基础方法启动配置，确认每个 baseline 使用的参考细胞集合是否与伪 spot 生成细胞重叠。
+- 本条属于历史审计建议；**当前执行优先级已由上方的最新决策替代**。
 
 ## 0. 证据状态约定
 
