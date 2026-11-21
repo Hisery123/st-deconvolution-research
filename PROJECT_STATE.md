@@ -1,9 +1,16 @@
 # PROJECT_STATE — CTW-RF × CARR-lite V2
 
 - 更新：2026-11-21（Asia/Taipei）
-- 阶段：**三项扩充实验本地运行成功；CARR RCTD/CARD 均值已由用户汇总，准备逐 base 描述性比较**
+- 阶段：**三项扩充实验成功；CARR 逐基础场景对照完成；准备 no_depth 消融**
 - 当前仓库：`Hisery123/st-deconvolution-research`（公开，main）
 - 注意：本文件只记录已检查的稿件内容和明确的待办；**论文数字尚未用原始 CSV/代码独立复算**。不得将文中叙述等同于已复现实验。
+
+## 2026-11-21 CARR 按基础场景的配对比较（最新）
+
+- [USER_CONSOLE_SUMMARY] 对 `HGBC_a30 - Original` 先按 `held_out_base` 对四种深度取均值；RCTD target_RMSE 改善 **13/13**、AUPRC 改善 **10/13**；CARD target_RMSE 改善 **13/13**、AUPRC 改善 **9/13**。
+- [RECORD] [分组配对记录](CARR-lite-V2/experiments/records/2026-11-21_cross_method_by_base.md)。CARD 用户终端输出中 12 个逐组数值被截断，仅保存可信的汇总计数。
+- [CODE_READY / NOT_RUN] 扩展了 CARR 跨方法脚本的 `--ablation` 选项，支持 no_depth/no_residual/no_confusion_features/no_marker_features。提交 `f5e3ead23bb122027a5c333d35021f283c2fddac`；新功能尚未本机运行。
+- [NEXT] 本地 `git pull --ff-only` 获取更新，然后先跑 RCTD no_depth 输入检查。继续“先扩充，终期审计”的安排。
 
 ## 2026-11-21 CARR 跨方法汇总（最新用户控制台）
 
