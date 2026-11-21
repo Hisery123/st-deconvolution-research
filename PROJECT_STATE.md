@@ -1,9 +1,15 @@
 # PROJECT_STATE — CTW-RF × CARR-lite V2
 
 - 更新：2026-11-21（Asia/Taipei）
-- 阶段：**RCTD no_confusion_features 已由用户日志确认成功；准备 CARD 同项消融**
+- 阶段：**RCTD 与 CARD 的 no_confusion_features 均已由用户日志确认成功；准备八组指标汇总**
 - 当前仓库：`Hisery123/st-deconvolution-research`（公开，main）
 - 注意：本文件只记录已检查的稿件内容和明确的待办；**论文数字尚未用原始 CSV/代码独立复算**。不得将文中叙述等同于已复现实验。
+
+## 2026-11-21 CARD no_confusion_features 运行成功（最新）
+
+- [RUN_LOG_CONFIRMED] CARD `--ablation no_confusion_features --dry-run` 输入检查 52 场景通过；用户正式执行日志 `FINISHED 260 result rows`，输出 `D:\Research\STdeconv_benchmark\results\CARRliteV2_ablation_20261121_v1\CARD\no_confusion_features`。
+- [RECORD] [CARD 执行记录](CARR-lite-V2/experiments/records/2026-11-21_card_no_confusion_features_v1.md)。
+- [NEXT] 由用户在本地汇总固定 `HGBC_a30` 八组指标（RCTD/CARD × Full/No_depth/No_residual/No_confusion_features）；不提前声明混淆特征消融效果。
 
 ## 2026-11-21 RCTD no_confusion_features 运行成功（最新）
 
