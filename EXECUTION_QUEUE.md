@@ -1,3 +1,9 @@
+## RCTD No-depth 特征消融（2026-11-21，用户运行日志）
+
+- [RUN_LOG_CONFIRMED] RCTD `--ablation no_depth` 52 场景 dry-run 通过；正式运行末尾 `FINISHED 260 result rows`，输出 `D:\Research\STdeconv_benchmark\results\CARRliteV2_ablation_20261121_v1\RCTD\no_depth`。
+- [运行日志](CARR-lite-V2/experiments/records/2026-11-21_rctd_no_depth_v1.md)：原始 CSV 尚未读取，不得断言消融后的性能变化。
+- **下一步：CARD no_depth 输入检查 → 正式运行 → 与同方法完整模型做逐场景配对比较。**
+
 # 两篇 SCI 扩充：实验执行队列（2026-11-21）
 
 > 当前决策：**优先按既定扩充清单交付新的可比较实验**。除非发现会直接导致错误运行/污染数据的阻断问题，暂不插入额外的全面审计任务；已有风险统一保留到最后的科研验收阶段。任何实验仍不得使用测试真值调参、伪造结果、覆盖历史记录。
