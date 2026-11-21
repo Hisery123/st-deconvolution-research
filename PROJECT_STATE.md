@@ -1,9 +1,16 @@
 # PROJECT_STATE — CTW-RF × CARR-lite V2
 
 - 更新：2026-11-21（Asia/Taipei）
-- 阶段：**CARR 双方法 Full/No-depth/No-residual 的六组均值已从用户终端读取；准备 no_confusion_features 消融**
+- 阶段：**RCTD no_confusion_features 已由用户日志确认成功；准备 CARD 同项消融**
 - 当前仓库：`Hisery123/st-deconvolution-research`（公开，main）
 - 注意：本文件只记录已检查的稿件内容和明确的待办；**论文数字尚未用原始 CSV/代码独立复算**。不得将文中叙述等同于已复现实验。
+
+## 2026-11-21 RCTD no_confusion_features 运行成功（最新）
+
+- [RUN_LOG_CONFIRMED] RCTD `--ablation no_confusion_features --dry-run` 52 场景通过，排除四个混淆相关输入特征；正式运行 `FINISHED 260 result rows`。
+- [LOCAL_OUTPUT] `D:\Research\STdeconv_benchmark\results\CARRliteV2_ablation_20261121_v1\RCTD\no_confusion_features`。
+- [RECORD] [本轮执行日志](CARR-lite-V2/experiments/records/2026-11-21_rctd_no_confusion_features_v1.md)；未读取该消融 CSV 的具体指标，不推断效果。
+- [NEXT] CARD 同配置 dry-run，随后正式运行；保持原有 Full/No-depth/No-residual 结果不变。
 
 ## 2026-11-21 双基础方法三配置消融结果（最新）
 
