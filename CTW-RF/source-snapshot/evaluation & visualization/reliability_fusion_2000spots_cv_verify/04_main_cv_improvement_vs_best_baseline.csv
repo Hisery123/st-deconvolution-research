@@ -1,0 +1,8 @@
+method,JSD_improvement_vs_best_baseline_percent,RMSE_improvement_vs_best_baseline_percent,best_baseline_by_JSD,best_baseline_by_RMSE
+Tangram,-221.01056186354486,-83.43405755703618,cell2location,CARD
+RCTD,-144.70528131553255,-51.104312868657395,cell2location,CARD
+CellDART,-248.51737884017618,-134.37424448886878,cell2location,CARD
+CARD,-25.995619273075754,0.0,cell2location,CARD
+cell2location,0.0,-9.188256468872833,cell2location,CARD
+SPOTlight,-215.30103522943307,-64.23620538972557,cell2location,CARD
+Proposed_CV,-2.7833133193793684,19.941911132695495,cell2location,CARD
