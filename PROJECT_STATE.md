@@ -1,9 +1,18 @@
 # PROJECT_STATE — CTW-RF × CARR-lite V2
 
 - 更新：2026-11-21（Asia/Taipei）
-- 阶段：**CTW Global Stacking 与 CARR RCTD、CARD 扩充实验均获用户终端成功日志；进入指标汇总**
+- 阶段：**三项扩充实验本地运行成功；CARR RCTD/CARD 均值已由用户汇总，准备逐 base 描述性比较**
 - 当前仓库：`Hisery123/st-deconvolution-research`（公开，main）
 - 注意：本文件只记录已检查的稿件内容和明确的待办；**论文数字尚未用原始 CSV/代码独立复算**。不得将文中叙述等同于已复现实验。
+
+## 2026-11-21 CARR 跨方法汇总（最新用户控制台）
+
+- [USER_CONSOLE_SUMMARY] 用户合并本地 RCTD/CARD `metrics_by_scenario.csv`，读取 520 行，按 `base_method, method` 取五指标均值并四舍五入到五位小数。
+- RCTD：Original target_RMSE `0.05789`，HGBC_a15 `0.03089`（均值降幅按五位小数计算约 **46.64%**）。
+- CARD：Original target_RMSE `0.03720`，HGBC_a30 `0.03137`（约 **15.67%**）。
+- [LIMITATION] RCTD matrix_RMSE 原始 `0.08986`，a15/a30/a50 分别 `0.08999/0.09004/0.09011`，有轻微恶化；不同 a 的改变量不可后验当独立最优超参数结论。
+- [RECORD] [均值报告](CARR-lite-V2/experiments/records/2026-11-21_cross_method_mean_results.md)及 [CSV 转录](CARR-lite-V2/experiments/records/2026-11-21_cross_method_console_means.csv)。只是用户控制台的汇总数据，**未独立读取本地原始 CSV**。
+- [NEXT] 基础场景为单位汇总 4 个深度，观察 13 个场景各自的改善与失败情况；不启动额外全面审计。
 
 ## 2026-11-21 CARR CARD 扩充进度（用户终端日志）
 
