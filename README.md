@@ -4,6 +4,14 @@ Reproducible research and **evidence-driven extension planning** for two separat
 
 > Current stage (2026-11-21): repository initialization and source-code/experiment audit. Manuscript-reported numbers have **not** been independently recomputed in this repository. No new scientific experiment was run during initialization.
 
+## Current execution priority
+
+The researcher has prioritized **running the planned incremental experiments first** and deferring comprehensive publication audits until after the expansion runs. Both new scripts are committed but **not yet executed locally**.
+
+- [Experiment execution queue / current next steps](EXECUTION_QUEUE.md)
+- [CTW-RF: 5-fold global stacking comparator](CTW-RF/experiments/global_stacking_cv.py)
+- [CARR-lite V2: cross-method RCTD/CARD adapter](CARR-lite-V2/experiments/cross_method_carr_v2.py)
+
 ## Projects
 
 | Project | Scope | Current priority |
