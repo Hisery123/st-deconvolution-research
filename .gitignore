@@ -1,0 +1,63 @@
+# Python / R scientific computing artifacts
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+.ipynb_checkpoints/
+.Rhistory
+.RData
+.Rproj.user/
+*.Rcheck/
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.DS_Store
+Thumbs.db
+
+# Credentials & environment
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+credentials.json
+token.json
+
+# Raw or restricted datasets / model artifacts: review before adding any exception
+data/raw/
+data/private/
+datasets/raw/
+*.h5ad
+*.h5
+*.hdf5
+*.loom
+*.rds
+*.RData
+*.pt
+*.pth
+*.ckpt
+*.pkl
+*.pickle
+*.parquet
+*.zip
+*.tar.gz
+
+# Local run outputs (selectively export reviewed, small aggregated CSV)
+results/raw/
+outputs/
+checkpoints/
+wandb/
+mlruns/
+
+# LaTeX temporary files (not .tex or .bib)
+*.aux
+*.log
+*.out
+*.toc
+*.synctex.gz
+*.fls
+*.fdb_latexmk
+*.bbl
+*.blg
