@@ -1,9 +1,16 @@
 # PROJECT_STATE — CTW-RF × CARR-lite V2
 
 - 更新：2026-11-21（Asia/Taipei）
-- 阶段：**CARR RCTD/CARD no_depth 均完成，四组 HGBC_a30 均值已读取；下一步 no_residual 特征消融**
+- 阶段：**CARR RCTD no_residual 已由用户日志确认成功；CARD no_residual 待运行**
 - 当前仓库：`Hisery123/st-deconvolution-research`（公开，main）
 - 注意：本文件只记录已检查的稿件内容和明确的待办；**论文数字尚未用原始 CSV/代码独立复算**。不得将文中叙述等同于已复现实验。
+
+## 2026-11-21 RCTD no_residual 消融（最新用户终端）
+
+- [RUN_LOG_CONFIRMED] `--method RCTD --ablation no_residual --dry-run`：52 场景检查通过，明确排除 `residual_projection` 与 `residual_marker_mean`。
+- 用户正式运行日志：`FINISHED 260 result rows`，写入 `D:\Research\STdeconv_benchmark\results\CARRliteV2_ablation_20261121_v1\RCTD\no_residual`。
+- [记录](CARR-lite-V2/experiments/records/2026-11-21_rctd_no_residual_v1.md)。尚未收到指标 CSV，不能推断性能。
+- [NEXT] CARD no_residual dry-run、正式运行，然后与 Full/No-depth 同口径比较。
 
 ## 2026-11-21 no_depth 均值对比（用户终端最新）
 
