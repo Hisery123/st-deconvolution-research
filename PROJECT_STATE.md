@@ -1,14 +1,21 @@
 # PROJECT_STATE — CTW-RF × CARR-lite V2
 
 - 更新：2026-11-21（Asia/Taipei）
-- 阶段：**SCI 扩充实验执行准备（代码已提交；尚未在本地运行）**
+- 阶段：**CTW-RF 首项扩充对照已由用户日志确认成功；进入 CARR RCTD 输入验证**
 - 当前仓库：`Hisery123/st-deconvolution-research`（公开，main）
 - 注意：本文件只记录已检查的稿件内容和明确的待办；**论文数字尚未用原始 CSV/代码独立复算**。不得将文中叙述等同于已复现实验。
+
+## 2026-11-21 最新实验进度（用户终端日志）
+
+- [RUN_LOG_CONFIRMED] CTW-RF `global_stacking_cv.py`：内存 selftest `SELFTEST PASS`；真实数据 dry-run 通过，2000 spot、19 细胞类型和六种基线。
+- [RUN_LOG_CONFIRMED] 正式五折 GlobalStacking 运行完成，终端有 `WROTE`；结果：JSD `0.113543`，matrix_RMSE `0.048965`，aggregated_celltype_RMSE `0.867207`，mean_celltype_RMSE `0.045642`。这是用户提供的本地输出，非独立 CSV 复算。
+- [RESULT_RECORD] [运行日志摘要及转录数值](CTW-RF/experiments/records/2026-11-21_global_stacking_v1.md)。原始结果在用户本地 `D:\Research\STdeconv_benchmark\results\CTWRF_GlobalStacking_20261121_v1`；尚未上传。
+- [NEXT] 按执行优先安排 CARR RCTD 跨方法实验 `--dry-run`（优先 RCTD，之后 CARD）。前述 CTW 风险保留最终审计，不阻断扩充流程。
 
 ## 2026-11-21 最新决策：先执行扩充、终期集中审计
 
 - [USER DECISION] 先按扩充计划推进两篇论文的新对照实验，**不再因每个潜在审计问题反复停工**；最终稿前集中审计。
-- [CODE_READY] CTW 实验脚本：[`global_stacking_cv.py`](CTW-RF/experiments/global_stacking_cv.py)，实现单方法、等权和全局非负 stacking 的同一五折比较；**未运行**。
+- [RUN_LOG_CONFIRMED] CTW 实验脚本：[`global_stacking_cv.py`](CTW-RF/experiments/global_stacking_cv.py)，实现单方法、等权和全局非负 stacking 的同一五折比较；**已由用户日志确认本地运行成功，尚未收到原始 CSV**。
 - [CODE_READY] CARR 实验脚本：[`cross_method_carr_v2.py`](CARR-lite-V2/experiments/cross_method_carr_v2.py)，支持 RCTD/CARD 基础方法的留出场景实验；**未运行**。
 - [PLANNED] 先完成 CTW stacking 自检与本机输出，然后 CARR RCTD→CARD，后续才做更全面的消融、文献比较和终期审计。
 - 操作队列与验收：[`EXECUTION_QUEUE.md`](EXECUTION_QUEUE.md)。
