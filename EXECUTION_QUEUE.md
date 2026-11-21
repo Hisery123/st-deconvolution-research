@@ -1,8 +1,14 @@
+## RCTD + CARD No-depth 消融均已运行完成（2026-11-21）
+
+- [RUN_LOG_CONFIRMED] CARD `--ablation no_depth`：52 场景输入检查通过，正式运行 `FINISHED 260 result rows`；本地输出 `D:\Research\STdeconv_benchmark\results\CARRliteV2_ablation_20261121_v1\CARD\no_depth`。
+- [CARD 运行记录](CARR-lite-V2/experiments/records/2026-11-21_card_no_depth_v1.md)与 [RCTD 运行记录](CARR-lite-V2/experiments/records/2026-11-21_rctd_no_depth_v1.md)均已在仓库归档。
+- [NEXT] 本地读取四份指标 CSV（RCTD/CARD × full/no_depth），固定 `HGBC_a30` 对照，先看五项描述性指标；原始 CSV 尚未读入仓库，性能影响未知。
+
 ## RCTD No-depth 特征消融（2026-11-21，用户运行日志）
 
 - [RUN_LOG_CONFIRMED] RCTD `--ablation no_depth` 52 场景 dry-run 通过；正式运行末尾 `FINISHED 260 result rows`，输出 `D:\Research\STdeconv_benchmark\results\CARRliteV2_ablation_20261121_v1\RCTD\no_depth`。
 - [运行日志](CARR-lite-V2/experiments/records/2026-11-21_rctd_no_depth_v1.md)：原始 CSV 尚未读取，不得断言消融后的性能变化。
-- **下一步：CARD no_depth 输入检查 → 正式运行 → 与同方法完整模型做逐场景配对比较。**
+- **两种方法的 no_depth 消融均运行完成；下一步读取四份指标 CSV 比较。**
 
 # 两篇 SCI 扩充：实验执行队列（2026-11-21）
 
