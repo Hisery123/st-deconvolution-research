@@ -74,3 +74,9 @@
 ## 7. Working Principle
 
 **Evidence first → fair experiments → defensible claims.**
+
+## 8. Latest handoff pointer — 2026-11-22
+
+- **最新实验状态以 [PROJECT_STATE.md](PROJECT_STATE.md) 的 2026-11-22 日终交接及 [2026-11-22 科研日记](RESEARCH_JOURNAL/2026-11-22.md) 为准**；不要从旧对话结尾推断 Windows 本地执行成功。
+- 用户最新决定：**不补空间预测点位图**，继续 CARR-lite V2 原八项补实验计划。十组消融已完成；104 行 base 配对派生数据已上传、核验并归档；严格类别留出仅脚本已提交 GitHub，**未运行**。
+- 明天第一步仅让研究者手动同步 GitHub（`git pull --ff-only`），成功后才检查 RCTD 类别留出 `--dry-run`。继续每次只给一条本地命令。
