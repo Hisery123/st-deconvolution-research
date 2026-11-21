@@ -1,9 +1,15 @@
 # PROJECT_STATE — CTW-RF × CARR-lite V2
 
 - 更新：2026-11-21（Asia/Taipei）
-- 阶段：**CTW-RF Global Stacking 与 CARR RCTD 扩充实验均已完成本地执行；准备 CARR CARD**
+- 阶段：**CTW Global Stacking 与 CARR RCTD、CARD 扩充实验均获用户终端成功日志；进入指标汇总**
 - 当前仓库：`Hisery123/st-deconvolution-research`（公开，main）
 - 注意：本文件只记录已检查的稿件内容和明确的待办；**论文数字尚未用原始 CSV/代码独立复算**。不得将文中叙述等同于已复现实验。
+
+## 2026-11-21 CARR CARD 扩充进度（用户终端日志）
+
+- [RUN_LOG_CONFIRMED] CARD `--dry-run` 输入检查通过 52 个场景；正式运行终端显示 `FINISHED 260 result rows` 和 `OUTPUT D:\Research\STdeconv_benchmark\results\CARRliteV2_cross_method_20261121_v1\CARD`。
+- [RECORD] [CARD 运行记录](CARR-lite-V2/experiments/records/2026-11-21_card_cross_method_v1.md)。
+- [NEXT] 同时从用户 Windows 的 RCTD/CARD `metrics_by_scenario.csv` 汇总描述性性能表；暂不推断跨方法改善与独立显著性。
 
 ## 2026-11-21 CARR RCTD 扩充进度（用户终端日志）
 
