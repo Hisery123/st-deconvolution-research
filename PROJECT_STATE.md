@@ -1,9 +1,16 @@
 # PROJECT_STATE — CTW-RF × CARR-lite V2
 
 - 更新：2026-11-21（Asia/Taipei）
-- 阶段：**八组 RCTD/CARD 特征消融指标已由用户汇总；准备最后一组 no_marker_features**
+- 阶段：**RCTD no_marker_features 已运行完成；等待 CARD 同项消融，再汇总十组指标**
 - 当前仓库：`Hisery123/st-deconvolution-research`（公开，main）
 - 注意：本文件只记录已检查的稿件内容和明确的待办；**论文数字尚未用原始 CSV/代码独立复算**。不得将文中叙述等同于已复现实验。
+
+## 2026-11-21 RCTD no_marker_features 已完成（用户日志）
+
+- [RUN_LOG_CONFIRMED] `--method RCTD --ablation no_marker_features --dry-run` 检查 52 场景通过；正式执行末尾 `FINISHED 260 result rows`。
+- 本地结果目录：`D:\Research\STdeconv_benchmark\results\CARRliteV2_ablation_20261121_v1\RCTD\no_marker_features`。三项 marker 输入特征排除；其余算法模块保留。
+- [RECORD] [RCTD 运行记录](CARR-lite-V2/experiments/records/2026-11-21_rctd_no_marker_features_v1.md)。指标 CSV 未直接读取，尚不评价 no_marker 效果。
+- [NEXT] CARD 同项 `--dry-run`，通过后正式运行；最终汇总十组固定 HGBC_a30 指标。
 
 ## 2026-11-21 八组消融对照实际指标（最新）
 
