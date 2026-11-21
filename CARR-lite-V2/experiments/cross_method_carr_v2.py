@@ -37,6 +37,20 @@ import carr_lite_v2_52scenario as legacy
 DEFAULT_SUITE = Path(r"D:\Research\STdeconv_benchmark\data\groundtruth\rarecell_52scenario_suite")
 METHODS = ("RCTD", "CARD", "SPOTlight", "Tangram")
 
+# Feature-only ablations; the correction constraint and confusion-set mechanics
+# stay unchanged. Do not describe these as ablations of entire algorithm modules.
+ABLATION_COLUMNS = {
+    "none": (),
+    "no_depth": ("depth_fraction",),
+    "no_residual": ("residual_projection", "residual_marker_mean"),
+    "no_confusion_features": (
+        "base_confusion_sum", "base_target_minus_confmax",
+        "base_target_share_local", "reference_similarity_max"),
+    "no_marker_features": (
+        "observed_marker_score", "observed_marker_margin",
+        "marker_fit_target"),
+}
+
 
 def args_parser():
     ap = argparse.ArgumentParser(description=__doc__)
@@ -50,6 +64,10 @@ def args_parser():
     ap.add_argument("--seed", type=int, default=20260724)
     ap.add_argument("--confusion-k", type=int, default=3)
     ap.add_argument("--marker-k", type=int, default=40)
+    ap.add_argument("--ablation", choices=(
+        "none", "no_depth", "no_residual", "no_confusion_features",
+        "no_marker_features"), default="none",
+        help="Retrain with a predeclared feature group removed; default unchanged")
     ap.add_argument("--dry-run", action="store_true",
                     help="Check manifest and all prediction CSV alignments; write nothing")
     ap.add_argument("--force", action="store_true",
@@ -179,6 +197,10 @@ def main():
     out_root = args.out_dir or (
         args.suite_root / "batch_runs" / "CARRliteV2_cross_method")
     out_method = out_root / method
+    if args.ablation != "none":
+        # Never overwrite a completed original-method run with an ablation.
+        out_method = out_method / args.ablation
+    excluded = ABLATION_COLUMNS[args.ablation]
     base_files = []
     for scene, folder in views:
         truth = legacy.read_indexed(folder / "pseudo_spot_ground_truth.csv")
@@ -186,6 +208,7 @@ def main():
         validate_prediction(path, truth)
         base_files.append({"scenario_id": scene, "prediction_file": str(path)})
     print("INPUT CHECK PASS:", method, len(base_files), "scenario views")
+    print("ABLATION:", args.ablation, "excluded columns:", list(excluded))
     if args.dry_run:
         print("DRY RUN PASS — no files written")
         return
@@ -197,8 +220,14 @@ def main():
     datasets = []
     for i, (scene, folder) in enumerate(views, 1):
         pred_path = prediction_path(folder, scene, method, args.prediction_template)
-        datasets.append(make_dataset(
-            folder, scene, pred_path, args.confusion_k, args.marker_k))
+        data = make_dataset(
+            folder, scene, pred_path, args.confusion_k, args.marker_k)
+        if excluded:
+            absent = set(excluded).difference(data["features"].columns)
+            if absent:
+                raise ValueError("Ablation columns missing: " + str(sorted(absent)))
+            data["features"] = data["features"].drop(columns=list(excluded))
+        datasets.append(data)
         print("Loaded", i, "/", len(views), scene, flush=True)
 
     bases = sorted({d["base"] for d in datasets})
@@ -230,11 +259,15 @@ def main():
         "status": "exploratory", "base_method": method, "seed": args.seed,
         "scenario_count": len(views), "base_group_count": len(bases),
         "confusion_k": args.confusion_k, "marker_k": args.marker_k,
+        "ablation": args.ablation, "excluded_feature_columns": list(excluded),
         "prediction_template": args.prediction_template,
         "source_inputs": base_files,
         "notes": [
             "CARR retrained per method, not zero-shot cross-method transfer",
-            "The 12th known-depth feature matches the original simulated protocol",
+            ("The known-depth feature is retained for the original simulated protocol"
+             if args.ablation != "no_depth" else
+             "The known-depth feature was excluded before model fitting and prediction"),
+            "Feature-only ablation: correction and confusion constraints are unchanged",
             "Source-cell independence and external validity not yet established",
         ],
     }
