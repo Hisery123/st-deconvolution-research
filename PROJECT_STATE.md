@@ -1,9 +1,16 @@
 # PROJECT_STATE — CTW-RF × CARR-lite V2
 
 - 更新：2026-11-21（Asia/Taipei）
-- 阶段：**CARR RCTD/CARD 各五配置均由用户日志确认完成，十组均值已读取；进入按 base 的结果分析与作图阶段**
+- 阶段：**CARR 十组消融均值和 13-base 改善计数均已由用户读取；下一步导出 104 行配对差值表，准备科研图**
 - 当前仓库：`Hisery123/st-deconvolution-research`（公开，main）
 - 注意：本文件只记录已检查的稿件内容和明确的待办；**论文数字尚未用原始 CSV/代码独立复算**。不得将文中叙述等同于已复现实验。
+
+## 2026-11-21 13-base 消融方向计数（最新）
+
+- [USER_CONSOLE_SUMMARY] 对每个 `held_out_base` 聚合四档 depth，固定 `HGBC_a30`，严格比较各消融与 Full 的 Target RMSE / AUPRC。
+- [RESULT] CARD：no_confusion / no_depth / no_marker / no_residual 的 Target RMSE 改善 base 数分别 `6/13, 6/13, 6/13, 4/13`，AUPRC 改善 `7/13, 7/13, 7/13, 5/13`。RCTD：Target RMSE 改善 `7/13, 5/13, 2/13, 5/13`，AUPRC 改善 `6/13, 4/13, 6/13, 6/13`。
+- [RECORD] [8 组 base 计数记录](CARR-lite-V2/experiments/records/2026-11-21_ablation_by_base_counts.md)。严格改善计数之外可能存在持平，不能都叫恶化；没有独立生物学重复或统计检验结果。
+- [NEXT] 提取 2×4×13=104 行按 base 聚合的配对差值 CSV，再做 SVG 图。不扩展新的特征消融训练。
 
 ## 2026-11-21 CARR 五配置消融全量均值已获得（最新）
 
