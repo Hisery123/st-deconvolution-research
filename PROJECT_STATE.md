@@ -1,16 +1,23 @@
 # PROJECT_STATE — CTW-RF × CARR-lite V2
 
 - 更新：2026-11-21（Asia/Taipei）
-- 阶段：**CTW-RF 首项扩充对照已由用户日志确认成功；进入 CARR RCTD 输入验证**
+- 阶段：**CTW-RF Global Stacking 与 CARR RCTD 扩充实验均已完成本地执行；准备 CARR CARD**
 - 当前仓库：`Hisery123/st-deconvolution-research`（公开，main）
 - 注意：本文件只记录已检查的稿件内容和明确的待办；**论文数字尚未用原始 CSV/代码独立复算**。不得将文中叙述等同于已复现实验。
+
+## 2026-11-21 CARR RCTD 扩充进度（用户终端日志）
+
+- [RUN_LOG_CONFIRMED] `cross_method_carr_v2.py --method RCTD --dry-run` 输出 52 个场景全部通过输入检查；正式运行完成 52 个场景并显示 `FINISHED 260 result rows`。
+- [LOCAL_OUTPUT] `D:\Research\STdeconv_benchmark\results\CARRliteV2_cross_method_20261121_v1\RCTD`；原始 `metrics_by_scenario.csv` 尚未读取，所以没有性能或显著性结论。
+- [RECORD] [RCTD 运行记录](CARR-lite-V2/experiments/records/2026-11-21_rctd_cross_method_v1.md)。
+- [NEXT] CARD 跨基础方法的 dry-run 与正式执行；随后读取 RCTD + CARD 逐场景指标表。
 
 ## 2026-11-21 最新实验进度（用户终端日志）
 
 - [RUN_LOG_CONFIRMED] CTW-RF `global_stacking_cv.py`：内存 selftest `SELFTEST PASS`；真实数据 dry-run 通过，2000 spot、19 细胞类型和六种基线。
 - [RUN_LOG_CONFIRMED] 正式五折 GlobalStacking 运行完成，终端有 `WROTE`；结果：JSD `0.113543`，matrix_RMSE `0.048965`，aggregated_celltype_RMSE `0.867207`，mean_celltype_RMSE `0.045642`。这是用户提供的本地输出，非独立 CSV 复算。
 - [RESULT_RECORD] [运行日志摘要及转录数值](CTW-RF/experiments/records/2026-11-21_global_stacking_v1.md)。原始结果在用户本地 `D:\Research\STdeconv_benchmark\results\CTWRF_GlobalStacking_20261121_v1`；尚未上传。
-- [NEXT] 按执行优先安排 CARR RCTD 跨方法实验 `--dry-run`（优先 RCTD，之后 CARD）。前述 CTW 风险保留最终审计，不阻断扩充流程。
+- [NEXT] 按执行优先安排 CARR CARD 跨方法实验 `--dry-run`（RCTD 已由用户日志确认完成）。前述 CTW 风险保留最终审计，不阻断扩充流程。
 
 ## 2026-11-21 最新决策：先执行扩充、终期集中审计
 
