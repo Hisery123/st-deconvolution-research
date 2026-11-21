@@ -1,9 +1,16 @@
 # PROJECT_STATE — CTW-RF × CARR-lite V2
 
 - 更新：2026-11-21（Asia/Taipei）
-- 阶段：**CARR 十组消融均值和 13-base 改善计数均已由用户读取；下一步导出 104 行配对差值表，准备科研图**
+- 阶段：**CARR 104 行按 base 配对 CSV 已由用户本地导出成功，待上传以供核验和科研绘图**
 - 当前仓库：`Hisery123/st-deconvolution-research`（公开，main）
 - 注意：本文件只记录已检查的稿件内容和明确的待办；**论文数字尚未用原始 CSV/代码独立复算**。不得将文中叙述等同于已复现实验。
+
+## 2026-11-22 按 base 配对结果导出完成（最新）
+
+- [USER_CONSOLE_EXPORT_LOG] 用户执行修正后的 pandas 多对一合并导出，终端 `WROTE D:\Research\STdeconv_benchmark\results\CARRliteV2_ablation_base_paired_20261121_v1.csv ROWS 104`。
+- 当前证据只证明用户本地生成 104 行文件。**未收到文件本体，不能说 GitHub 已有 CSV 或逐行验证成功**。
+- [记录](CARR-lite-V2/experiments/records/2026-11-22_base_paired_export_log.md)。
+- [NEXT] 用户上传该文件到对话后，核验 13-base 配对差值与此前改善方向计数，再制作可编辑 SVG 与 Results 文本；不增加训练。
 
 ## 2026-11-21 13-base 消融方向计数（最新）
 
