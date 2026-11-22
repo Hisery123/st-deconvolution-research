@@ -1,7 +1,7 @@
 # PROJECT_STATE — CTW-RF × CARR-lite V2
 
 - 更新：2026-11-22（Asia/Taipei）
-- 阶段：**严格类别留出结果与配对已归档；原计划第6项简单校准对照 RCTD dry-run PASS，正式训练尚未执行**
+- 阶段：**Claude第6项简单校准对照已由用户终端确认 RCTD 正式运行完毕（156行），CARD 尚待输入检查及执行；尚无简单校准基线性能指标**
 - 当前仓库：`Hisery123/st-deconvolution-research`（公开，main）
 - 注意：104 行用户上传的**按 base 派生 CSV** 已直接读取并复核差值/计数；但十份原始 52-view 指标 CSV、全部训练与模型权重**仍未直接取得或独立复算**。不得将文中叙述等同于所有实验已复现。
 
