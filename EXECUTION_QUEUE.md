@@ -1,3 +1,11 @@
+## 2026-11-22 最新执行优先级：一次写多任务、集中跑补实验、审计终期由Claude接手
+
+- [USER_DIRECTIVE] 不再逐轮查泄漏/生成细节；优先做原两篇扩充实验，实验结束后Claude统一审查。Windows由用户手动执行，但GPT预先写好批处理，一次人工启动多实验并保留每个子任务日志。
+- [GITHUB_CODE_READY_NOT_RUN] CARR：`CARR-lite-V2/experiments/carr_pending_experiments_batch.py` 统一执行12任务：RCTD/CARD × (marker_k20、marker_k80、confusion_k1、confusion_k5、严格类别留出no_depth、固定LogisticPresence12/Threshold1D)。覆盖Claude原计划#5/#6/#7部分缺口，子任务独立、失败保护、自动汇总结果与耗时。
+- [GITHUB_CODE_READY_NOT_RUN] CTW：`CTW-RF/experiments/ctw_stacking_sensitivity_batch.py` 执行36组全局stacking鲁棒性配置（3种seed×3方法池×4训练样本量），前置只读检验、结果输出隔离；不是 CTW Proposed_CV 的同折新对照。
+- [PROTOCOL] [批处理实验方案与预期](CARR-lite-V2/experiments/records/2026-11-22_batched_extension_protocol.md)。已有CARR 52视图/原始严格类别留出结果、原Ridge/Isotonic和已有10组消融均不重新跑。
+- [NEXT SINGLE ACTION] Windows同步远端GitHub：`git -c http.proxy=http://127.0.0.1:7897 -C "D:\Research\st-deconvolution-research" pull --ff-only`。用户回传后第一条执行命令为CARR `--dry-run`，通过再`--run` 一次跑12任务。CTW随后再跑。**没有任何本批真实实验日志，不能填结果**。
+
 ## 2026-11-22 最新：seqFISH+ builder第81–265行已审查，下一步补源头及fold导出代码
 
 - [USER_PASTED_SOURCE] `build_seqfishplus_real_spatial_noleak.py`: 第155行对按空间X/Y、FOV网格分配的目标cell表达求和；156–159行按cell_type单独算26类真值；第233–241行参考排除被留出整个FOV并断言参考/目标成员cell UID不重叠。
