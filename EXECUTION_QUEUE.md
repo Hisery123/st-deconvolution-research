@@ -1,3 +1,10 @@
+## 2026-11-22 最新：简单校准对照双方法均正式完成；下一步仅只读指标对齐比较
+
+- [USER_WINDOWS_STDOUT] CARD 简单校准正式运行末尾 `FINISHED 156 result rows`，输出 `D:\Research\STdeconv_benchmark\results\CARRliteV2_simple_controls_20261122_v1\CARD`；RCTD 前一轮亦完成 156 行。两法合计 312 评价行尚未逐行读取，不能宣称哪种简单基线更优。
+- [RECORDED] [CARD 正式运行日志](CARR-lite-V2/experiments/records/2026-11-22_card_simple_controls_run.md)及[RCTD 运行日志](CARR-lite-V2/experiments/records/2026-11-22_rctd_simple_controls_run.md)。
+- [NEXT SINGLE STEP] 在研究者 Windows 本地只读 4 份 `metrics_by_scenario.csv`：RCTD/CARD 简单校准（312行）与严格类别留出CARR（520行），检查 52 视图×方法数、五指标缺失及Original在两批评价的种子/指标一致性；之后才同场景对照 Ridge12、Isotonic1D、AbundanceOnly、固定HGBC_a30。继续保留 CARD 检测变差的负结果。
+- 不重跑训练，不增加空间点位图。
+
 ## 2026-11-22 最新：RCTD 简单校准对照正式运行完成，CARD Dry-run 下一步
 
 - [USER_WINDOWS_STDOUT] RCTD `simple_calibration_category_holdout.py` 正式运行完成，终端 `FINISHED 156 result rows`，输出 `D:\Research\STdeconv_benchmark\results\CARRliteV2_simple_controls_20261122_v1\RCTD`。
