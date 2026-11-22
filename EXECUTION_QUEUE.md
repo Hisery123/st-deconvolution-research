@@ -1,3 +1,10 @@
+## 2026-11-22 最新：已完成CARR 12任务+CTW36配置，转向统一输出读取与下一批设计
+
+- [RUN_LOG_CONFIRMED] CARR 12项：`BATCH FINISHED 12 jobs`；CTW 36组：`BATCH FINISHED 36 of 36 configurations; FAILED 0`。详见[CARR完成记录](CARR-lite-V2/experiments/records/2026-11-22_pending_12job_batch_completed.md)、[CTW完成记录](CTW-RF/experiments/records/2026-11-22_ctw_36configuration_batch_completed.md)。
+- [NOT YET READ] CARR新`batch_run_status.csv`/`batch_metric_means.csv`及CTW`metrics_by_seed_pool_budget.csv`原始行未直接读出；不得推断新的最优参数/显著性。
+- [NEXT SINGLE ACTION] 用户Windows一条只读Python命令同时打印CARR 12任务状态与selected HGBC_a30/Logistic/Threshold指标，以及CTW GlobalStacking各方法池和校准预算3-seed均值/最小/最大；然后按结果安排后续补充实验（EnDecon及Proposed同折/DLPFC应用、CARR第二平台/参考训练部署等），不要重跑原任务、不插入全面审计。
+- [USER_DECISION] 写多任务批处理减少本地人工步骤；最终科学审计交Claude。所有新实验需要可复用脚本+日志、区分计划和完成。
+
 ## 2026-11-22 最新：CARR12项已运行完成；立即开始CTW36项预检
 
 - [RUN_LOG_CONFIRMED] CARR `carr_pending_experiments_batch.py --run` 终端最终`BATCH FINISHED 12 jobs`，最后 `logistic_threshold CARD`完成156行；保存`batch_metric_means.csv`、`batch_run_status.csv`本地路径。此前12项均NEW且dry-run PASS。[完整运行末尾记录](CARR-lite-V2/experiments/records/2026-11-22_pending_12job_batch_completed.md)。
