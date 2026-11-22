@@ -1,3 +1,11 @@
+## 2026-11-22 最新：简单基线与CARR总体均值/原版指标对齐已完成，下一步13 base配对
+
+- [USER_WINDOWS_STDOUT] `CHECK PASS: 312 simple rows, 520 CARR rows`；`ORIGINAL PARITY PASS`，两次独立批次的原版RCTD/CARD五指标在同场景完全一致，允许描述性比较。
+- [RESULT] 严格四类别留出下 RCTD `HGBC_a30` RMSE 0.03236/AUPRC 0.55619 优于Ridge12 0.03311/0.54719和Isotonic1D 0.03320/0.54062；但RCTD AbundanceOnly RMSE 0.03228略好于HGBC。
+- [CARD_NEGATIVE_RESULT] CARD Ridge12 RMSE 0.03280略优于HGBC_a30 0.03297；Isotonic1D AUPRC 0.54839优于HGBC 0.54521，原版CARD AUPRC 0.55189和Recall 0.14612均好于所有校准器。所有比较都需完整报告，不能只报RMSE下降。
+- [RECORD] [四份CSV终端均值完整转录与解释](CARR-lite-V2/experiments/records/2026-11-22_simple_controls_fair_comparison.md)。
+- [NEXT SINGLE STEP] 用户Windows只读汇总：以13个 `held_out_base` 为配对单元，四深度先取均值，统计HGBC_a30相对Ridge12/Isotonic1D/AbundanceOnly/Original目标RMSE与AUPRC改善base数并报告差值。禁止将52个视图误作为独立重复。
+
 ## 2026-11-22 最新：简单校准对照双方法均正式完成；下一步仅只读指标对齐比较
 
 - [USER_WINDOWS_STDOUT] CARD 简单校准正式运行末尾 `FINISHED 156 result rows`，输出 `D:\Research\STdeconv_benchmark\results\CARRliteV2_simple_controls_20261122_v1\CARD`；RCTD 前一轮亦完成 156 行。两法合计 312 评价行尚未逐行读取，不能宣称哪种简单基线更优。
