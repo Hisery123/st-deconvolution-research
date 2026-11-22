@@ -1,3 +1,10 @@
+## 2026-11-22 最新：CTW主方法同折9/9成功，下一步读取三CSV
+
+- [RUN_LOG_CONFIRMED] CTW 2000spot/19类/6方法同折5fold：3seed×3pool共9配置全部完成、81方法级摘要；SoftOpt的JSD在9/9配置优于GlobalStacking，optimizer fallback为0；full6在3种seed上的SoftOpt JSD 0.101752/0.101690/0.101727，global JSD 0.113543/0.113507/0.113544。[运行记录](CTW-RF/experiments/records/2026-11-22_ctw_matched_fusion_9_seed_pool_completed.md)。
+- [PENDING_READ] 新CSV中的matrix_RMSE、aggregated_celltype_RMSE、完整配对差与fit_runtime尚未读取；不能仅凭JSD宣称所有指标占优。
+- [NEXT SINGLE ACTION] Windows一条Python只读命令汇总`summary_metrics_by_seed_pool.csv`、`paired_differences_by_seed_pool.csv`、`fit_runtime_by_fold.csv`，形成完整对照判断。后续按原实验清单安排EnDecon和真实数据扩展；不再分散逐项审计，最终由Claude复核。
+- [COMPLETED EARLIER] CARR12个参数/对照任务全部success，CTW GlobalStacking36配置全部完成，不应再次耗时重跑。
+
 ## 2026-11-22 最新：已获得两批真实数值，新CTW主方法同折9配置脚本待运行
 
 - [USER_LOG_CONFIRMED] CARR12任务`batch_run_status.csv`全部`success`，包括marker20/80、confusion1/5、no_depth、LogisticPresence12/Threshold1D；CTW GlobalStacking 36/36配置的全部三seed summary已由用户命令打印。[指标归档](CARR-lite-V2/experiments/records/2026-11-22_batched_carr_ctw_actual_console_results.md)，不能将这些相关模拟视图/seed视为独立生物重复。
