@@ -1,7 +1,7 @@
 # PROJECT_STATE — CTW-RF × CARR-lite V2
 
 - 更新：2026-11-22（Asia/Taipei）
-- 阶段：**简单校准（Ridge12/Isotonic1D）与严格类别留出CARR的用户控制台均值已经同口径核验：312行+520行，Original评价一致；CARD检测负结果和简单基线优势必须保留。下一步按13 base配对比较。**
+- 阶段：**第4项严格类别留出、第6项Ridge12/Isotonic1D的模拟对照与13-base配对汇总已完成；RCTD呈部分优势，CARD未表现普遍优势。下一步寻找现有seqFISH+独立FOV评估原始文件（第2/3项），尚未开始新训练。**
 - 当前仓库：`Hisery123/st-deconvolution-research`（公开，main）
 - 注意：104 行用户上传的**按 base 派生 CSV** 已直接读取并复核差值/计数；但十份原始 52-view 指标 CSV、全部训练与模型权重**仍未直接取得或独立复算**。不得将文中叙述等同于所有实验已复现。
 
