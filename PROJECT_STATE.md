@@ -1,3 +1,10 @@
+## 2026-11-22 最新：CTW-RF同折主方法对照9/9完成，SoftOpt JSD均优于GlobalStacking
+
+- [USER_WINDOWS_STDOUT] `ctw_matched_fusion_comparisons_batch.py --dry-run`预检2000spots/19类/6方法通过后，用户正式`--run`完成**3seed×3pool共9个同折5fold实验、81行方法级摘要**；每种配置`optimizer_fallback_total 0`。终端9/9 SoftOpt JSD低于GlobalStacking。[原始控制台归档](CTW-RF/experiments/records/2026-11-22_ctw_matched_fusion_9_seed_pool_completed.md)。
+- [RESULT] full6池 CTW SoftOpt JSD（seed2026/2027/2028）分别0.101752/0.101690/0.101727；GlobalStacking分别0.113543/0.113507/0.113544。strong2与expanded4三个seed JSD同样9/9占优；**仅同一伪spot数据多次划分，非9独立生物重复；尚未读取RMSE/逐折CSV**。
+- [NEXT SINGLE ACTION] 用户Windows一条只读Python命令读取`D:\Research\STdeconv_benchmark\results\CTWRF_matched_fusion_20261122_v1\summary_metrics_by_seed_pool.csv`、`paired_differences_by_seed_pool.csv`及`fit_runtime_by_fold.csv`，汇总SoftOpt/Global JSD、matrix RMSE、aggregate RMSE、各对照配对方向和拟合时长。不再重跑9种实验，整体审计按用户要求后置。
+- [WORKFLOW] 两篇已完成CARR12任务、CTW GlobalStacking36配置与CTW同折9配置；仅运行日志确认，原始CSV本机而非GitHub。随后继续原定EnDecon等最近邻集成、CTW真实数据扩展和CARR参考训练/留出FOV泛化。不能宣布尚未执行的实验完成。
+
 ## 2026-11-22 最新：CARR12项及CTW36配置实际汇总已收到；CTW主方法同折批处理已提交，待用户Windows运行
 
 - [USER_WINDOWS_CSV_SUMMARY] 本地读取CARR `batch_run_status.csv`，12/12子任务均`success`，耗时89.929–187.534秒/任务；`batch_metric_means.csv`关键值R/C marker_k20 HGBC_a30分别RMSE .032125/.032742，AUPRC .559223/.548711；去depth RMSE .032353/.032992；CARD Threshold1D AUPRC .551166 但RMSE .037406，检测/定量权衡保留。所有12任务关键指标见[真实控制台汇总记录](CARR-lite-V2/experiments/records/2026-11-22_batched_carr_ctw_actual_console_results.md)。
