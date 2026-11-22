@@ -1,7 +1,7 @@
 # PROJECT_STATE — CTW-RF × CARR-lite V2
 
 - 更新：2026-11-22（Asia/Taipei）
-- 阶段：**seqFISH+ 70×10000表达矩阵只读检查PASS（ID与组成真值对应、无NaN/Inf/负值/全零行）。此前514成员细胞、70spot 26类真值可准确重建；下一步定位表达构建脚本，未证实全流程无泄漏。**
+- 阶段：**seqFISH+伪spot表达矩阵已确认70×10000完整；已由用户PowerShell定位本地生成脚本build_seqfishplus_real_spatial_noleak.py（写出行218、fold行257），下一步只读查看该源码第81-265行，尚未审计表达生成与特征选择。**
 - 当前仓库：`Hisery123/st-deconvolution-research`（公开，main）
 - 注意：104 行用户上传的**按 base 派生 CSV** 已直接读取并复核差值/计数；但十份原始 52-view 指标 CSV、全部训练与模型权重**仍未直接取得或独立复算**。不得将文中叙述等同于所有实验已复现。
 
