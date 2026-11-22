@@ -1,3 +1,10 @@
+## 2026-11-22 最新：CARR12项已运行完成；立即开始CTW36项预检
+
+- [RUN_LOG_CONFIRMED] CARR `carr_pending_experiments_batch.py --run` 终端最终`BATCH FINISHED 12 jobs`，最后 `logistic_threshold CARD`完成156行；保存`batch_metric_means.csv`、`batch_run_status.csv`本地路径。此前12项均NEW且dry-run PASS。[完整运行末尾记录](CARR-lite-V2/experiments/records/2026-11-22_pending_12job_batch_completed.md)。
+- [NOT YET ANALYZED] 用户尚未提供新CSV指标均值；不要宣称CARR敏感性最优参数/提升。预计2912结果行为按协议计算而非终端实际汇总。
+- [NEXT SINGLE ACTION] 用户Windows运行CTW `python "D:\Research\st-deconvolution-research\CTW-RF\experiments\ctw_stacking_sensitivity_batch.py" --dry-run`。出现`DRY RUN PASS`后下一轮给`--run`一键36配置。严格不重跑此前CARR12任务，不插入项目全面审计。
+- [LATER] CTW完成后用一条只读Python命令汇总`batch_metric_means.csv`、`batch_run_status.csv`并读取CTW36配置真实指标，按原计划补独立真实场景和最近邻文献对照，最终审计交给Claude。
+
 ## 2026-11-22 最新执行优先级：一次写多任务、集中跑补实验、审计终期由Claude接手
 
 - [USER_DIRECTIVE] 不再逐轮查泄漏/生成细节；优先做原两篇扩充实验，实验结束后Claude统一审查。Windows由用户手动执行，但GPT预先写好批处理，一次人工启动多实验并保留每个子任务日志。
