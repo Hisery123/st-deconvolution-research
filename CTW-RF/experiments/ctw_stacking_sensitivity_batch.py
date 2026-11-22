@@ -114,16 +114,22 @@ def main():
     if args.out_dir.exists() and any(args.out_dir.iterdir()):
         raise FileExistsError("Refusing to overwrite existing sensitivity results: " + str(args.out_dir))
 
-    runs, folds_out, weights_out = [], [], []
+    runs, folds_out, weights_out, failures = [], [], [], []
     for seed in SEEDS:
         fold_ids = stacking.make_folds(len(y), args.folds, seed)
         for pool, names_pool in POOLS.items():
             p = predictions[[index[name] for name in names_pool]]
             for budget in BUDGETS:
-                run_rows, fold_rows, weight_rows = evaluate_config(
-                    y, p, names_pool, fold_ids, seed, budget)
                 fields = {"seed": seed, "pool": pool, "n_methods": len(names_pool),
                           "calibration_budget": str(budget)}
+                try:
+                    run_rows, fold_rows, weight_rows = evaluate_config(
+                        y, p, names_pool, fold_ids, seed, budget)
+                except Exception as exc:
+                    failures.append({**fields, "error": str(exc)})
+                    print("FAILED", seed, pool, budget, type(exc).__name__,
+                          str(exc), flush=True)
+                    continue
                 runs.extend({**fields, **row} for row in run_rows)
                 folds_out.extend({**fields, **row} for row in fold_rows)
                 weights_out.extend({**fields, **row} for row in weight_rows)
@@ -135,17 +141,24 @@ def main():
     out = args.out_dir
     out.mkdir(parents=True, exist_ok=True)
     df = pd.DataFrame(runs)
-    if len(df) != len(SEEDS) * len(POOLS) * len(BUDGETS) * 2:
+    if not runs:
+        raise RuntimeError("All configurations failed; check console logs (no performance CSV written)")
+    if len(df) + 2 * len(failures) != len(SEEDS) * len(POOLS) * len(BUDGETS) * 2:
         raise ValueError("Unexpected number of summary records")
     df.to_csv(out / "metrics_by_seed_pool_budget.csv", index=False)
     pd.DataFrame(folds_out).to_csv(out / "metrics_by_fold.csv", index=False)
     pd.DataFrame(weights_out).to_csv(out / "weights_by_fold.csv", index=False)
+    if failures:
+        pd.DataFrame(failures).to_csv(out / "failed_configurations.csv", index=False)
     df.groupby(["pool", "calibration_budget", "method"], as_index=False)[list(METRICS)].mean().to_csv(
         out / "descriptive_means_across_seeds.csv", index=False)
     cfg = {"status": "exploratory", "analysis": "global stacking comparator sensitivity only",
            "dataset": str(path), "source_predictions": sources,
            "n_spots": len(y), "n_types": y.shape[1], "folds": args.folds,
            "seeds": list(SEEDS), "budgets": [str(x) for x in BUDGETS],
+           "attempted_configurations": len(SEEDS) * len(POOLS) * len(BUDGETS),
+           "completed_configurations": len(runs) // 2,
+           "failed_configurations": len(failures),
            "pools": {k: list(v) for k, v in POOLS.items()},
            "notes": ["Prespecified source-matched fit/evaluation with no test-fold labels used for weights",
                      "Prior results informed strong2 selection: exploratory, not independent tuning",
@@ -153,7 +166,8 @@ def main():
                      "No CTW-RF Proposed_CV re-evaluation: this is global stacking robustness only",
                      "Raw-reference-cell overlap and publication validity still need final audit"]}
     (out / "run_config.json").write_text(json.dumps(cfg, ensure_ascii=False, indent=2), encoding="utf-8")
-    print("BATCH FINISHED", len(SEEDS)*len(POOLS)*len(BUDGETS), "configurations", flush=True)
+    print("BATCH FINISHED", len(runs)//2, "of", len(SEEDS)*len(POOLS)*len(BUDGETS),
+          "configurations; FAILED", len(failures), flush=True)
     print("OUTPUT", out, flush=True)
 
 
