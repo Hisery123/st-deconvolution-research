@@ -1,7 +1,7 @@
 # PROJECT_STATE — CTW-RF × CARR-lite V2
 
 - 更新：2026-11-22（Asia/Taipei）
-- 阶段：**RCTD 严格类别留出正式运行已由用户 Windows 日志确认完成（260 行）；CARD 尚未 Dry-run，下一步检查 CARD 输入；指标尚未读取**
+- 阶段：**RCTD 严格类别留出 260 行已完成；CARD 严格类别留出 dry-run 成功，正式运行尚待用户执行；暂未读取指标**
 - 当前仓库：`Hisery123/st-deconvolution-research`（公开，main）
 - 注意：104 行用户上传的**按 base 派生 CSV** 已直接读取并复核差值/计数；但十份原始 52-view 指标 CSV、全部训练与模型权重**仍未直接取得或独立复算**。不得将文中叙述等同于所有实验已复现。
 
