@@ -1,3 +1,10 @@
+## 2026-11-22 最新：seqFISH+已证实为真实空间定位细胞聚合伪spot，下一步核查成员真值一致性
+
+- [USER_WINDOWS_STDOUT] `cell_metadata_aligned.csv` 913×9（cell_uid、FOV、X/Y、type），`spot_cell_membership.csv` 514×9（cell到spot映射），`pseudo_spot_locations.csv` 70×10（bin_x/bin_y、grid中心及每spot n_cells），`pseudo_spot_ground_truth.csv`70×27（26细胞类型比例，示例是1/7或1/11的成员比例）。
+- [DATA CLASS] 70个“spot”是从真实seqFISH+空间定位单细胞网格聚合得到的 **spatially informed pseudo-spots**，并非独立真实空间捕获spot。不能把本实验直接当作真实spot定量外部验证；但确有真实空间来源，价值不同于完全随机混合模拟。五FOV不构成独立生物学重复。
+- [RECORDED] [四份本地CSV首审及下一步只读命令](CARR-lite-V2/experiments/records/2026-11-22_seqfishplus_pseudospot_provenance_first_check.md)。
+- [NEXT SINGLE STEP] 用户Windows核对metadata/membership cell ID唯一、membership包含于metadata、70个spot的ID匹配、每spot n_cells、26类ground_truth按member counts重算一致。仍需审视399条未归属metadata的筛选原因、表达构建流程、nested排除源码；不重训练。
+
 ## 2026-11-22 最新：seqFISH+ 完整5-FOV历史结果与20条nested审计读完
 
 - [USER_WINDOWS_STDOUT] 15行FOV指标及20条嵌套参考审计完整获取，见[全量终端转录](CARR-lite-V2/experiments/records/2026-11-22_seqfishplus_full_fov_metrics_and_nested_audit.md)。
