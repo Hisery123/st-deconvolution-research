@@ -230,7 +230,7 @@ def main():
                               "delta_" + key: float(ct[key] - other[key]) for key in METRICS
                           }})
     out = args.out_dir
-    out.mkdir(parents=True, exist_ok=False)
+    out.mkdir(parents=True, exist_ok=True)
     summary.to_csv(out / "summary_metrics_by_seed_pool.csv", index=False)
     pd.DataFrame(fold_rows).to_csv(out / "metrics_by_fold.csv", index=False)
     pd.DataFrame(weight_rows).to_csv(out / "weights_by_fold.csv", index=False)
