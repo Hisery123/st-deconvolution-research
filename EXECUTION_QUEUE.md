@@ -1,3 +1,10 @@
+## 2026-11-22 最新：RCTD 简单校准对照正式运行完成，CARD Dry-run 下一步
+
+- [USER_WINDOWS_STDOUT] RCTD `simple_calibration_category_holdout.py` 正式运行完成，终端 `FINISHED 156 result rows`，输出 `D:\Research\STdeconv_benchmark\results\CARRliteV2_simple_controls_20261122_v1\RCTD`。
+- [RECORD] [2026-11-22 RCTD 简单基线正式运行日志](CARR-lite-V2/experiments/records/2026-11-22_rctd_simple_controls_run.md)。仅运行成功，尚未读取新指标 CSV。
+- [NEXT ONE STEP] 用户在 Windows PowerShell 执行 `python "D:\Research\st-deconvolution-research\CARR-lite-V2\experiments\simple_calibration_category_holdout.py" --method CARD --dry-run`。通过后再给 CARD 正式运行命令；两法都完成后再读取简单基线性能，与旧四类别留出下的 CARR 对照。
+- 仍不增加空间预测点图、不覆盖旧结果。156 行=52模拟视图×3方法，不构成独立生物重复。
+
 ## 2026-11-22 最新：RCTD 简单基线 Dry-run PASS；下一步正式运行
 
 - [USER_WINDOWS_STDOUT] `simple_calibration_category_holdout.py --method RCTD --dry-run`：52 views /13 bases，stable train36/test16，medium/confusable/lowref 各train40/test12，`SPLIT CHECK PASS`，`CONTROLS: Ridge12, Isotonic1D`，`DRY RUN PASS — no files written`。
