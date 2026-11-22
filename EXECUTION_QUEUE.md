@@ -1,3 +1,10 @@
+## 2026-11-22 最新：第4项类别留出配对已完成；进入第6项简单校准器对照
+
+- [USER_WINDOWS_STDOUT] 将旧逐 base vs 新严格整类别留出 `HGBC_a30` 按场景ID配对，`PAIR CHECK PASS: 104 views, 26 method-base pairs`。分别先对各13个base内4深度平均：CARD 严格划分目标RMSE变差 **13/13**，AUPRC变差 **13/13**；RCTD 目标RMSE变差 **13/13**，AUPRC变差 **7/13**。四类别具体差值见 [归档数据](CARR-lite-V2/experiments/records/2026-11-22_category_vs_base_paired_counts.md)。这是模拟场景级描述统计，不能称独立生物学重复。
+- [NEW CODE COMMITTED, NOT RUN] 原计划第6项简易后校准基线：`Ridge12`（12维输入标准化 + Ridge, alpha=1.0）与 `Isotonic1D`（基于 raw target abundance 单调校准），两法均复用原 local confusion projection、四类别留出、评价随机种子。脚本 [simple_calibration_category_holdout.py](CARR-lite-V2/experiments/simple_calibration_category_holdout.py)，[预注册协议](CARR-lite-V2/experiments/records/2026-11-22_simple_controls_protocol.md)。**没有运行新脚本，不能报新指标**。
+- [NEXT SINGLE STEP] 用户 Windows 先 `git -c http.proxy=http://127.0.0.1:7897 -C "D:\Research\st-deconvolution-research" pull --ff-only`，成功后再给 `RCTD --dry-run`。之后依次 RCTD run → CARD dry-run/run → 与原HGBC_a30同视图比较。
+- 用户明确不做空间预测点位图，不重复十组消融；保存负结果，包括 CARD 在严格类别留出检测指标下降。
+
 ## 2026-11-22 最新：四类别留出指标已检查，下一步旧协议逐场景配对
 
 - [USER_CONSOLE] 用户终端 `CHECK PASS: 520 rows, 10 groups, 52 rows each`，十组×五指标总体均值与四类别 Original/HGBC_a30 均值已保存 [原始控制台转录与风险](CARR-lite-V2/experiments/records/2026-11-22_category_holdout_metrics_console.md)。原520行 CSV 未上传，不能声称独立复算。
