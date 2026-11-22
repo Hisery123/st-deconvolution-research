@@ -1,3 +1,9 @@
+## 2026-11-22 最新：seqFISH+表达生成脚本已定位，下一步源码只读检查
+
+- [USER_WINDOWS_STDOUT] 本机grep返回 `D:\Research\STdeconv_benchmark\build_seqfishplus_real_spatial_noleak.py` 第218行写出总表达，第257行涉及fold表达；`run_carr_lite_v2_seqfishplus_5fold.py` 第112行读取fold表达。详情 [源码定位](CARR-lite-V2/experiments/records/2026-11-22_seqfishplus_expression_builder_source_locations.md)。
+- [NEXT SINGLE STEP] 用户Windows一条PowerShell命令只读打印 `build_seqfishplus_real_spatial_noleak.py` 第81–265行并附行号，核查构建、特征选择及外层fold边界。需用户回传源码内容才可下结论，不能推断源码已经审过或实验无泄漏。
+- 不跑构建程序、不修改70×10000表达CSV，不补空间预测点图。
+
 ## 2026-11-22 最新：seqFISH+ 伪spot表达基础完整性PASS；下一步源码溯源
 
 - [USER_WINDOWS_STDOUT] `pseudo_spot_expression.csv` (70×10001)：70个spot与26类真值spot_id集合唯一且相同；10,000数值表达列无NaN/Inf、负值或全零spot行。[完整记录](CARR-lite-V2/experiments/records/2026-11-22_seqfishplus_expression_integrity_check.md)。
