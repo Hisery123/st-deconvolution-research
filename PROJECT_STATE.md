@@ -1,3 +1,10 @@
+## 2026-11-22 最新：CARR 12任务正式批处理已完成，转 CTW 36配置
+
+- [USER_WINDOWS_STDOUT] 用户本机运行`carr_pending_experiments_batch.py --run`，尾部`logistic_threshold CARD FINISHED 156 result rows`、`DONE ... elapsed_seconds 89.93`，最终`BATCH FINISHED 12 jobs`。原先12任务预检全为NEW，输入`BATCH PREFLIGHT PASS`，现可将CARR这一批标为**运行日志确认完成**。[归档](CARR-lite-V2/experiments/records/2026-11-22_pending_12job_batch_completed.md)。
+- [METRICS_PENDING] `D:\Research\STdeconv_benchmark\results\CARRliteV2_pending_batch_20261122_v1\batch_metric_means.csv`与`batch_run_status.csv`本地已报告写入，尚未读取具体指标与每任务状态。按设计预期2912行评价记录，**未实际汇总CSV行数或性能变化**。
+- [NEXT SINGLE ACTION] 转向CTW的36配置全局stacking敏感性批处理，用户本地先执行`python "D:\Research\st-deconvolution-research\CTW-RF\experiments\ctw_stacking_sensitivity_batch.py" --dry-run`；输入通过再独立一条`--run`。此批只补GlobalStacking对照稳定性，不能当CTW Proposed_CV同fold结果。
+- [PRIORITY] 用户要求先完成原定补实验、不要逐项重开泄漏审计，实验末尾再由Claude集中审查；禁止覆盖旧数据、混淆报告与实际结果。
+
 ## 2026-11-22 最新决策：集中批量推进补实验（新任务优先；全面审计后置）
 
 - [USER_DECISION] 用户明确要求先按最初Claude补实验清单**推进实验，不再逐步插入数据泄漏/论文全面审计**；所有实验跑完后再由Claude集中审查。同时希望一次写多个实验任务、减少Windows人工步骤。正常数据检查与非覆盖保护仍保留。
