@@ -1,3 +1,11 @@
+## 2026-11-22 最新决策：集中批量推进补实验（新任务优先；全面审计后置）
+
+- [USER_DECISION] 用户明确要求先按最初Claude补实验清单**推进实验，不再逐步插入数据泄漏/论文全面审计**；所有实验跑完后再由Claude集中审查。同时希望一次写多个实验任务、减少Windows人工步骤。正常数据检查与非覆盖保护仍保留。
+- [CODE_READY_GITHUB / NOT_RUN] 新建[CARR 12任务批处理](CARR-lite-V2/experiments/carr_pending_experiments_batch.py)和[逻辑回归+固定阈值对照](CARR-lite-V2/experiments/logistic_threshold_category_holdout.py)：RCTD/CARD各跑marker_k20/80、confusion_k1/5、严格category no_depth、LogisticPresence12与Threshold1D。新脚本语法编译与任务布局简单烟测已通过，**尚未Windows同步、dry-run或正式训练**。对应 [执行协议](CARR-lite-V2/experiments/records/2026-11-22_batched_extension_protocol.md)。
+- [CODE_READY_GITHUB / NOT_RUN] 新建[CTW stacking 36配置批处理](CTW-RF/experiments/ctw_stacking_sensitivity_batch.py)：三个spot级划分seed×2/4/6方法池×100/200/500/all校准量，独立输出和失败日志；**尚未Windows运行**。此批仅扩展全局stacking对照稳定性，不能替代CTW-RF Proposed_CV同fold性能验证。
+- [NEXT SINGLE ACTION] 用户Windows执行`git -c http.proxy=http://127.0.0.1:7897 -C "D:\Research\st-deconvolution-research" pull --ff-only`同步新脚本；成功后给CARR批处理`--dry-run`，再`--run`一次性12任务，最后CTW 36配置批处理。执行阶段不能把计划写成已完成。
+- 原先seqFISH+ 代码审计（builder第1–80、266+、runner等）**按用户决定暂缓**，不再占用执行队列；保留已有风险交给最后Claude验收，原始数据和评价边界不做无证据保证。
+
 # PROJECT_STATE — CTW-RF × CARR-lite V2
 
 - 更新：2026-11-22（Asia/Taipei）
