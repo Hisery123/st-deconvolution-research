@@ -1,3 +1,11 @@
+## 2026-11-22 最新：CTW完整配对指标已有数值，EnDecon作者融合核心3池批处理脚本已提交待运行
+
+- [USER_WINDOWS_CSV_SUMMARY] CTW的3seed×3pool同折主方法比较完整JSD、matrix_RMSE、aggregate RMSE和拟合时间已由用户终端打印。[真实性能及9组配对计数归档](CTW-RF/experiments/records/2026-11-22_ctw_matched_fusion_metrics_from_user_console.md)。full6三seed均值CTW SoftOpt JSD 0.101723、matrixRMSE 0.041453、aggregateRMSE 0.725489；GlobalStacking 0.113531、0.048966、0.867231。CTW对Global/HardSelect的JSD与matrixRMSE均9/9改善，但JSD对InvRMSE_p2和EqualWeight仅6/9改善；软优化平均拟合0.331s/折，对比Global0.015s/折。种子/方法池均为技术相关条件，非独立生物重复。
+- [LITERATURE_VERIFIED] 已直接查看Tu et al. 2023 *Bioinformatics* EnDecon DOI 10.1093/bioinformatics/btac825及`Zhangxf-ccnu/EnDecon/R/EnDeconv.R` `solve_ensemble`实现（加权中位数+全局L1距离/熵权重迭代）；不能把EnDecon称简单加权平均或混入另一个SunXQlab同名实现。
+- [GITHUB_CODE_READY_NOT_RUN] 新增[CTW EnDecon加权中位数聚合对照批处理](CTW-RF/experiments/ctw_endecon_aggregation_batch.py)及[方案证据边界](CTW-RF/experiments/records/2026-11-22_endecon_aggregation_extension_protocol.md)。3方法池×EnDecon聚合/普通中位数/等权均值=9指标结果，再与已完成3seed CTW主方法/Global比较；复用现成六个预测，不要求重新运行所有基础方法。**Python按作者R核心移植，不是作者完整R软件运行，数值中位数平手约定可能不同；尚未Windows同步/dry-run/正式运行**。
+- [NEXT SINGLE ACTION] 用户Windows一条PowerShell先`git pull --ff-only`再成功时新脚本`--dry-run`；通过后另条`--run`。已有CARR12、CTW36、CTW同折9不再重跑。
+- [DEFERRED AUDIT] 用户要求先批量实验、最后Claude整体方法和论文审计，当前不插入前期审计；仍需对所有统计/文献/实验状态真实表述。
+
 ## 2026-11-22 最新：CTW-RF同折主方法对照9/9完成，SoftOpt JSD均优于GlobalStacking
 
 - [USER_WINDOWS_STDOUT] `ctw_matched_fusion_comparisons_batch.py --dry-run`预检2000spots/19类/6方法通过后，用户正式`--run`完成**3seed×3pool共9个同折5fold实验、81行方法级摘要**；每种配置`optimizer_fallback_total 0`。终端9/9 SoftOpt JSD低于GlobalStacking。[原始控制台归档](CTW-RF/experiments/records/2026-11-22_ctw_matched_fusion_9_seed_pool_completed.md)。
