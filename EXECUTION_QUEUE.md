@@ -1,3 +1,10 @@
+## 2026-11-22 当前唯一下一实验：EnDecon论文算法近邻对照（聚合核心移植），先同步预检
+
+- [USER_RESULT] CTW同折3seed×3pool最新原始控制台输出：full6 SoftOpt JSD .101723、matrixRMSE .041453、aggregateRMSE .725489，对Global .113531/.048966/.867231；9/9 JSD+RMSE改善Global、HardSelect；对InvRMSE_p2与EqualWeight JSD仅6/9改善。fit mean SoftOpt .331s vs Global .015s。详见[实际CSV摘要归档](CTW-RF/experiments/records/2026-11-22_ctw_matched_fusion_metrics_from_user_console.md)。
+- [GITHUB_CODE_READY_NOT_RUN] 论文EnDecon（Tu et al. 2023, DOI 10.1093/bioinformatics/btac825）作者R`solve_ensemble()`已直接核对核心；新建[3方法池批处理](CTW-RF/experiments/ctw_endecon_aggregation_batch.py)，仅融合已有2/4/6预测与CTW matched fold结果对照，不声称完整R包复现。[协议](CTW-RF/experiments/records/2026-11-22_endecon_aggregation_extension_protocol.md)。
+- [NEXT SINGLE ACTION] Windows合并GitHub pull并（仅成功时）执行新`ctw_endecon_aggregation_batch.py --dry-run`，再独立下一条`--run`。旧数据与结果目录保护；先按用户要求批量补实验，最终审计交Claude。
+- [FUTURE] CARR参考scRNA训练→目标留出FOV应用、第二平台及CTW DLPFC数据验证均未完成，不提前填结果。
+
 ## 2026-11-22 最新：CTW主方法同折9/9成功，下一步读取三CSV
 
 - [RUN_LOG_CONFIRMED] CTW 2000spot/19类/6方法同折5fold：3seed×3pool共9配置全部完成、81方法级摘要；SoftOpt的JSD在9/9配置优于GlobalStacking，optimizer fallback为0；full6在3种seed上的SoftOpt JSD 0.101752/0.101690/0.101727，global JSD 0.113543/0.113507/0.113544。[运行记录](CTW-RF/experiments/records/2026-11-22_ctw_matched_fusion_9_seed_pool_completed.md)。
