@@ -1,3 +1,10 @@
+## 2026-11-22 最新：seqFISH+ 伪spot表达基础完整性PASS；下一步源码溯源
+
+- [USER_WINDOWS_STDOUT] `pseudo_spot_expression.csv` (70×10001)：70个spot与26类真值spot_id集合唯一且相同；10,000数值表达列无NaN/Inf、负值或全零spot行。[完整记录](CARR-lite-V2/experiments/records/2026-11-22_seqfishplus_expression_integrity_check.md)。
+- [LIMITATION] 这是表级完整性检查，**尚不知道**10k基因选取、成员细胞RNA汇总/归一化流程及训练/测试FOV信息边界，不能据此宣称完全无数据泄漏。
+- [NEXT SINGLE STEP] 用户Windows仅在`D:\Research\STdeconv_benchmark`中用`Get-ChildItem ... *.py | Select-String -SimpleMatch "pseudo_spot_expression.csv"`定位Python生成或读取源码（记录末尾完整可复制命令）。若无结果再查其它源目录，不猜代码文件。
+- 不重训练、不画空间预测图。
+
 ## 2026-11-22 最新：seqFISH+ 26类伪spot真值按514 cell-membership重建 PASS
 
 - [USER_WINDOWS_STDOUT] metadata/membership/spots行数913/514/70；三个cell UID检查True；三个spot集合/唯一性检查True；`SPOT SIZE CHECK 70 of 70 mismatched 0`；`GROUND TRUTH MAX ABS ERROR 8.326672684688674e-17 MISMATCHED SPOTS 0`。
