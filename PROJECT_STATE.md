@@ -1,3 +1,10 @@
+## 2026-11-22 最新：CARR12项及CTW36配置实际汇总已收到；CTW主方法同折批处理已提交，待用户Windows运行
+
+- [USER_WINDOWS_CSV_SUMMARY] 本地读取CARR `batch_run_status.csv`，12/12子任务均`success`，耗时89.929–187.534秒/任务；`batch_metric_means.csv`关键值R/C marker_k20 HGBC_a30分别RMSE .032125/.032742，AUPRC .559223/.548711；去depth RMSE .032353/.032992；CARD Threshold1D AUPRC .551166 但RMSE .037406，检测/定量权衡保留。所有12任务关键指标见[真实控制台汇总记录](CARR-lite-V2/experiments/records/2026-11-22_batched_carr_ctw_actual_console_results.md)。
+- [USER_WINDOWS_CSV_SUMMARY] CTW `metrics_by_seed_pool_budget.csv`含36个GlobalStacking配置，full6/all在3种随机seed上JSD均值 .113531 (range .113507–.113544)、matrixRMSE均值 .048966 (.048960–.048973)；expanded4/all JSD均值 .113403、matrixRMSE .049586，强2/all JSD .116177、RMSE .052691。属于同一2000伪spot数据的CV重划分，不是独立供体；**不是CTW主方法复测**。[完整三seed摘要](CARR-lite-V2/experiments/records/2026-11-22_batched_carr_ctw_actual_console_results.md)。
+- [CODE_COMMITTED_NOT_RUN] **新增CTW-RF 同折直接比较批处理**[ctw_matched_fusion_comparisons_batch.py](CTW-RF/experiments/ctw_matched_fusion_comparisons_batch.py)：按历史verifier的预定义SoftOpt（Proposed_CV）、InvRMSE_p2、HardSelect与GlobalStacking、EqualWeight、单方法，在相同5折下批量比较3 seeds×3 pool=9种设置；记录per-fold/per-seed结果、配对差值与模型拟合耗时。使用历史SoftOpt已选型属于探索性复测，不宣称独立选型验证。**尚未用户Windows git pull / dry-run / --run**。
+- [NEXT SINGLE ACTION] Windows一条PowerShell连续命令先`git pull --ff-only`、仅拉取成功时执行新CTW脚本`--dry-run`；通过后下一轮`--run`。不要重跑已完成CARR12/CTW36配置。用户已明确最终审计由Claude在实验完成后集中处理。
+
 ## 2026-11-22 最新：两轮批处理运行完成（CARR12项+CTW36配置），下一步统一读指标
 
 - [USER_WINDOWS_STDOUT] **CTW GlobalStacking敏感性批处理**预检2000 spots/19类/6方法通过，随后正式跑完3个seed×3个方法池×4校准样本量，终端`BATCH FINISHED 36 of 36 configurations; FAILED 0`。[2026-11-22运行记录](CTW-RF/experiments/records/2026-11-22_ctw_36configuration_batch_completed.md)。2028 seed，full6池+all预算终端JSD 0.113544、matrix_RMSE 0.048973，其余36组全部指标待读CSV。
