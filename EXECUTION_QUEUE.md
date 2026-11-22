@@ -1,3 +1,10 @@
+## 2026-11-22 最新：RCTD 简单基线 Dry-run PASS；下一步正式运行
+
+- [USER_WINDOWS_STDOUT] `simple_calibration_category_holdout.py --method RCTD --dry-run`：52 views /13 bases，stable train36/test16，medium/confusable/lowref 各train40/test12，`SPLIT CHECK PASS`，`CONTROLS: Ridge12, Isotonic1D`，`DRY RUN PASS — no files written`。
+- [RECORD] [本轮原始日志](CARR-lite-V2/experiments/records/2026-11-22_rctd_simple_controls_dry_run.md)。没有训练或指标；12维 Ridge 包含已知模拟深度，真实部署不能假设可用。
+- [NEXT ONE STEP] 用户本地正式运行 `python "D:\Research\st-deconvolution-research\CARR-lite-V2\experiments\simple_calibration_category_holdout.py" --method RCTD --out-dir "D:\Research\STdeconv_benchmark\results\CARRliteV2_simple_controls_20261122_v1"`，预期每法156行（52视图×3）。
+- 禁止覆盖旧结果、不得先声称基线改善。RCTD成功后再 CARD dry-run。
+
 ## 2026-11-22 最新：第4项类别留出配对已完成；进入第6项简单校准器对照
 
 - [USER_WINDOWS_STDOUT] 将旧逐 base vs 新严格整类别留出 `HGBC_a30` 按场景ID配对，`PAIR CHECK PASS: 104 views, 26 method-base pairs`。分别先对各13个base内4深度平均：CARD 严格划分目标RMSE变差 **13/13**，AUPRC变差 **13/13**；RCTD 目标RMSE变差 **13/13**，AUPRC变差 **7/13**。四类别具体差值见 [归档数据](CARR-lite-V2/experiments/records/2026-11-22_category_vs_base_paired_counts.md)。这是模拟场景级描述统计，不能称独立生物学重复。
