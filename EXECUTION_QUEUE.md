@@ -1,3 +1,10 @@
+## 2026-11-22 最新：seqFISH+ builder第81–265行已审查，下一步补源头及fold导出代码
+
+- [USER_PASTED_SOURCE] `build_seqfishplus_real_spatial_noleak.py`: 第155行对按空间X/Y、FOV网格分配的目标cell表达求和；156–159行按cell_type单独算26类真值；第233–241行参考排除被留出整个FOV并断言参考/目标成员cell UID不重叠。
+- [RISK AUDIT] 源`counts`是否raw、10k基因怎样选尚未见第1–80行；fold中reference导出尚未见266+；`all_cell_types`词表在全meta构建（是否发生目标标签信息暴露需核实），`reference_meta`非held-out FOV但未在该片段按Region限于Cortex；最关键runner如何用`pseudo_spot_ground_truth.csv`仍待审。不能将安全的逐spot汇总误判为必然泄漏，也不能宣称整个流水线no-leak。
+- [RECORD] [2026-11-22 第81–265源码审计](CARR-lite-V2/experiments/records/2026-11-22_seqfishplus_build_spots_source_audit_lines81_265.md)。
+- [NEXT SINGLE STEP] 用户PowerShell只读打印`build_seqfishplus_real_spatial_noleak.py`第1–80与266–340行（记录末尾完整命令），回传源码，再判断基因选择和fold参考输出。仍未训练/修改任何数据。
+
 ## 2026-11-22 最新：seqFISH+表达生成脚本已定位，下一步源码只读检查
 
 - [USER_WINDOWS_STDOUT] 本机grep返回 `D:\Research\STdeconv_benchmark\build_seqfishplus_real_spatial_noleak.py` 第218行写出总表达，第257行涉及fold表达；`run_carr_lite_v2_seqfishplus_5fold.py` 第112行读取fold表达。详情 [源码定位](CARR-lite-V2/experiments/records/2026-11-22_seqfishplus_expression_builder_source_locations.md)。
