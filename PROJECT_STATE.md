@@ -1,3 +1,10 @@
+## 2026-11-22 最新：两轮批处理运行完成（CARR12项+CTW36配置），下一步统一读指标
+
+- [USER_WINDOWS_STDOUT] **CTW GlobalStacking敏感性批处理**预检2000 spots/19类/6方法通过，随后正式跑完3个seed×3个方法池×4校准样本量，终端`BATCH FINISHED 36 of 36 configurations; FAILED 0`。[2026-11-22运行记录](CTW-RF/experiments/records/2026-11-22_ctw_36configuration_batch_completed.md)。2028 seed，full6池+all预算终端JSD 0.113544、matrix_RMSE 0.048973，其余36组全部指标待读CSV。
+- [USER_WINDOWS_STDOUT] **CARR**12个marker_k/confusion_k/no_depth/LogisticThreshold批次已经`BATCH FINISHED 12 jobs`。[运行记录](CARR-lite-V2/experiments/records/2026-11-22_pending_12job_batch_completed.md)，`batch_metric_means.csv`和`batch_run_status.csv`有本地输出路径但尚未读取具体数值。
+- [EVIDENCE_BOUNDARY] 以上“完成”均指用户电脑**运行日志确认**，并非助手已下载48个任务结果CSV或独立复核。CTW36组只是GlobalStacking对照稳定性，不是CTW Proposed自身对照实验；随机种子不是独立生物样本。
+- [NEXT SINGLE ACTION] 用户Windows **一条只读Python命令同时读取CARR批次状态、关键方法均值以及CTW的36配置分组均值/范围**，按真实CSV判断后续要补的EnDecon/CTW同折和CARR外部数据实验。**不要再跑已经完成的48任务**；遵守用户“先批实验，Claude最后集中审计”决定。
+
 ## 2026-11-22 最新：CARR 12任务正式批处理已完成，转 CTW 36配置
 
 - [USER_WINDOWS_STDOUT] 用户本机运行`carr_pending_experiments_batch.py --run`，尾部`logistic_threshold CARD FINISHED 156 result rows`、`DONE ... elapsed_seconds 89.93`，最终`BATCH FINISHED 12 jobs`。原先12任务预检全为NEW，输入`BATCH PREFLIGHT PASS`，现可将CARR这一批标为**运行日志确认完成**。[归档](CARR-lite-V2/experiments/records/2026-11-22_pending_12job_batch_completed.md)。
