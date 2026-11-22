@@ -1,3 +1,11 @@
+## 2026-11-22 最新：seqFISH+ 完整5-FOV历史结果与20条nested审计读完
+
+- [USER_WINDOWS_STDOUT] 15行FOV指标及20条嵌套参考审计完整获取，见[全量终端转录](CARR-lite-V2/experiments/records/2026-11-22_seqfishplus_full_fov_metrics_and_nested_audit.md)。
+- [FOV EFFECT] `V2_HGBC_Gate_a50` vs Tangram：JSD改善5/5、singleton RMSE/AUPRC/AUROC各改善4/5。FOV2虽然JSD改善0.430034→0.417433，但singleton RMSE恶化0.148069→0.157866、AUPRC下降0.293444→0.247989、AUROC下降0.653900→0.629039。必须完整保留。
+- [NESTED REFERENCE] 18个训练FOV组合`used`，2个因缺L3被`skipped`。20行两个overlap字段均记录0；这仅为审计字段，不证明不存在其它泄漏，也不说明已验证真实spot来源。
+- [NEXT SINGLE STEP] 用户在Windows本地只读查看`cell_metadata_aligned.csv`、`spot_cell_membership.csv`、`pseudo_spot_locations.csv`、`pseudo_spot_ground_truth.csv`的形状/列名和样本行，以厘清真实单细胞与聚合伪spot来源。具体单命令见上述完整记录末尾。
+- 暂不训练、不重跑历史模拟、不造空间预测图，也不以5FOV或70spot声称独立生物学显著性。
+
 ## 2026-11-22 最新：找到seqFISH+五FOV历史数据，下一步完整fold/audit只读审查
 
 - [USER_WINDOWS_STDOUT] 用户找到 `D:\Research\STdeconv_benchmark\data\groundtruth\seqfishplus_cortex_real_spatial_noleak` 内 fold_manifest (5×8)、metrics_by_fold (15×12)、nested_reference_leakage_audit (20×10) 和 pseudo_spot、cell membership 等CSV。
