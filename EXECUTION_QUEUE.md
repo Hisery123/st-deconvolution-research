@@ -1,3 +1,11 @@
+## 2026-11-22 最新：找到seqFISH+五FOV历史数据，下一步完整fold/audit只读审查
+
+- [USER_WINDOWS_STDOUT] 用户找到 `D:\Research\STdeconv_benchmark\data\groundtruth\seqfishplus_cortex_real_spatial_noleak` 内 fold_manifest (5×8)、metrics_by_fold (15×12)、nested_reference_leakage_audit (20×10) 和 pseudo_spot、cell membership 等CSV。
+- [FIRST_READ] 五FOV共70spot、514保留目标细胞；manifest每折报告与reference重叠0。可见FOV2 `AbundanceOnly` 三项指标比Tangram变差，**FOV2 HGBC_a50行尚未显示**。嵌套审计显示部分训练FOV因缺L3被跳过；尚未看到完整20行。
+- [RECORD] [首轮实际用户日志](CARR-lite-V2/experiments/records/2026-11-22_seqfishplus_fov_first_read.md)。
+- [NEXT SINGLE STEP] 用户Windows执行该记录末尾的一条只读Python命令，打印全部15行fold指标及20行nested审计，确认三分支FOV2/FOV3/FOV4实际指标、used/skipped数及所有overlap字段。
+- 勿因目录名`real_spatial_noleak`认定完全真实spatial spot或无泄漏；需审视`pseudo_spot_ground_truth.csv`及membership来源。暂不训练、不重跑模拟消融、不绘制空间点位图。
+
 ## 2026-11-22 最新：简单校准第6项13-base配对检查完成；下一步真实FOV证据定位
 
 - [USER_WINDOWS_STDOUT] `BASE PAIR CHECK PASS: 26 method-base units`。RCTD HGBC_a30 vs Ridge12 RMSE改善8/13、AUPRC改善11/13；CARD vs Ridge12 RMSE改善6/13、AUPRC改善5/13。其他四组数据、均值差与负结果见 [13-base配对汇总](CARR-lite-V2/experiments/records/2026-11-22_simple_controls_13base_paired_summary.md)。
