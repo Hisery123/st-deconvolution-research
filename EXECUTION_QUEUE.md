@@ -1,3 +1,10 @@
+## 2026-11-22 最新：已获得两批真实数值，新CTW主方法同折9配置脚本待运行
+
+- [USER_LOG_CONFIRMED] CARR12任务`batch_run_status.csv`全部`success`，包括marker20/80、confusion1/5、no_depth、LogisticPresence12/Threshold1D；CTW GlobalStacking 36/36配置的全部三seed summary已由用户命令打印。[指标归档](CARR-lite-V2/experiments/records/2026-11-22_batched_carr_ctw_actual_console_results.md)，不能将这些相关模拟视图/seed视为独立生物重复。
+- [FINDING] CARR marker20相对marker40在RCTD/CARD均有描述性RMSE/AUPRC改善；no_depth近似标准配置；CARD Threshold1D检测表现不弱但定量明显变差。CTW GlobalStacking full6/all比expanded4/all RMSE低但JSD略高，缺CTW主方法同折多seed比较。
+- [GITHUB_CODE_READY] [CTW主方法同折批处理](CTW-RF/experiments/ctw_matched_fusion_comparisons_batch.py)，同一2000spot基准、3 seed×3方法池、对照CTW_SoftOpt(历史Proposed_CV固定实现)、InvRMSE_p2/HardSelect/GlobalStacking/等权/单方法，记录真实逐折差异和拟合时间。不执行新数据审计或改旧输入。**此脚本在Windows尚未运行/预检**。
+- [NEXT SINGLE ACTION] 用户Windows合并`git -c http.proxy=http://127.0.0.1:7897 -C "D:\Research\st-deconvolution-research" pull --ff-only`和成功后`python ...\CTW-RF\experiments\ctw_matched_fusion_comparisons_batch.py --dry-run`为一条PowerShell语句，成功后另给`--run`。用户想缩短操作循环，已有原批结果绝不重新训练。
+- [AFTER] CTW同折比较后再以批处理安排剩余关键实验：CTW最近邻集成方法原文可复现对照、CARR参考scRNA单独合成训练→留出FOV应用、可获取的第二平台。最终方法/数据泄漏/论文字句审计集中交Claude。
 ## 2026-11-22 最新：已完成CARR 12任务+CTW36配置，转向统一输出读取与下一批设计
 
 - [RUN_LOG_CONFIRMED] CARR 12项：`BATCH FINISHED 12 jobs`；CTW 36组：`BATCH FINISHED 36 of 36 configurations; FAILED 0`。详见[CARR完成记录](CARR-lite-V2/experiments/records/2026-11-22_pending_12job_batch_completed.md)、[CTW完成记录](CTW-RF/experiments/records/2026-11-22_ctw_36configuration_batch_completed.md)。
