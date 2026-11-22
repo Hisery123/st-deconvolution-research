@@ -1,7 +1,7 @@
 # PROJECT_STATE — CTW-RF × CARR-lite V2
 
 - 更新：2026-11-22（Asia/Taipei）
-- 阶段：**seqFISH+ 五FOV历史指标15/15行、nested参考审计20/20行均已由用户完整显示。Gate_a50 JSD改善5/5，但FOV2 singleton RMSE/AUPRC/AUROC恶化；下一步审查pseudo spot构建和cell membership来源。**
+- 阶段：**seqFISH+来源核验：已确认70个评价spot系真实空间定位细胞按网格聚合的pseudo-spots（非独立捕获spot）；913条细胞metadata、514条cell-spot归属、70行pseudo-spot location/26类真值。下一步只读校验归属/真值一致性与ID唯一性，尚未完全排除数据泄漏。**
 - 当前仓库：`Hisery123/st-deconvolution-research`（公开，main）
 - 注意：104 行用户上传的**按 base 派生 CSV** 已直接读取并复核差值/计数；但十份原始 52-view 指标 CSV、全部训练与模型权重**仍未直接取得或独立复算**。不得将文中叙述等同于所有实验已复现。
 
