@@ -1,3 +1,10 @@
+## 2026-11-22 最新：简单校准第6项13-base配对检查完成；下一步真实FOV证据定位
+
+- [USER_WINDOWS_STDOUT] `BASE PAIR CHECK PASS: 26 method-base units`。RCTD HGBC_a30 vs Ridge12 RMSE改善8/13、AUPRC改善11/13；CARD vs Ridge12 RMSE改善6/13、AUPRC改善5/13。其他四组数据、均值差与负结果见 [13-base配对汇总](CARR-lite-V2/experiments/records/2026-11-22_simple_controls_13base_paired_summary.md)。
+- [CONCLUSION_BOUNDARY] RCTD上CARR有部分优势，但AbundanceOnly RMSE稍优；CARD上CARR未普遍优于Ridge/Isotonic，且原始CARD的检测指标仍优于校准后。仅模拟场景描述统计，不保证真实FOV泛化或统计显著。
+- [NEXT] 进入Claude原计划第2/3项：优先**查找本地已有seqFISH+ 5 FOV的原始评估CSV和划分依据**，只读列出相关文件路径，不急于新训练。第6项的逻辑回归/固定阈值替代仍未做，后续有需要再按预先固定规则补。
+- 仍一次一条Windows PowerShell命令；不自动控制电脑、不加空间点位图、不重复已完成训练。
+
 ## 2026-11-22 最新：简单基线与CARR总体均值/原版指标对齐已完成，下一步13 base配对
 
 - [USER_WINDOWS_STDOUT] `CHECK PASS: 312 simple rows, 520 CARR rows`；`ORIGINAL PARITY PASS`，两次独立批次的原版RCTD/CARD五指标在同场景完全一致，允许描述性比较。
