@@ -1,7 +1,7 @@
 # PROJECT_STATE — CTW-RF × CARR-lite V2
 
 - 更新：2026-11-22（Asia/Taipei）
-- 阶段：**Claude第4项严格类别留出/新旧协议配对已完成；全13个模拟base在严格留出下RMSE恶化。第6项简单校准基线代码已提交，待Windows同步与dry-run。**
+- 阶段：**严格类别留出结果与配对已归档；原计划第6项简单校准对照 RCTD dry-run PASS，正式训练尚未执行**
 - 当前仓库：`Hisery123/st-deconvolution-research`（公开，main）
 - 注意：104 行用户上传的**按 base 派生 CSV** 已直接读取并复核差值/计数；但十份原始 52-view 指标 CSV、全部训练与模型权重**仍未直接取得或独立复算**。不得将文中叙述等同于所有实验已复现。
 
