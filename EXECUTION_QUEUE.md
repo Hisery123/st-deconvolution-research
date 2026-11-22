@@ -1,3 +1,10 @@
+## 2026-11-22 最新：seqFISH+ 26类伪spot真值按514 cell-membership重建 PASS
+
+- [USER_WINDOWS_STDOUT] metadata/membership/spots行数913/514/70；三个cell UID检查True；三个spot集合/唯一性检查True；`SPOT SIZE CHECK 70 of 70 mismatched 0`；`GROUND TRUTH MAX ABS ERROR 8.326672684688674e-17 MISMATCHED SPOTS 0`。
+- [CONCLUSION] 70个有真实空间来源的pseudo-spots，其26类ground_truth可以由514条cell-to-spot membership准确重建；这不等于证明表达聚合和模型全链路无泄漏，也不等于独立真实捕获的spot。399个metadata cell未进入membership的原因尚未核对。
+- [RECORD] [2026-11-22 membership与真值审计](CARR-lite-V2/experiments/records/2026-11-22_seqfishplus_membership_truth_integrity_check.md)。
+- [NEXT SINGLE STEP] 按该记录末尾的唯一只读Python命令，检查`pseudo_spot_expression.csv`的形状、spot_id与ground truth的集合对应、数值非有限/负值/零行；再追溯表达由真实单细胞如何聚合及参考隔离代码。绝不删除文件或重新训练。
+
 ## 2026-11-22 最新：seqFISH+已证实为真实空间定位细胞聚合伪spot，下一步核查成员真值一致性
 
 - [USER_WINDOWS_STDOUT] `cell_metadata_aligned.csv` 913×9（cell_uid、FOV、X/Y、type），`spot_cell_membership.csv` 514×9（cell到spot映射），`pseudo_spot_locations.csv` 70×10（bin_x/bin_y、grid中心及每spot n_cells），`pseudo_spot_ground_truth.csv`70×27（26细胞类型比例，示例是1/7或1/11的成员比例）。
