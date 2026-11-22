@@ -1,7 +1,7 @@
 # PROJECT_STATE — CTW-RF × CARR-lite V2
 
 - 更新：2026-11-22（Asia/Taipei）
-- 阶段：**已找到本地seqFISH+五FOV历史评估：fold_manifest 5×8、metrics 15×12、nested leakage audit 20×10；仅查看后两者前8行，下一步完整核对15行指标与20行嵌套审计，不重训练。**
+- 阶段：**seqFISH+ 五FOV历史指标15/15行、nested参考审计20/20行均已由用户完整显示。Gate_a50 JSD改善5/5，但FOV2 singleton RMSE/AUPRC/AUROC恶化；下一步审查pseudo spot构建和cell membership来源。**
 - 当前仓库：`Hisery123/st-deconvolution-research`（公开，main）
 - 注意：104 行用户上传的**按 base 派生 CSV** 已直接读取并复核差值/计数；但十份原始 52-view 指标 CSV、全部训练与模型权重**仍未直接取得或独立复算**。不得将文中叙述等同于所有实验已复现。
 
