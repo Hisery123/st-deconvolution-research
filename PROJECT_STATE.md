@@ -1,3 +1,9 @@
+## 2026-11-23 DLPFC12切片批：151507完成，151508因1个共享基因零表达spot中断，补丁已提交待恢复
+
+- [USER_WINDOWS_RUN] 首次修复NNLS_marker20低信号回退后，DLPFC synthetic calibration完成SoftOpt fallback0；151507实测`COMPLETED SLIDE 151507 spots 4226 labeled 4221 marker_fallback 69 top300_fallback 0 seconds 0.586`；仅151507已完成，**12切片批尚未完成**。
+- [ERROR] 151508于`read_selected_h5`报`Zero shared-gene total for 1 spots`，说明539共有基因的测得表达某一spot总量为0，不能生成有依据的细胞比例。
+- [CODE_COMMITTED_NOT_RUN] 新补丁在读H5后自动将零共有基因总量spot从预测中排除，在`zero_shared_gene_excluded_spots.csv`记录barcode/原因；`slide_summary.json`新增总spot、有效预测spot、排除spot数量。原H5不改，已完成151507结果不改。dry-run新增3spot人工零行冒烟验证；run_config不变可`--run --resume`。具体见[失败与恢复记录](CTW-RF/experiments/records/2026-11-23_dlpfc_151508_zero_shared_genes_resume_fix.md)。
+- [NEXT SINGLE ACTION] 用户Windows同步git后`--dry-run --resume`通过才`--run --resume`，应打印`REUSE COMPLETED SLIDE 151507`，151508排除1spot后继续。无需删除结果、也无需另起重复实验；最终审计后置。
 ## 2026-11-23 最新：DLPFC 12片正式首跑在151507的NNLS_marker20零解中断；已提交固定fallback补丁待Windows恢复
 
 - [USER_WINDOWS_RUN_STDOUT] 合成train/check阶段成功，终端`CALIBRATION synthetics checked; SoftOpt fallback 0`；`START SLIDE 151507`随后在`nnls_predict`报`ValueError: NNLS zero solution: NNLS_marker20, spot AACTTTCTCGATCATG-1`。**真实Visium 12片推断尚未有任何完成切片**，不得归档为已完成。
