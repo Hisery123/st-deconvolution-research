@@ -1,3 +1,9 @@
+## 2026-11-23 下一批已写好：CTW-RF细胞ID三组隔离的补充3基线实验（未运行）
+
+- [USER_DIRECTIVE] 先跑完实验再系统审计。按此要求直接编写并提交[CTW reference-cell-disjoint补充batch](CTW-RF/experiments/ctw_cell_disjoint_reference_batch.py)和[冻结协议](CTW-RF/experiments/records/2026-11-23_cell_disjoint_3baseline_supplementary_batch_protocol.md)，**Windows还未同步/预检/运行，绝对没有此批新指标**。
+- [PROTOCOL] 从`data\groundtruth\self_benchmark_cortex_svz`原始single-cell引用按类别拆成互不交叉的mapper reference/train donor/test donor；balanced_celltype与cell_uniform两个场景，每场景1200个train+800个test合成8细胞spot；用同一reference重新训练Tangram（专用Conda Python3.7，500epochs/3000genes，每场景train/test分别拟合）和参考式NNLS_500/NNLS_marker20；训练折真值训练GlobalStacking/CTW_SoftOpt/HardSelect/InvRMSE，独立来源细胞的test spot上评估，共3基础+5融合=8方法×2场景16行。测试cell IDs与reference及训练伪spot donor互斥，组内spot重复使用细胞，非独立生物重复。
+- [LIMITATION] 此实验**不等于旧六种反卷积基础法的完全无交叉重跑**，因为研究仓库没有保存其余5法完整run入口。旧6法重跑和新平台外部验证仍留队列；不能拿旧预测与新无交叉参考混合比较或声称已经解决全6法问题。
+- [NEXT SINGLE ACTION] Windows用一条PowerShell拉GitHub后立即执行`ctw_cell_disjoint_reference_batch.py --dry-run`，检查Tangram导入、数据拆分、两种采样内存冒烟与NNLS，不写盘；通过后下一轮再单条`--run`批量运行四次Tangram和所有对照。若报错保留日志。
 ## 2026-11-23 最新：Visium四份CSV已读两行，mouse-brain外部应用候选（完整对齐待核）
 
 - [USER_WINDOWS_READONLY] `data\visium\sc_mousebrain.csv` 2081.93MB：cell×12819genes、第一列5705STDY8058285_...；`sc_celltype.csv` 1.77MB标注`annotation_1`首例Astro_AMY；`st_count.csv` 161.12MB：gene×2576spots（需要转置）；`st_location.csv`约0.07MB列为spot ID、row、col。共享基因前两行可见Xkr4/Gm1992，但**完整集合、spot对齐和真值尚未验证**。[逐文件证据与外部来源线索](CARR-lite-V2/experiments/records/2026-11-23_visium_external_dataset_schema_first_read.md)。
