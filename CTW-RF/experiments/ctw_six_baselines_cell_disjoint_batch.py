@@ -376,11 +376,12 @@ def run_task(args, scenario, part, method, script, envs):
                 "status": "reused_valid", "elapsed_seconds": 0.0,
                 "prediction": str(outpred), "log": str(log), "note": why}
     if outpred.is_file():
-        # Invalid outputs cannot be silently overwritten or treated as success.
-        print("INVALID OUTPUT", outpred, why, flush=True)
-        return {"scenario": scenario, "part": part, "method": method,
-                "status": "invalid_existing_output", "elapsed_seconds": 0.0,
-                "prediction": str(outpred), "log": str(log), "note": why}
+        # Preserve an invalid partial output for the final audit and allow
+        # automatic retry on --resume. No historical source files touched.
+        rejected = outpred.with_name(
+            outpred.name + ".rejected_" + str(time.time_ns()) + ".csv")
+        outpred.rename(rejected)
+        print("QUARANTINED INVALID OUTPUT", rejected, why, flush=True)
     command = build_command(args, method, script, stage, envs)
     log.parent.mkdir(exist_ok=True, parents=True)
     print("START", scenario, part, method, flush=True)
