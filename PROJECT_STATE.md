@@ -1,3 +1,11 @@
+## 2026-11-23 最新：CARR reference-only新实验首次FOV0因Tangram导入失败中断，独立解释器/恢复补丁已提交
+
+- [USER_WINDOWS_ERROR] 初次`--run`在`START FOV 0`后，Tangram子进程导入阶段报`ModuleNotFoundError: No module named 'tangram'`。实际子进程错误使用`D:\paper\ST_Benchmark_Planning\mvp\.venv\Scripts\python.exe`，非Tangram专用环境。尚未完成任何映射训练或5FOV评价；保留已生成的FOV0合成spot数据和`run_config.json`。
+- [USER_WINDOWS_CHECK] 用户在Windows明确运行`D:\ProgramData\miniconda3\envs\Tangram\python.exe`并得到`Tangram import PASS; CUDA: False`，可以单独用于Tangram子进程，但该环境当前看起来只运行CPU（不保证GPU）。[失败记录与修复](CARR-lite-V2/experiments/records/2026-11-23_reference_only_first_run_python_environment_failure.md)。
+- [CODE_COMMITTED_NOT_USED] 对[CARR批处理脚本](CARR-lite-V2/experiments/carr_reference_only_seqfishplus_batch.py)增加`--tangram-python`，将CARR主环境与Tangram子解释器分离；允许`--dry-run --resume`对现有run_config检查解释器依赖，`--run --resume`时单独记`tangram_python_runtime.json`以保护既有run_config、拒绝未知环境混用。修复提交已在GitHub，**尚未在Windows同步/运行修复版**，不宣布修好或完成结果。
+- [NEXT SINGLE ACTION] Windows一条PowerShell先Git pull成功后执行`--dry-run --resume --tangram-python "D:\ProgramData\miniconda3\envs\Tangram\python.exe"`；若成功下一轮再`--run --resume`，不删除目录或重跑旧已完成实验。
+- [SCIENCE] 既有5 FOV/70 spots源于同源seqFISH+空间单细胞重构，非独立生物学重复；本次实验状态FAIL/REPAIR_PENDING，无可用新性能结果。
+
 ## 2026-11-23 最新：CARR五FOV reference-cell-only训练批处理已创建GitHub，等待Windows预检
 
 - [USER_PASTED_SOURCE] 用户提供`D:\Research\STdeconv_benchmark\methods\Tangram\run_tangram_self_benchmark.py`完整源码，确认Tangram的实际4文件输入及`map_cells_to_space`调用、3000基因选择和现有预测输出接口。见[新方案说明](CARR-lite-V2/experiments/records/2026-11-23_reference_cell_only_5fov_batch_protocol.md)。
