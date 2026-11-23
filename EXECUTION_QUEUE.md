@@ -1,3 +1,10 @@
+## 2026-11-23 最新：groundtruth现有七目录均尚不能确认独立外部来源，优先盘点data其它目录
+
+- [USER_WINDOWS_DIRECTORY_LIST] 用户在Windows只读列出`D:\Research\STdeconv_benchmark\data\groundtruth`七文件夹：`rarecell_52scenario_suite`、`self_benchmark_cortex_svz`、`self_benchmark_cortex_svz_2000spots`、`seqfishplus_cortex_real_spatial_noleak`、`seqfishplus_cortex_svz_author_rect`、`seqfishplus_cortex_svz_fov_bins500`、`seqfishplus_rarecell_noleak_v1`。**目前是目录名证据，不等于全七个已逐个核查原始细胞ID和测序来源**。
+- [TRIAGE] 52scenario和2000spots为已充分研究的衍生伪spot；刚完成5FOV seqFISH+同源reference-only；其余名为seqfishplus的目录很可能同域或加工变体，外部独立性未证实，不能充作新增独立供体/跨平台验证。
+- [NEXT SINGLE ACTION] Windows只读列出`D:\Research\STdeconv_benchmark\data`一级子目录，检查外部DLPFC/MERFISH等候选是否现存；如果存在再看文件结构/独立真值情况。无需重跑已完成五折、CTW同折或EnDecon批次。
+- [LOCKED_CARR] reference-only 5FOV Gate a50 AUPRC 5/5、matrixRMSE 5/5、JSD 4/5、singletonRMSE仅2/5；不在同一数据上后验调门控参数。审计最后由Claude整体进行。
+
 ## 2026-11-23 最新：CARR reference-only 5FOV完整逐折结果+全部负指标已经核对
 
 - [USER_WINDOWS_CSV_SUMMARY] 用户贴出`all_fov_metrics.csv`15行、`paired_fov_differences.csv`10行，已逐项转录为[五FOV全部配对证据记录](CARR-lite-V2/experiments/records/2026-11-23_reference_only_seqfishplus_all_fov_paired_confirmed.md)。不是助手实际读取本地CSV字节。
