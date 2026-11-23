@@ -1,3 +1,11 @@
+## 2026-11-23 最新：CARR reference-only 5FOV完整逐折结果+全部负指标已经核对
+
+- [USER_WINDOWS_CSV_SUMMARY] 用户贴出`all_fov_metrics.csv`15行、`paired_fov_differences.csv`10行，已逐项转录为[五FOV全部配对证据记录](CARR-lite-V2/experiments/records/2026-11-23_reference_only_seqfishplus_all_fov_paired_confirmed.md)。不是助手实际读取本地CSV字节。
+- [RESULT] Gate_a50对同一reference匹配的Tangram：singleton-vs-zero AUPRC **5/5 FOV改善**、matrixRMSE **5/5改善**、mean_spot JSD **4/5改善**（FOV0 +0.000109微幅恶化）、singleton RMSE **2/5改善**（FOV0 +.003153、FOV2 +.000895、FOV4 +.004211恶化）。
+- [SIMPLE_BASELINE] AbundanceOnly同样有JSD **5/5改善**、matrixRMSE **5/5改善**、singleton AUPRC **5/5改善**，singleton RMSE仅2/5改善；Gate a50的JSD仅FOV1优于AbundanceOnly，在其余4个FOV更差；门控分支不能被称为全部增益的必要原因。
+- [METHOD_BOUNDARY] 5FOV不等于5独立供体；70spots是位置引导细胞聚合而非物理测得spot；singleton_vs_zero_AUPRC不等价所有rare-positive检测；参考训练来自同源seqFISH+单细胞，不是独立scRNA测序平台。不得就相关FOV直接做独立生物重复显著性宣称或挑选性报结果。
+- [NEXT] 用户要求先完成剩余研究实验、Claude最终集中方法/论文审计；**当前reference-only FOV结果固定，不再此数据集反复尝试调参**。下一步应盘点可用于真正外部验证的现存独立数据（有实际参考、组成真值和跨类型基因支持时才能定量验证），或CTW真实切片定性泛化，不能臆造数据/实验结果。无需重新跑已完成的CARR12、CTW36/9、EnDecon和本批5FOV。
+
 ## 2026-11-23 最新：CARR reference-cell-only 5FOV整批全部成功，性能增益有限且有负指标
 
 - [USER_WINDOWS_RUN_LOG] 使用Tangram专用Python3.7 CPU环境、CARR主Python3.10完成`carr_reference_only_seqfishplus_batch.py --run --resume`；终端`BATCH FINISHED 5 FOV; 15 held-out method/FOV metric rows`，结果位于`D:\Research\STdeconv_benchmark\results\CARR_reference_only_seqfishplus_20261123_v1`。[真实汇总和FOV2–4日志](CARR-lite-V2/experiments/records/2026-11-23_reference_only_seqfishplus_batch_complete.md)。
