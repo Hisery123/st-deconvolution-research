@@ -376,7 +376,7 @@ def main():
             raise ValueError("Resume configuration differs from original run")
     if args.dry_run:
         if args.resume:
-            raise ValueError("--resume is only valid with --run")
+            print("RESUME PREFLIGHT: existing run_config matches; no files written", flush=True)
         print("TANGRAM PYTHON", args.tangram_python, flush=True)
         probe = subprocess.run(
             [str(args.tangram_python), "-c",
