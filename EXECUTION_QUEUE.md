@@ -1,3 +1,9 @@
+## 2026-11-23 最新下一批：CTW DLPFC 真实多切片外部应用脚本已创建GitHub，等待用户Windows同步/预检
+
+- [USER_WINDOWS_DIRECTORY_LIST] `D:\Research\real_DLPFC\candidate_inputs`现有reference_70_expression_logcounts/labels与真实Visium候选表达/metadata；`D:\paper\ST_Benchmark_Planning\mvp\data`已显示151507/151508/151509/151510的filtered_feature_bc_matrix.h5及manual_layer_annotations/spots_aligned；其它8张有无必须由新脚本自动发现，**不得预称12张均存在**。
+- [CODE_COMMITTED_NOT_RUN] [CTW DLPFC多切片batch](CTW-RF/experiments/ctw_dlpfc_multislice_application_batch.py)、[冻结实验方案](CTW-RF/experiments/records/2026-11-23_dlpfc_multislice_external_application_protocol.md)已提交。支持`--dry-run`预检全部实际发现切片H5、sc参考ID/共有基因、分层覆盖与小型NNLS冒烟，无盘写；`--run`先按类拆source-cell-profile/train donor/check donor，固定三种reference-only NNLS基线及GlobalStacking/CTW三种类别级权重，再统一应用全部DLPFC实际切片、导出完整spot×type预测和L1–L6/WM分层汇总；`--resume`按run_config匹配保护文件。
+- [BOUNDARY] 此批不是历史6基础方法在12张切片的新训练；只是三NNLS变体+5汇总/融合策略，真实Visium没有composition真值，不能报道真实spot的JSD/RMSE；只有从同一sc来源生成的内部留出synthetic spot计算对应指标，明确synthetic-only。用户强制“先跑完，最后审计”，不做碎片审查。
+- [NEXT SINGLE WINDOWS COMMAND] `git -c http.proxy=http://127.0.0.1:7897 -C "D:\Research\st-deconvolution-research" pull --ff-only; if ($LASTEXITCODE -eq 0) { python "D:\Research\st-deconvolution-research\CTW-RF\experiments\ctw_dlpfc_multislice_application_batch.py" --dry-run }`，预期`PREFLIGHT`、SLIDE记录、SMOKE PASS、DRY RUN PASS；缺依赖或输入不符直接保留异常以便修复，**正式运行尚未发生**。
 ## 2026-11-23 最新：CTW cell-disjoint补充实验正式运行完成，锁定结果并推进DLPFC批应用
 
 - [USER_WINDOWS_RUN] `ctw_cell_disjoint_reference_batch.py --run`：836 cells、10000 genes、19 types，reference419/train donor204/test donor213，5类L12/L16/L17/L4/L8在train/test无成员。balanced与cell_uniform各重跑Tangram train/test（四次映射均DONE），16 method-scenario评测行全成功，SoftOpt fallback 0，结果`D:\Research\STdeconv_benchmark\results\CTWRF_cell_disjoint_20261123_v1`。[全部原始终端表与负结果](CTW-RF/experiments/records/2026-11-23_cell_disjoint_3baseline_full_run_completed.md)。
