@@ -1,3 +1,9 @@
+## 2026-11-23 下一批已写好：CTW-RF细胞ID三组隔离的补充3基线实验（未运行）
+
+- [USER_DIRECTIVE] 先跑完实验再系统审计。按此要求直接编写并提交[CTW reference-cell-disjoint补充batch](CTW-RF/experiments/ctw_cell_disjoint_reference_batch.py)和[冻结协议](CTW-RF/experiments/records/2026-11-23_cell_disjoint_3baseline_supplementary_batch_protocol.md)，**Windows还未同步/预检/运行，绝对没有此批新指标**。
+- [PROTOCOL] 从`data\groundtruth\self_benchmark_cortex_svz`原始single-cell引用按类别拆成互不交叉的mapper reference/train donor/test donor；balanced_celltype与cell_uniform两个场景，每场景1200个train+800个test合成8细胞spot；用同一reference重新训练Tangram（专用Conda Python3.7，500epochs/3000genes，每场景train/test分别拟合）和参考式NNLS_500/NNLS_marker20；训练折真值训练GlobalStacking/CTW_SoftOpt/HardSelect/InvRMSE，独立来源细胞的test spot上评估，共3基础+5融合=8方法×2场景16行。测试cell IDs与reference及训练伪spot donor互斥，组内spot重复使用细胞，非独立生物重复。
+- [LIMITATION] 此实验**不等于旧六种反卷积基础法的完全无交叉重跑**，因为研究仓库没有保存其余5法完整run入口。旧6法重跑和新平台外部验证仍留队列；不能拿旧预测与新无交叉参考混合比较或声称已经解决全6法问题。
+- [NEXT SINGLE ACTION] Windows用一条PowerShell拉GitHub后立即执行`ctw_cell_disjoint_reference_batch.py --dry-run`，检查Tangram导入、数据拆分、两种采样内存冒烟与NNLS，不写盘；通过后下一轮再单条`--run`批量运行四次Tangram和所有对照。若报错保留日志。
 ## 2026-11-23 用户最新强制执行偏好：停止反复审核，先把补实验跑完
 
 - [USER_DIRECTIVE] 用户明确说“别在一个劲的去审核1这个1审核那个的，咱们按计划进行，最后再审核”。**立即停止独立重复的来源审计、泄漏审计、零碎表头检查和论文质量评审**，除非缺失会直接阻止一个即将执行的实验；即使确需检查，也尽量嵌进一个批处理`--dry-run`，不要让用户手工反复发多条输出。先完成剩余实验，之后用户交Claude统一审计。
