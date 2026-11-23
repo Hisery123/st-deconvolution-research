@@ -1,3 +1,8 @@
+## 2026-11-23 最新：六原始方法严格无交叉批dry-run环境错配；直接Python解释器补丁已提交，待Windows再次预检
+
+- [USER_WINDOWS] 六runner hash与两场景来源输入均PASS，但env probe：RCTD/SPOTlight PASS；Tangram用`conda run`未导入tangram，CellDART缺keras，默认CARD/Cell2location虚拟环境名不存在。最新`conda env list`找到`Tangram`, `CellDART-GPU`, `cell2loc_env`, `RCTD`, `SPOTlight`，没有`CARD`命名环境。用户R包输出`CARD=FALSE MuSiC=FALSE`，对应检测环境行没贴全，不臆测另一R环境也缺包。
+- [CODE_PATCH_NOT_RUN] [六法batch](CTW-RF/experiments/ctw_six_baselines_cell_disjoint_batch.py)已改：三个Python runner改用真实env下绝对python.exe（避免`conda run`与外层venv冲突），`cell2loc_env`和`CellDART-GPU`改为默认env名称，Conda程序改绝对路径，仍对全部六法进行导入预检；CARD缺失仍会明确失败，绝不跳过或假冒六法全成。[完整环境修复记录](CTW-RF/experiments/records/2026-11-23_six_methods_environment_repair_direct_interpreters.md)。
+- [NEXT ONE COMMAND] 用户Windows `git pull --ff-only`后再次`python ...ctw_six_baselines_cell_disjoint_batch.py --dry-run`，直接报告6条ENV PASS/FAIL，**正式新六法仍0/24**。不安装或擅自启动训练。
 ## 2026-11-23 六原始baseline无细胞重叠批：Windows环境预检失败（正式24任务尚未启动）
 
 - [USER_WINDOWS_STDOUT] `ctw_six_baselines_cell_disjoint_batch.py --dry-run`确认两情景1200 train + 800 test、419 reference、19类别，六个runner的SHA256均`PASS`。
