@@ -123,6 +123,9 @@ def arguments():
     p.add_argument("--python-tangram", type=Path, default=Path(PYTHON_DEFAULTS["Tangram"]))
     p.add_argument("--python-celldart", type=Path, default=Path(PYTHON_DEFAULTS["CellDART"]))
     p.add_argument("--python-cell2location", type=Path, default=Path(PYTHON_DEFAULTS["cell2location"]))
+    p.add_argument("--rscript-card", type=Path,
+                   default=Path(r"D:\R\R-4.5.1\bin\Rscript.exe"),
+                   help="Standalone Rscript with CARD/MuSiC/Matrix installed")
     p.add_argument("--seed", type=int, default=2026)
     p.add_argument("--rctd-cores", type=int, default=4)
     p.add_argument("--celldart-iterations", type=int, default=3000)
@@ -288,7 +291,12 @@ def env_probe(args, environments):
     failed = []
     python_paths = chosen_python(args)
     for method in METHODS:
-        if method in R_METHODS:
+        if method == "CARD":
+            # The user's independently installed R 4.5.1 has all three
+            # verified dependencies; no CARD Conda env exists.
+            command = [str(args.rscript_card), "-e", ENV_IMPORT[method]]
+            target = str(args.rscript_card)
+        elif method in R_METHODS:
             command = [args.conda, "run", "--no-capture-output", "-n",
                        environments[method], "Rscript", "-e", ENV_IMPORT[method]]
             target = environments[method]
@@ -333,7 +341,9 @@ def setup_stages(args):
 
 
 def build_command(args, method, script, stage, envs):
-    if method in R_METHODS:
+    if method == "CARD":
+        command = [str(args.rscript_card), str(script)]
+    elif method in R_METHODS:
         command = [args.conda, "run", "--no-capture-output",
                    "-n", envs[method], "Rscript", str(script)]
     else:
@@ -522,6 +532,7 @@ def main():
         "scenarios": list(SCENARIOS), "pools": {k: list(v) for k,v in POOLS.items()},
         "methods": list(METHODS), "runner_sha256": {m: RUNNERS[m][1] for m in METHODS},
         "conda": args.conda, "environments": environments,
+        "rscript_card": str(args.rscript_card.resolve()),
         "python_interpreters": {k: str(v.resolve())
                                 for k, v in chosen_python(args).items()},
         "seed": args.seed,
@@ -551,6 +562,7 @@ def main():
           "CellDART iterations", args.celldart_iterations, "* 4 runs", flush=True)
     print("PYTHON DIRECT INTERPRETERS",
           {k: str(v) for k, v in chosen_python(args).items()}, flush=True)
+    print("CARD DIRECT RSCRIPT", str(args.rscript_card), flush=True)
     env_probe(args, environments)
     if args.dry_run:
         print("PLAN", len(SCENARIOS), "sampling scenarios x 2 train/test",
