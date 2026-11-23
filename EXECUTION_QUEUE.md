@@ -1,3 +1,11 @@
+## 2026-11-23 最新：EnDecon聚合核心权重与三种简单对照已从Windows CSV读取，准备CARR真实FOV下一批实验
+
+- [USER_WINDOWS_CSV_SUMMARY] EnDecon聚合移植的`endecon_weights_by_pool.csv`、`ensemble_metrics_by_pool.csv`、`endecon_diagnostics_by_pool.csv`由用户Windows命令读出。详见[完整权重、指标和诊断记录](CTW-RF/experiments/records/2026-11-23_endecon_weights_aggregation_console_results.md)。
+- [FINDING] strong2的cell2location权重为**0.880797**（CARD仅0.119203），二基线加权中位数直接输出cell2location预测，JSD **0.098996**、RMSE **0.056752**；**这不是带来额外改善的新融合**。expanded4 CARD权重0.480304、cell2location 0.287698；full6方法权重均较分散、最大RCTD0.228215。
+- [REAL_NEGATIVE] full6的EnDecon移植版JSD **0.233707**、RMSE **0.073754**，不如普通坐标中位数**0.216576/0.070923**，也不如等权均值**0.160047/0.058340**；这说明该实现对当前基础池可能很敏感，但具体原因未经逐celltype复核，不可作为算法普遍劣势。三个pool均3轮收敛（lambda347.666/1120.918/1384.483）；移植版聚合运行仅0.0078–0.0229秒、不含基线训练。
+- [METHOD_BOUNDARY] CTW SoftOpt与EnDecon存在监督信息不对称：CTW使用fold训练真值，EnDecon使用全体spot预测无监督聚合；本次并未运行EnDecon作者完整R管线。用户另行贴出`E4_GITHUB_URL`指向`Hisery123/st-clustering-research`，这是不同项目，不要混为本研究数据。
+- [NEXT SINGLE ACTION] 为继续用户指定**CARR scRNA-only参考构建伪spot训练→留出seqFISH+ FOV验证**路线，需要先读取用户Windows本地尚未归档的`D:\Research\STdeconv_benchmark\run_carr_lite_v2_seqfishplus_5fold.py`当前源码（单条只读PowerShell）；拿到之后直接准备可批处理脚本，避免再做模拟参数扫与反复全面审计。
+
 ## 2026-11-23 当前下一步：读EnDecon权重、无监督简单对照指标，然后推进新数据批实验
 
 - [USER_WINDOWS_STDOUT] EnDecon**Python聚合核心移植版**3池运行结束：strong2 JSD .098996, RMSE .056752；expanded4 .119340/.051988；full6 .233707/.073754，各3轮收敛，调度器声明共9个变体结果、18个CTW参照比较。[原始日志](CTW-RF/experiments/records/2026-11-23_endecon_aggregation_run_results.md)。
