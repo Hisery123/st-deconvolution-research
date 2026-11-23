@@ -1,3 +1,7 @@
+## 2026-11-23 最新：原六方法严格来源细胞无交叉batch已在Windows完成全面dry-run（6/6 ENV PASS），正式24任务待用户执行
+
+- [USER_WINDOWS_DRY_RUN] 两情景均`SOURCE READY`（1200train/800test spots, 419 reference,19 types），六算法原始runner SHA256全部PASS。绝对解释器环境：`ENV Tangram PASS`, `ENV RCTD PASS`, `ENV CellDART PASS`, `ENV CARD D:\R\R-4.5.1\bin\Rscript.exe PASS`, `ENV cell2location PASS`, `ENV SPOTlight PASS`；`DRY RUN PASS — no experiment outputs written`。详见[预检实测归档](CTW-RF/experiments/records/2026-11-23_six_original_baselines_dry_run_all_pass.md)。
+- [ACTUAL RUN STATE] **24原始基础方法任务尚未启动，实测指标不存在；不得宣称六法重跑已完成**。下一用户唯一PowerShell命令`python "D:\Research\st-deconvolution-research\CTW-RF\experiments\ctw_six_baselines_cell_disjoint_batch.py" --run`，将按顺序进行两场景×train/test×六法，真正全部成功才3方法池评测并期望54 rows；`cell2location` 4×20000 map epochs CPU开销大，不预言时间；每任务状态自动存`baseline_task_status.csv`，失败保留log和workspace、后续`--run --resume`。遵从用户“先实验、最后集中审计”。
 ## 2026-11-23 最新：用户实际独立R 4.5.1已证实CARD/MuSiC/Matrix全TRUE；六法runner改为CARD直接Rscript，待最终Windows dry-run
 
 - [USER_WINDOWS_DIRECT_R] `D:\R\R-4.5.1\bin\Rscript.exe`实际返回`R_VERSION=4.5.1 CARD=TRUE MuSiC=TRUE Matrix=TRUE`；伴随`RcppML::nmf`与`NMF::nmf`导入替换warning，但此probe退出成功，不能误当CARD包缺失。
