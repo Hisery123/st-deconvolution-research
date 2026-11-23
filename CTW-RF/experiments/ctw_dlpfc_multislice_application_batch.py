@@ -242,9 +242,18 @@ def select_features(profiles, reference, classes):
             "NNLS_marker20": np.asarray(sorted(markers), dtype=int)}
 
 
-def nnls_predict(observed, profiles, features, classes):
+def nnls_predict(observed, profiles, features, classes, return_diagnostics=False):
+    """All-gene NNLS is the fixed fallback when a restricted panel has zero support.
+
+    A spot with no signal in the marker panel must not halt a whole slice.
+    The fallback is deterministic, reference-only, and its usage is reported.
+    It is NOT interpreted as a successful marker-panel estimate.
+    """
     X = compositional(observed.to_numpy(dtype=float), "observed")
+    if "NNLS_all" not in features or list(features)[0] != "NNLS_all":
+        raise ValueError("NNLS_all must be the first baseline for transparent fallback")
     outputs = {}
+    issues = []
     for method, selected in features.items():
         if len(selected) == 0:
             raise ValueError("Empty gene selection: " + method)
@@ -254,11 +263,43 @@ def nnls_predict(observed, profiles, features, classes):
         for i in range(len(observed)):
             w, _ = nnls(design, response[i])
             total = float(w.sum())
-            if total <= 0:
-                raise ValueError("NNLS zero solution: " + method +
+            if not np.isfinite(total):
+                raise ValueError("Nonfinite NNLS output: " + method +
                                  ", spot " + str(observed.index[i]))
-            pred[i] = w / total
+            if total <= 0:
+                if method == "NNLS_all":
+                    raise ValueError("Full-gene NNLS zero solution for " +
+                                     str(observed.index[i]) +
+                                     "; no defensible fallback available")
+                # Keep the input spot, but report that its restricted panel
+                # had insufficient support and the all-gene solution was used.
+                fallback = outputs["NNLS_all"].iloc[i].to_numpy(dtype=float)
+                if not np.isfinite(fallback).all() or fallback.sum() <= 0:
+                    raise ValueError("Invalid all-gene fallback for " +
+                                     str(observed.index[i]))
+                pred[i] = fallback
+                issues.append({
+                    "spot_id": str(observed.index[i]),
+                    "method": method,
+                    "fallback_method": "NNLS_all",
+                    "reason": ("zero_selected_gene_signal"
+                               if float(response[i].sum()) <= 1e-15
+                               else "nnls_zero_despite_selected_signal"),
+                    "selected_gene_signal_fraction": float(response[i].sum()),
+                })
+            else:
+                pred[i] = w / total
         outputs[method] = pd.DataFrame(pred, index=observed.index, columns=classes)
+    diag = pd.DataFrame(issues, columns=[
+        "spot_id", "method", "fallback_method", "reason",
+        "selected_gene_signal_fraction"])
+    if len(diag):
+        print("NNLS PANEL FALLBACK", {k: int(v) for k, v in
+              diag.groupby("method").size().items()},
+              "of", len(observed), "spots (full-gene estimate substituted)",
+              flush=True)
+    if return_diagnostics:
+        return outputs, diag
     return outputs
 
 
@@ -436,6 +477,22 @@ def main():
         sx, sy = make_spots(expr, types, split["train_donor"],
                             cls, 4, args.cells_per_spot, args.seed)
         out = nnls_predict(sx, prof, features, cls)
+        # Force one spot to contain no marker-panel signal to test the
+        # all-gene fallback without reading or writing any Visium output.
+        restricted = set(int(x) for x in features["NNLS_marker20"])
+        candidate = next((j for j in range(prof.shape[1])
+                          if j not in restricted and float(prof[:, j].sum()) > 0),
+                         None)
+        if candidate is None:
+            raise ValueError("Cannot construct a silent-marker fallback smoke test")
+        blind = pd.DataFrame(np.zeros((1, len(prof[0]))),
+                             index=["SMOKE_MARKER_ZERO"], columns=sx.columns)
+        blind.iloc[0, candidate] = 1.0
+        _, diagnostic = nnls_predict(blind, prof, features, cls,
+                                     return_diagnostics=True)
+        if "NNLS_marker20" not in diagnostic.method.tolist():
+            raise AssertionError("Marker-silent spot must trigger fallback")
+        print("FALLBACK SMOKE PASS", len(diagnostic), "fallback rows", flush=True)
         print("SMOKE PASS 4 synthetic spots", len(out), "NNLS methods;",
               "feature_counts", {k:len(v) for k,v in features.items()}, flush=True)
         print("DRY RUN PASS — no files written", flush=True)
@@ -495,7 +552,8 @@ def main():
         target_dir.mkdir(exist_ok=True, parents=True)
         observed = read_selected_h5(h5, panel)
         layer, source = layer_assignments(h5.parent, observed.index)
-        base = nnls_predict(observed, profiles, features, classes)
+        base, nnls_issues = nnls_predict(
+            observed, profiles, features, classes, return_diagnostics=True)
         results = apply_fusion(base, weights, classes)
         for method, pred in results.items():
             pred.to_csv(target_dir / (method + "_prediction.csv"))
@@ -503,6 +561,13 @@ def main():
         one_means, one_layers, info = summarize_slice(
             sid, results, layer, source, classes)
         info["run_seconds"] = round(time.perf_counter() - start, 3)
+        info["nnls_panel_fallback_count"] = int(len(nnls_issues))
+        info["nnls_marker20_fallback_count"] = int(
+            (nnls_issues["method"] == "NNLS_marker20").sum())
+        info["nnls_top300_fallback_count"] = int(
+            (nnls_issues["method"] == "NNLS_top300").sum())
+        nnls_issues.to_csv(target_dir / "nnls_panel_fallback_spots.csv",
+                           index=False)
         one_means.to_csv(target_dir / "celltype_means.csv", index=False)
         one_layers.to_csv(target_dir / "layer_celltype_means.csv", index=False)
         record.write_text(json.dumps(info, ensure_ascii=False, indent=2),
@@ -512,6 +577,8 @@ def main():
         layers_all.append(one_layers)
         print("COMPLETED SLIDE", sid, "spots", len(observed),
               "labeled", info["n_labeled_spots"],
+              "marker_fallback", info["nnls_marker20_fallback_count"],
+              "top300_fallback", info["nnls_top300_fallback_count"],
               "seconds", info["run_seconds"], flush=True)
     pd.DataFrame(summary).to_csv(args.out_dir / "slide_coverage_summary.csv", index=False)
     pd.concat(means, ignore_index=True).to_csv(
