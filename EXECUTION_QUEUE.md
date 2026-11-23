@@ -1,3 +1,8 @@
+## 2026-11-23 六原始baseline无细胞重叠批：Windows环境预检失败（正式24任务尚未启动）
+
+- [USER_WINDOWS_STDOUT] `ctw_six_baselines_cell_disjoint_batch.py --dry-run`确认两情景1200 train + 800 test、419 reference、19类别，六个runner的SHA256均`PASS`。
+- [ENVIRONMENT] 显式Conda路径修正之后环境probe：`RCTD RCTD PASS`、`SPOTlight SPOTlight PASS`；`Tangram Tangram FAIL: ModuleNotFoundError: No module named 'tangram'`（曾有**直接调用**`D:\ProgramData\miniconda3\envs\Tangram\python.exe`成功导入tangram的用户日志，需检查`conda run`与绝对解释器差异）；`CellDART CellDART FAIL`在`C:\Users\Hisery\CellDART\da_cellfraction.py`导入keras失败；`CARD CARD FAIL: EnvironmentLocationNotFound`；`cell2location Cell2location FAIL: EnvironmentLocationNotFound`。实际已启动六方法24任务=0，不能把源数据预检视为运行完成。
+- [NEXT ACTION] Windows一条只读PowerShell输出所有Conda环境及Tangram绝对Python import，帮助定位CARD/cell2location是否在别的现有环境，不安装不动现有实验文件；然后再改批处理执行器/预检逻辑，不强行`--run`。按用户要求先解决运行阻塞、完整研究审计仍后置。
 ## 2026-11-23 新阶段：CTW六种原始baseline runner源码已收齐，严格source-cell-disjoint 24任务batch已提交，Windows仍未运行
 
 - [USER_UPLOADED_SOURCE_READ] 用户实际Windows`CTW_six_method_runners.zip` (30387 bytes)已上传、解压、读取；确定六种实际runner入口都支持同一`--base_dir`输入契约：Tangram/Python、RCTD/R、CellDART/Python、CARD/R、cell2location/Python、SPOTlight/R。六个实际runner上传源码SHA256冻结在新batch`RUNNERS`中；旧52scenario wrapper仅用于理解参数，不被误当主方法。
