@@ -137,6 +137,28 @@ def h5_header(path):
     return genes, barcodes
 
 
+def exclude_zero_shared_gene_spots(expression):
+    """Return only informative spots plus an explicit exclusion manifest.
+
+    No arbitrary or uniform cell-type proportions are assigned to spots with
+    zero signal in the common reference/spatial gene panel.
+    """
+    if expression.index.has_duplicates:
+        raise ValueError("Duplicate spot IDs in selected expression matrix")
+    totals = expression.to_numpy(dtype=np.float64).sum(axis=1)
+    informative = np.isfinite(totals) & (totals > 0)
+    if not np.isfinite(totals).all():
+        raise ValueError("Nonfinite shared-gene totals")
+    excluded = pd.DataFrame({
+        "spot_id": expression.index[~informative].astype(str),
+        "shared_gene_total": totals[~informative],
+        "reason": "zero_shared_gene_total",
+    })
+    if not informative.any():
+        raise ValueError("No informative spots after shared-gene zero filtering")
+    return expression.iloc[np.flatnonzero(informative)], excluded
+
+
 def read_selected_h5(path, shared_genes):
     with h5py.File(path, "r") as h:
         m = h["matrix"]
@@ -154,11 +176,14 @@ def read_selected_h5(path, shared_genes):
         arr = mat[selected, :].T.toarray().astype(np.float64)
     if not np.isfinite(arr).all() or (arr < 0).any():
         raise ValueError("Nonfinite or negative spot expression: " + str(path))
-    totals = arr.sum(axis=1)
-    if np.any(totals <= 0):
-        raise ValueError("Zero shared-gene total for " + str(np.count_nonzero(totals <= 0)) +
-                         " spots in " + str(path))
-    return pd.DataFrame(arr, index=barcodes, columns=shared_genes)
+    # An H5 spot may contain counts in genes absent from the shared
+    # reference panel. Keep such spot IDs in a per-slide exclusion record.
+    expression = pd.DataFrame(arr, index=barcodes, columns=shared_genes)
+    informative, excluded = exclude_zero_shared_gene_spots(expression)
+    if len(excluded):
+        print("ZERO SHARED-GENE SPOTS EXCLUDED", path.parent.name,
+              len(excluded), "of", len(barcodes), flush=True)
+    return informative, excluded, len(barcodes)
 
 
 def split_reference(labels, seed):
@@ -493,6 +518,13 @@ def main():
         if "NNLS_marker20" not in diagnostic.method.tolist():
             raise AssertionError("Marker-silent spot must trigger fallback")
         print("FALLBACK SMOKE PASS", len(diagnostic), "fallback rows", flush=True)
+        zero_test = pd.DataFrame([[0.0, 0.0], [1.0, 0.0], [0.0, 2.0]],
+                                 index=["ZERO", "A", "B"], columns=["g1", "g2"])
+        valid, excluded = exclude_zero_shared_gene_spots(zero_test)
+        if valid.index.tolist() != ["A", "B"] or excluded.spot_id.tolist() != ["ZERO"]:
+            raise AssertionError("Shared-gene zero exclusion smoke test failed")
+        print("ZERO-SPOT SMOKE PASS valid", len(valid), "excluded", len(excluded),
+              flush=True)
         print("SMOKE PASS 4 synthetic spots", len(out), "NNLS methods;",
               "feature_counts", {k:len(v) for k,v in features.items()}, flush=True)
         print("DRY RUN PASS — no files written", flush=True)
@@ -542,6 +574,9 @@ def main():
             layers_file = target_dir / "layer_celltype_means.csv"
             if not means_file.is_file() or not layers_file.is_file():
                 raise ValueError("Partial completed slide: " + sid)
+            info.setdefault("n_spots_h5", int(info["n_spots"]))
+            info.setdefault("n_spots_predicted", int(info["n_spots"]))
+            info.setdefault("n_zero_shared_gene_spots", 0)
             summary.append(info)
             means.append(pd.read_csv(means_file))
             layers_all.append(pd.read_csv(layers_file))
@@ -550,7 +585,7 @@ def main():
         print("START SLIDE", sid, flush=True)
         start = time.perf_counter()
         target_dir.mkdir(exist_ok=True, parents=True)
-        observed = read_selected_h5(h5, panel)
+        observed, zero_spots, n_spots_h5 = read_selected_h5(h5, panel)
         layer, source = layer_assignments(h5.parent, observed.index)
         base, nnls_issues = nnls_predict(
             observed, profiles, features, classes, return_diagnostics=True)
@@ -561,6 +596,11 @@ def main():
         one_means, one_layers, info = summarize_slice(
             sid, results, layer, source, classes)
         info["run_seconds"] = round(time.perf_counter() - start, 3)
+        info["n_spots_h5"] = int(n_spots_h5)
+        info["n_spots_predicted"] = int(len(observed))
+        info["n_zero_shared_gene_spots"] = int(len(zero_spots))
+        zero_spots.to_csv(target_dir / "zero_shared_gene_excluded_spots.csv",
+                          index=False)
         info["nnls_panel_fallback_count"] = int(len(nnls_issues))
         info["nnls_marker20_fallback_count"] = int(
             (nnls_issues["method"] == "NNLS_marker20").sum())
@@ -577,6 +617,7 @@ def main():
         layers_all.append(one_layers)
         print("COMPLETED SLIDE", sid, "spots", len(observed),
               "labeled", info["n_labeled_spots"],
+              "zero_shared_excluded", info["n_zero_shared_gene_spots"],
               "marker_fallback", info["nnls_marker20_fallback_count"],
               "top300_fallback", info["nnls_top300_fallback_count"],
               "seconds", info["run_seconds"], flush=True)
