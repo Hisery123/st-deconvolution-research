@@ -1,3 +1,8 @@
+## 2026-11-23 最新：DLPFC 12片正式首跑在151507的NNLS_marker20零解中断；已提交固定fallback补丁待Windows恢复
+
+- [USER_WINDOWS_RUN_STDOUT] 合成train/check阶段成功，终端`CALIBRATION synthetics checked; SoftOpt fallback 0`；`START SLIDE 151507`随后在`nnls_predict`报`ValueError: NNLS zero solution: NNLS_marker20, spot AACTTTCTCGATCATG-1`。**真实Visium 12片推断尚未有任何完成切片**，不得归档为已完成。
+- [CODE_FIX_COMMITTED_NOT_RUN] [DLPFC多切片batch](CTW-RF/experiments/ctw_dlpfc_multislice_application_batch.py)修复有限marker/top300面板zero NNLS的处理：固定使用同spot的全539共有基因`NNLS_all`作为有限面板回退；若全基因也零则保留失败。每spot诊断输出`nnls_panel_fallback_spots.csv`，每片输出fallback总数及按方法拆分；新增`--dry-run --resume`强制silent-marker smoke测试不写盘，不改run_config可恢复首次中断数据。未在Windows执行补丁，真实fallback频次未知。[失败+方案记录](CTW-RF/experiments/records/2026-11-23_dlpfc_first_run_marker20_zero_fallback_fix.md)。
+- [NEXT SINGLE ACTION] Windows一条PowerShell先git pull成功再`--dry-run --resume`；dry-run成功时同命令继续`--run --resume`。原输出目录保留，不删数据不覆盖旧研究；若失败贴完整异常继续定位。研究者要求先完成实验，最后集中审计。
 ## 2026-11-23 最新下一批：CTW DLPFC 真实多切片外部应用脚本已创建GitHub，等待用户Windows同步/预检
 
 - [USER_WINDOWS_DIRECTORY_LIST] `D:\Research\real_DLPFC\candidate_inputs`现有reference_70_expression_logcounts/labels与真实Visium候选表达/metadata；`D:\paper\ST_Benchmark_Planning\mvp\data`已显示151507/151508/151509/151510的filtered_feature_bc_matrix.h5及manual_layer_annotations/spots_aligned；其它8张有无必须由新脚本自动发现，**不得预称12张均存在**。
