@@ -1,3 +1,11 @@
+## 2026-11-23 最新：MERFISH/Visium文件名核查，优先Visium外部应用候选
+
+- [USER_WINDOWS_DIRECTORY_FILES] 在`D:\Research\STdeconv_benchmark\data\MERFISH`只见`simMERFISH_20_st_count.csv`, `simMERFISH_50_st_count.csv`, `simMERFISH_100_st_count.csv`及各自st_location.csv（递归Depth2，前30项）。文件名`sim`提示模拟性质；尚未核实构造来源、细胞真值或单细胞参考，不能断言具备外部定量真值。
+- [USER_WINDOWS_DIRECTORY_FILES] `D:\Research\STdeconv_benchmark\data\visium`存在`sc_celltype.csv`、`sc_mousebrain.csv`、`st_count.csv`、`st_location.csv`，另有`__MACOSX`伴生文件（可忽略）。这只是参考、标注、ST表达、坐标四类文件名，**原始数据来源、平台真实性、基因/ID配对、类型比例真值及统计独立性仍未验证**。
+- [PRIORITY] 用户要先完成实验再综合审计；优先查看visium四CSV的文件大小、表头列数、各首两行的ID与字段，严格只读、避免全量载入超大矩阵。若无目标组成真值，后续仅外部部署/定性或已定义的代理一致性验证，不能以假真值计算MatrixRMSE/JSD。
+- [NEXT SINGLE ACTION] Windows单条PowerShell调用当前python对visium四文件`pd.read_csv(nrows=2)`，报告文件大小、表头数量与前几列/行，判断表方向后再设计数据集适配。
+- [LOCKED] CARR同源reference-only五FOV真实结果已完成及配对锁定，Gate a50 AUPRC 5/5提高、MatrixRMSE 5/5提高、JSD 4/5提高、SingletonRMSE仅2/5提高；不在同源测试FOV追加后验调参。
+
 ## 2026-11-23 最新：本机data一级目录已有MERFISH、seqFISH+、seqFISH_PLUS_CaiGroup和visium候选
 
 - [USER_WINDOWS_DIRECTORY_LIST] 用户一条只读PowerShell命令列出`D:\Research\STdeconv_benchmark\data`现有五个一级子目录：`groundtruth`、`MERFISH`、`seqFISH+`、`seqFISH_PLUS_CaiGroup`、`visium`。不同目录名不证明不同独立供体/实验来源，亦未核实原始真值。
