@@ -59,6 +59,8 @@ def arguments():
     p.add_argument("--out-dir", type=Path, default=DEFAULT_OUT)
     p.add_argument("--carr-runner", type=Path, default=DEFAULT_CARR)
     p.add_argument("--tangram-runner", type=Path, default=DEFAULT_TANGRAM)
+    p.add_argument("--tangram-python", type=Path, default=Path(sys.executable),
+                   help="Python executable for Tangram subprocesses; separate from the CARR environment")
     p.add_argument("--n-train-spots", type=int, default=400)
     p.add_argument("--min-cells", type=int, default=6)
     p.add_argument("--max-cells", type=int, default=12)
@@ -218,7 +220,7 @@ def tangram(folder, runner, args, log_dir, role):
         print("  REUSE", role, prediction, flush=True)
         return pred
     log_dir.mkdir(parents=True, exist_ok=True)
-    cmd = [sys.executable, str(runner), "--base_dir", str(folder),
+    cmd = [str(args.tangram_python), str(runner), "--base_dir", str(folder),
            "--seed", str(args.seed), "--num_epochs", str(args.num_epochs),
            "--mode", "cells", "--density_prior", "rna_count_based",
            "--device", str(args.device), "--max_genes", str(args.max_genes)]
@@ -336,7 +338,7 @@ def main():
     args = arguments()
     if args.n_train_spots < 20 or args.min_cells < 2 or args.max_cells < args.min_cells:
         raise ValueError("Invalid synthetic spot count/cells-per-spot settings")
-    for path in (args.data_root, args.carr_runner, args.tangram_runner):
+    for path in (args.data_root, args.carr_runner, args.tangram_runner, args.tangram_python):
         if not path.exists():
             raise FileNotFoundError(str(path))
     folds = sorted(args.data_root.glob("held_out_FOV*"),
@@ -375,6 +377,16 @@ def main():
     if args.dry_run:
         if args.resume:
             raise ValueError("--resume is only valid with --run")
+        print("TANGRAM PYTHON", args.tangram_python, flush=True)
+        probe = subprocess.run(
+            [str(args.tangram_python), "-c",
+             "import sys, tangram, torch, anndata; "
+             "print('TANGRAM_IMPORT_PASS', sys.executable, 'CUDA', torch.cuda.is_available())"],
+            capture_output=True, text=True)
+        if probe.returncode != 0:
+            raise RuntimeError("Tangram interpreter preflight failed:\n" +
+                               probe.stdout + "\n" + probe.stderr)
+        print(probe.stdout.strip(), flush=True)
         print("PLAN 5 held-out FOV x 2 Tangram fits = 10 new Tangram maps")
         print("TRAIN", args.n_train_spots, "reference-cell-generated pseudo-spots per FOV")
         print("PREDICT", "Tangram / CARR abundance-only / CARR Gate a50")
@@ -391,6 +403,24 @@ def main():
 
     carr = import_carr(args.carr_runner)
     args.out_dir.mkdir(parents=True, exist_ok=True)
+    # A previous run may have been interrupted before Tangram import. Preserve
+    # its original run_config.json; record the new subprocess interpreter
+    # separately, so --resume retains exact-config matching.
+    runtime_path = args.out_dir / "tangram_python_runtime.json"
+    runtime = {"tangram_python": str(args.tangram_python.resolve())}
+    if runtime_path.exists():
+        saved_runtime = json.loads(runtime_path.read_text(encoding="utf-8"))
+        if saved_runtime != runtime:
+            raise ValueError("Tangram interpreter differs from existing resume runtime")
+    else:
+        old_predictions = list(args.out_dir.glob(
+            "held_out_FOV*/**/predictions/Tangram_self_benchmark.csv"))
+        if old_predictions:
+            raise ValueError("Existing Tangram predictions lack interpreter provenance; "
+                             "refuse to mix Python environments mid-resume")
+        runtime_path.write_text(
+            json.dumps(runtime, indent=2, ensure_ascii=False), encoding="utf-8")
+    print("TANGRAM SUBPROCESS PYTHON", args.tangram_python, flush=True)
     if not (args.out_dir / "run_config.json").exists():
         (args.out_dir / "run_config.json").write_text(
             json.dumps(config, indent=2, ensure_ascii=False), encoding="utf-8")
