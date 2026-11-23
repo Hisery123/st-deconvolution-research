@@ -1,3 +1,10 @@
+## 2026-11-23 最新：本机data一级目录已有MERFISH、seqFISH+、seqFISH_PLUS_CaiGroup和visium候选
+
+- [USER_WINDOWS_DIRECTORY_LIST] 用户一条只读PowerShell命令列出`D:\Research\STdeconv_benchmark\data`现有五个一级子目录：`groundtruth`、`MERFISH`、`seqFISH+`、`seqFISH_PLUS_CaiGroup`、`visium`。不同目录名不证明不同独立供体/实验来源，亦未核实原始真值。
+- [PRIORITY] 后续优先检查MERFISH（可能有单细胞表达/注释/坐标以形成新的空间聚合伪spots，仍非物理测量spot）与visium（可能有真实捕获spots，但真实celltype组成不一定可得）。未检查任何文件内容前不能声称有独立的定量真值或模型已经能运行。
+- [NEXT SINGLE ACTION] Windows PowerShell一条只读命令枚举MERFISH和visium各前若干文件的路径，限制递归深度和输出条数，确定数据源、文件格式、同源关系、原始真实细胞比例真值可能性。不得创建、转换或重跑任何文件。
+- [PROGRESS] 刚完成CARR参考细胞训练五FOV逐折真实核查；Gate a50 AUPRC 5/5、matrixRMSE 5/5、JSD 4/5、singletonRMSE 2/5，指标已归档锁定，不对测试FOV后验调参。
+
 ## 2026-11-23 最新：groundtruth现有七目录均尚不能确认独立外部来源，优先盘点data其它目录
 
 - [USER_WINDOWS_DIRECTORY_LIST] 用户在Windows只读列出`D:\Research\STdeconv_benchmark\data\groundtruth`七文件夹：`rarecell_52scenario_suite`、`self_benchmark_cortex_svz`、`self_benchmark_cortex_svz_2000spots`、`seqfishplus_cortex_real_spatial_noleak`、`seqfishplus_cortex_svz_author_rect`、`seqfishplus_cortex_svz_fov_bins500`、`seqfishplus_rarecell_noleak_v1`。**目前是目录名证据，不等于全七个已逐个核查原始细胞ID和测序来源**。
