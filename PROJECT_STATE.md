@@ -1,3 +1,11 @@
+## 2026-11-23 最新：CARR reference-cell-only 5FOV整批全部成功，性能增益有限且有负指标
+
+- [USER_WINDOWS_RUN_LOG] 使用Tangram专用Python3.7 CPU环境、CARR主Python3.10完成`carr_reference_only_seqfishplus_batch.py --run --resume`；终端`BATCH FINISHED 5 FOV; 15 held-out method/FOV metric rows`，结果位于`D:\Research\STdeconv_benchmark\results\CARR_reference_only_seqfishplus_20261123_v1`。[真实汇总和FOV2–4日志](CARR-lite-V2/experiments/records/2026-11-23_reference_only_seqfishplus_batch_complete.md)。
+- [RESULT] 5FOV等权均值 Tangram_reference_matched JSD .431365/matrixRMSE .099243/singleton_RMSE .131094/singleton_vs_zero_AUPRC .227871/AUROC .644309；CARR_reference_only_Gate_a50 分别 .423617/.097243/**.132314（恶化）**/.261662/.668072；AbundanceOnly .422088/.097947/.131216/.259739/.667002。零位点预测均值Tangram .035435、Gate .035628（略恶化）、AbundanceOnly .035054。Gate JSD改善约1.8%，AUPRC相对提升约14.8%，但比AbundanceOnly JSD稍差。需要保持所有负结果和对照公平性解释。
+- [PENDING_READ] FOV2/3/4 Gate JSD和AUPRC改善，**FOV0和FOV1逐折原始CSV尚未读取**；不能声称5/5 FOV全部方向一致。下一步单条Windows只读命令读取`all_fov_metrics.csv`和`paired_fov_differences.csv`，确认逐折负结果和方向计数。
+- [BOUNDARY] 本次参考细胞来自seqFISH+相同数据来源，测试70spots为spatially-informed pseudo-spots，非独立真实捕获spot；5FOV不等于5独立供体，400合成训练spots也非独立生物样本；与旧五FOV使用其它FOV目标真值训练的实验存在参考拆分及Tangram重训练等多处变量差异，不用旧绝对均值作唯一因素因果推断。
+- [WORKFLOW] 初次因`.venv`缺tangram失败，修复专用解释器后成功；保留此前失败日志。用户仍计划先补完实验后交Claude集中审计；后续优先新外部验证及独立来源，不重新跑CTW36/9及CARR12已完成批次。
+
 ## 2026-11-23 最新：CARR reference-only新实验首次FOV0因Tangram导入失败中断，独立解释器/恢复补丁已提交
 
 - [USER_WINDOWS_ERROR] 初次`--run`在`START FOV 0`后，Tangram子进程导入阶段报`ModuleNotFoundError: No module named 'tangram'`。实际子进程错误使用`D:\paper\ST_Benchmark_Planning\mvp\.venv\Scripts\python.exe`，非Tangram专用环境。尚未完成任何映射训练或5FOV评价；保留已生成的FOV0合成spot数据和`run_config.json`。
