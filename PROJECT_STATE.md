@@ -1,3 +1,9 @@
+## 2026-11-23 最新：已收到完整seqFISH+ CARR五FOV runner，reference-only训练仍缺Tangram生成接口
+
+- [USER_PASTED_SOURCE] 用户已上传本地`run_carr_lite_v2_seqfishplus_5fold.py`完整`Get-Content -Raw`结果；在助手容器提取shebang至if-main并`compile()`语法检查PASS。完整来源与C3实施方案见[源码阅读与下一批实验计划](CARR-lite-V2/experiments/records/2026-11-23_seqfishplus_runner_source_received_deployment_plan.md)。
+- [METHOD_FINDING] 原runner的外层FOV留出，是**从其它FOV已知目标组成标签构造训练候选**，不是原计划C3的reference-only单细胞模拟伪spots训练。必须另造训练伪spot并为它生成同协议基础Tangram预测后才能训练CARR。原runner读取现成`predictions/Tangram_self_benchmark.csv`，不包含Tangram计算代码；不可用理想预测+加噪/NNLS代替并宣称同基线公平。
+- [NEXT SINGLE ACTION] Windows一条只读PowerShell`Get-Content -LiteralPath "D:\Research\STdeconv_benchmark\run_tangram_seqfishplus_5fold.py" -Raw`取得当前Tangram生成代码，再一次性编排5个holdout FOV的模拟spot参考训练和测试。**尚未提交/运行reference-only新实验**；旧FOV批结果不要覆盖、旧模拟CTW/CARR不重跑。
+- [BOUNDARY] 参考细胞来自seqFISH+同域已有数据，不等于独立外部scRNA-seq平台；5FOV/70人工聚合spots不是5独立供体/70生物学样本。用户决定最终Claude集中审计，现阶段维持输入/标签隔离后优先实验。
 ## 2026-11-23 最新：EnDecon聚合核心权重与三种简单对照已从Windows CSV读取，准备CARR真实FOV下一批实验
 
 - [USER_WINDOWS_CSV_SUMMARY] EnDecon聚合移植的`endecon_weights_by_pool.csv`、`ensemble_metrics_by_pool.csv`、`endecon_diagnostics_by_pool.csv`由用户Windows命令读出。详见[完整权重、指标和诊断记录](CTW-RF/experiments/records/2026-11-23_endecon_weights_aggregation_console_results.md)。
