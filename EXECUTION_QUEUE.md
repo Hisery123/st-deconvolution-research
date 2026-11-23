@@ -1,3 +1,9 @@
+## 2026-11-23 新阶段：CTW六种原始baseline runner源码已收齐，严格source-cell-disjoint 24任务batch已提交，Windows仍未运行
+
+- [USER_UPLOADED_SOURCE_READ] 用户实际Windows`CTW_six_method_runners.zip` (30387 bytes)已上传、解压、读取；确定六种实际runner入口都支持同一`--base_dir`输入契约：Tangram/Python、RCTD/R、CellDART/Python、CARD/R、cell2location/Python、SPOTlight/R。六个实际runner上传源码SHA256冻结在新batch`RUNNERS`中；旧52scenario wrapper仅用于理解参数，不被误当主方法。
+- [CODE_READY_NOT_RUN] 新建[ctw_six_baselines_cell_disjoint_batch.py](CTW-RF/experiments/ctw_six_baselines_cell_disjoint_batch.py)和[冻结协议/上传源码证据](CTW-RF/experiments/records/2026-11-23_six_original_methods_cell_disjoint_runner_ready.md)。以**此前已完成**`CTWRF_cell_disjoint_20261123_v1`作为唯一来源，复用严格reference419/train donor204/test donor213、均衡vs自然频率两个场景1200 train/800 test；将每场景×train/test的四种纯输入CSV复制进**新独立结果目录**，六方法全部重新预测=24基础任务；全部成功后拟合3方法池strong2/expanded4/full6的五种固定融合控制，测试来源细胞不重叠共54持出测试metric rows。绝不混用旧重叠参考预测；不声称新结果已生成。
+- [AUTO PREFLIGHT] `--dry-run`检查源细胞不重叠、真实input manifest与用户ZIP源码hash、6个Conda环境真实导入Tangram/spacexr/CellDART/CARD/MuSiC/cell2location/SPOTlight，**无需人手逐文件审核**；无输出写盘，缺包/错误环境名直接报告；`--run`执行、`--run --resume`断点续跑，逐method日志、无效输出隔离留档。**预计最大的计算开销来自cell2location原版CPU四次20k mapping epoch**，不要给运行耗时承诺。
+- [NEXT ONE COMMAND] Windows PowerShell：`git -c http.proxy=http://127.0.0.1:7897 -C "D:\Research\st-deconvolution-research" pull --ff-only; if ($LASTEXITCODE -eq 0) { python "D:\Research\st-deconvolution-research\CTW-RF\experiments\ctw_six_baselines_cell_disjoint_batch.py" --dry-run }`。若`ENV FAIL`请贴日志，勿安装软件或直接run。用户要求先补实验再系统审计。六法全跑通前状态为NOT_RUN。
 ## 2026-11-23 最新：CTW DLPFC 12片真实应用正式完成，全部96种slice-method预测已生成
 
 - [USER_WINDOWS_RUN] 以`--dry-run --resume`及`--run --resume`正式完成12/12张DLPFC Visium切片，终端`BATCH FINISHED 12 DLPFC slices; 96 slice-method prediction matrices`，输出`D:\Research\STdeconv_benchmark\results\CTWRF_DLPFC_multislice_20261123_v1`。完整实测[12切片分项记录](CTW-RF/experiments/records/2026-11-23_dlpfc_12slice_batch_complete.md)。
