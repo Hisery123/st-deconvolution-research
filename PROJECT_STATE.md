@@ -1,3 +1,11 @@
+## 2026-11-23 最新：EnDecon聚合核心移植版3池正式运行完毕，下一步读权重/无监督简单对照
+
+- [USER_WINDOWS_STDOUT] 已正式运行`CTW-RF/experiments/ctw_endecon_aggregation_batch.py --run`，算法自检和输入检查通过；strong2、expanded4、full6均显示3轮迭代收敛，调度器`BATCH FINISHED 3 method pools x 3 ensemble variants; 18 CTW reference comparisons`。[本地运行原文](CTW-RF/experiments/records/2026-11-23_endecon_aggregation_run_results.md)。Python移植作者核心，不是官方R软件。
+- [REAL_NUMBERS] strong2 EnDecon JSD .098996、matrixRMSE .056752；expanded4 .119340/.051988；full6 .233707/.073754。相比既有CTW SoftOpt的strong2 3seed均值JSD .114850/RMSE .052449、expanded4 .110677/.044521、full6 .101723/.041453：EnDecon在strong2的JSD优于CTW，RMSE劣于CTW，4池/6池则两项均落后。不能宣称CTW无例外全面领先；全6池大幅恶化原因仍待实际读取权重。
+- [READ_PENDING] 本机`D:\Research\STdeconv_benchmark\results\CTWRF_EnDecon_aggregation_20261122_v1\endecon_weights_by_pool.csv`、`ensemble_metrics_by_pool.csv`、`endecon_diagnostics_by_pool.csv`尚未直接读取。strong2的EnDecon JSD几乎等于历史cell2location JSD仅提示权重可能集中，**非已经确认**。
+- [NEXT SINGLE ACTION] Windows一条只读Python/PowerShell命令汇总三个CSV，展示每池权重分配、三种无监督聚合对照指标和迭代lambda/收敛状态；不重跑旧模拟实验。继续安排CARR真正跨数据集或CTW DLPFC泛化的整批实验，最终综合审计交Claude。
+- [COMPLETED] CARR12、CTW GlobalStacking36配置、CTW主方法同折9配置和本次EnDecon3池聚合均完成，所有状态均来自用户Windows终端而非助手在其本地代跑。相关种子/方法池不是独立生物重复。
+
 ## 2026-11-22 最新：CTW完整配对指标已有数值，EnDecon作者融合核心3池批处理脚本已提交待运行
 
 - [USER_WINDOWS_CSV_SUMMARY] CTW的3seed×3pool同折主方法比较完整JSD、matrix_RMSE、aggregate RMSE和拟合时间已由用户终端打印。[真实性能及9组配对计数归档](CTW-RF/experiments/records/2026-11-22_ctw_matched_fusion_metrics_from_user_console.md)。full6三seed均值CTW SoftOpt JSD 0.101723、matrixRMSE 0.041453、aggregateRMSE 0.725489；GlobalStacking 0.113531、0.048966、0.867231。CTW对Global/HardSelect的JSD与matrixRMSE均9/9改善，但JSD对InvRMSE_p2和EqualWeight仅6/9改善；软优化平均拟合0.331s/折，对比Global0.015s/折。种子/方法池均为技术相关条件，非独立生物重复。
