@@ -1,3 +1,11 @@
+## 2026-11-23 最新：CTW cell-disjoint补充实验正式运行完成，锁定结果并推进DLPFC批应用
+
+- [USER_WINDOWS_RUN] `ctw_cell_disjoint_reference_batch.py --run`：836 cells、10000 genes、19 types，reference419/train donor204/test donor213，5类L12/L16/L17/L4/L8在train/test无成员。balanced与cell_uniform各重跑Tangram train/test（四次映射均DONE），16 method-scenario评测行全成功，SoftOpt fallback 0，结果`D:\Research\STdeconv_benchmark\results\CTWRF_cell_disjoint_20261123_v1`。[全部原始终端表与负结果](CTW-RF/experiments/records/2026-11-23_cell_disjoint_3baseline_full_run_completed.md)。
+- [BALANCED] SoftOpt JSD .254912/matrixRMSE .083280/aggRMSE 1.348836；GlobalStacking .263915/.084946/1.420992；**InvRMSE_p2 JSD .249645 优于SoftOpt**，应保留反例。
+- [NATURAL] SoftOpt JSD .143227/matrixRMSE .062353/aggRMSE .959604；Global .146024/.062554/.966025；Tangram JSD .144009，SoftOpt优势仅0.000782，避免夸大。
+- [LIMITATION] 新实验只重新运行Tangram/NNLS_500/NNLS_marker20三个基础方法，**不是旧6法全部去重叠重跑**；来源细胞组互斥，但均同一cortex-SVZ样本/域，不能称独立生物学复现。伪spot内部及组内可重复抽细胞。
+- [USER_WORKFLOW] 先完成实验再集中审计，不在本批测试上重复调参或做碎片审查。下一批转向**CTW DLPFC 12切片应用**，优先找已存在的`D:\Research\real_DLPFC`和`D:\paper\ST_Benchmark_Planning\mvp\data`里可复用的输入及脚本，再创建一键批处理；尽量把检查集成dry-run，用户Windows一次一个短步骤。无真实组成真值的切片不计算反卷积RMSE/JSD。
+
 ## 2026-11-23 下一批已写好：CTW-RF细胞ID三组隔离的补充3基线实验（未运行）
 
 - [USER_DIRECTIVE] 先跑完实验再系统审计。按此要求直接编写并提交[CTW reference-cell-disjoint补充batch](CTW-RF/experiments/ctw_cell_disjoint_reference_batch.py)和[冻结协议](CTW-RF/experiments/records/2026-11-23_cell_disjoint_3baseline_supplementary_batch_protocol.md)，**Windows还未同步/预检/运行，绝对没有此批新指标**。
