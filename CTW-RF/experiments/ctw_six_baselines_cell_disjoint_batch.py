@@ -83,10 +83,19 @@ OUTPUTS = {
 ENV_NAMES = {
     "Tangram": "Tangram",
     "RCTD": "RCTD",
-    "CellDART": "CellDART",
+    "CellDART": "CellDART-GPU",
     "CARD": "CARD",
-    "cell2location": "Cell2location",
+    "cell2location": "cell2loc_env",
     "SPOTlight": "SPOTlight",
+}
+
+# Direct interpreters avoid conda-run inheriting the user's activated
+# Windows virtualenv/Python path. These paths are taken from the user's
+# real Conda environment list; importability still requires dry-run.
+PYTHON_DEFAULTS = {
+    "Tangram": r"D:\ProgramData\miniconda3\envs\Tangram\python.exe",
+    "CellDART": r"D:\ProgramData\miniconda3\envs\CellDART-GPU\python.exe",
+    "cell2location": r"D:\ProgramData\miniconda3\envs\cell2loc_env\python.exe",
 }
 ENV_IMPORT = {
     "Tangram": "import tangram, torch, anndata",
@@ -110,7 +119,10 @@ def arguments():
     p.add_argument("--source-root", type=Path, default=SOURCE_DEFAULT)
     p.add_argument("--out-dir", type=Path, default=OUT_DEFAULT)
     p.add_argument("--method-root", type=Path, default=METHOD_ROOT_DEFAULT)
-    p.add_argument("--conda", default="conda")
+    p.add_argument("--conda", default=r"D:\ProgramData\miniconda3\Scripts\conda.exe")
+    p.add_argument("--python-tangram", type=Path, default=Path(PYTHON_DEFAULTS["Tangram"]))
+    p.add_argument("--python-celldart", type=Path, default=Path(PYTHON_DEFAULTS["CellDART"]))
+    p.add_argument("--python-cell2location", type=Path, default=Path(PYTHON_DEFAULTS["cell2location"]))
     p.add_argument("--seed", type=int, default=2026)
     p.add_argument("--rctd-cores", type=int, default=4)
     p.add_argument("--celldart-iterations", type=int, default=3000)
@@ -257,6 +269,12 @@ def runner_paths(args):
     return paths
 
 
+def chosen_python(args):
+    return {"Tangram": args.python_tangram,
+            "CellDART": args.python_celldart,
+            "cell2location": args.python_cell2location}
+
+
 def env_probe(args, environments):
     """Read-only dependency probes, distinct from heavy model training."""
     try:
@@ -268,11 +286,16 @@ def env_probe(args, environments):
         raise RuntimeError("Conda failed: " + (version.stderr or version.stdout))
     print("CONDA", version.stdout.strip() or version.stderr.strip(), flush=True)
     failed = []
+    python_paths = chosen_python(args)
     for method in METHODS:
-        lang = "Rscript" if method in R_METHODS else "python"
-        command = [args.conda, "run", "--no-capture-output", "-n",
-                   environments[method], lang,
-                   "-e" if method in R_METHODS else "-c", ENV_IMPORT[method]]
+        if method in R_METHODS:
+            command = [args.conda, "run", "--no-capture-output", "-n",
+                       environments[method], "Rscript", "-e", ENV_IMPORT[method]]
+            target = environments[method]
+        else:
+            python = python_paths[method]
+            command = [str(python), "-c", ENV_IMPORT[method]]
+            target = str(python)
         try:
             result = subprocess.run(command, capture_output=True,
                                     text=True, timeout=150)
@@ -280,7 +303,7 @@ def env_probe(args, environments):
             explanation = (result.stderr or result.stdout)[-1000:].strip()
         except (subprocess.TimeoutExpired, OSError) as exc:
             good, explanation = False, str(exc)
-        print("ENV", method, environments[method], "PASS" if good else "FAIL",
+        print("ENV", method, target, "PASS" if good else "FAIL",
               explanation[:250] if not good else "", flush=True)
         if not good:
             failed.append(method)
@@ -310,9 +333,12 @@ def setup_stages(args):
 
 
 def build_command(args, method, script, stage, envs):
-    command = [args.conda, "run", "--no-capture-output", "-n", envs[method]]
-    command += ["Rscript" if method in R_METHODS else "python", str(script),
-                "--base_dir", str(stage)]
+    if method in R_METHODS:
+        command = [args.conda, "run", "--no-capture-output",
+                   "-n", envs[method], "Rscript", str(script)]
+    else:
+        command = [str(chosen_python(args)[method]), str(script)]
+    command += ["--base_dir", str(stage)]
     if method == "Tangram":
         command += ["--seed", str(args.seed), "--num_epochs", str(args.tangram_epochs),
                     "--mode", "cells", "--density_prior", "rna_count_based",
@@ -495,7 +521,10 @@ def main():
         "source_cell_disjoint_protocol": "reference/train_donor/test_donor strict IDs",
         "scenarios": list(SCENARIOS), "pools": {k: list(v) for k,v in POOLS.items()},
         "methods": list(METHODS), "runner_sha256": {m: RUNNERS[m][1] for m in METHODS},
-        "conda": args.conda, "environments": environments, "seed": args.seed,
+        "conda": args.conda, "environments": environments,
+        "python_interpreters": {k: str(v.resolve())
+                                for k, v in chosen_python(args).items()},
+        "seed": args.seed,
         "rctd_cores": args.rctd_cores, "celldart_iterations": args.celldart_iterations,
         "celldart_pseudo": args.celldart_pseudo,
         "cell2location_map_epochs": args.cell2location_map_epochs,
@@ -520,6 +549,8 @@ def main():
           "reference epochs and", args.cell2location_map_epochs,
           "map epochs * 4 runs (CPU by original runner);",
           "CellDART iterations", args.celldart_iterations, "* 4 runs", flush=True)
+    print("PYTHON DIRECT INTERPRETERS",
+          {k: str(v) for k, v in chosen_python(args).items()}, flush=True)
     env_probe(args, environments)
     if args.dry_run:
         print("PLAN", len(SCENARIOS), "sampling scenarios x 2 train/test",
