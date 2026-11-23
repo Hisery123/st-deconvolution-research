@@ -1,3 +1,11 @@
+## 2026-11-23 用户最新强制执行偏好：停止反复审核，先把补实验跑完
+
+- [USER_DIRECTIVE] 用户明确说“别在一个劲的去审核1这个1审核那个的，咱们按计划进行，最后再审核”。**立即停止独立重复的来源审计、泄漏审计、零碎表头检查和论文质量评审**，除非缺失会直接阻止一个即将执行的实验；即使确需检查，也尽量嵌进一个批处理`--dry-run`，不要让用户手工反复发多条输出。先完成剩余实验，之后用户交Claude统一审计。
+- [USER_PASTED_REVIEW] 用户同时附先前Claude建议：CARR跨RCTD/CARD、严格类别留出、去深度、简单校准/特征消融、参考合成训练、MERFISH/STARmap外部数据；CTW EnDecon/stacking、参考细胞与伪spot细胞隔离重跑、DLPFC多切片和独立数据、统计、写作。把其作为任务清单，不把该长文本视作已执行的现状或新证据。
+- [ALREADY_COMPLETED] CARR RCTD/CARD跨方法+严格类别留出+no_depth+简单校准/敏感性共12批和有关52视图，以及同源seqFISH+ reference-only 5FOV全部完成；CTW GlobalStacking36、同折5fold×3seed×3pool的9项、EnDecon聚合3池已完成。不得因Claude旧建议重新跑已完成工作。
+- [REMAINING_PRIORITY] ① CTW旧2000spots基准reference来源细胞与generator不隔离，**需要真正做去重叠参考拆分的新版实验**，不是再静态审计旧代码；② CTW 12张DLPFC若本地已有必要输入则批量外部定性应用；③ CARR/CTW不同数据来源的外部应用或有真值数据实验（本地Visium有sc及ST四文件，但暂无真实组成真值；MERFISH现有文件名为simMERFISH计数及坐标，是否含真值未知）。统计检验、系统论文审计、投稿评估后置。
+- [NEXT STYLE] 下一轮直接选定可执行的新实验、写GitHub batch runner、用户本地仅一条`git pull + --dry-run`及一条后续`--run`；失败才精确排障。不再让用户为已有数据连续做表头/来源/ID核验。
+
 ## 2026-11-23 最新：Visium四份CSV已读两行，mouse-brain外部应用候选（完整对齐待核）
 
 - [USER_WINDOWS_READONLY] `data\visium\sc_mousebrain.csv` 2081.93MB：cell×12819genes、第一列5705STDY8058285_...；`sc_celltype.csv` 1.77MB标注`annotation_1`首例Astro_AMY；`st_count.csv` 161.12MB：gene×2576spots（需要转置）；`st_location.csv`约0.07MB列为spot ID、row、col。共享基因前两行可见Xkr4/Gm1992，但**完整集合、spot对齐和真值尚未验证**。[逐文件证据与外部来源线索](CARR-lite-V2/experiments/records/2026-11-23_visium_external_dataset_schema_first_read.md)。
