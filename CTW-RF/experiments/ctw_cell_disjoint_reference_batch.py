@@ -30,7 +30,6 @@ cross-platform validation. No old input or historical prediction is reused.
 from __future__ import annotations
 
 import argparse
-import hashlib
 import json
 from pathlib import Path
 import subprocess
@@ -468,6 +467,22 @@ def main():
             raise RuntimeError("Tangram interpreter cannot import dependencies:\n" +
                                probe.stdout + "\n" + probe.stderr)
         print(probe.stdout.strip())
+        # Nonwriting in-memory smoke of the reference-only design and NNLS.
+        ref = counts.loc[split["reference"]]
+        ref_types = labels.loc[ref.index]
+        prof, selections = gene_sets(ref, ref_types, classes)
+        for mix_name in SCENARIOS:
+            smoke_expr, smoke_loc, smoke_y, smoke_count, smoke_members = make_spots(
+                counts, labels, split["train_donor"], classes, 6,
+                args.cells_per_spot, args.seed + 999, mix_name, "DRY")
+            if not np.allclose(smoke_y.sum(axis=1).to_numpy(), 1.0):
+                raise ValueError("Dry-run pseudo-spot truth not compositional")
+            for method, gene_idx in selections.items():
+                out = nnls_predict(smoke_expr, prof, gene_idx)
+                if not np.allclose(out.sum(axis=1).to_numpy(), 1.0):
+                    raise ValueError("Dry-run NNLS is not compositional: " + method)
+            print("SMOKE PASS", mix_name, "spots", len(smoke_expr),
+                  "nnls_methods", len(selections), flush=True)
         print("PLAN scenarios", list(SCENARIOS), "x 2 Tangram runs = 4 mappings;",
               "train/test", args.train_spots, args.test_spots,
               "methods", list(METHODS))
