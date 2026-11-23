@@ -1,3 +1,8 @@
+## 2026-11-23 最新：用户实际独立R 4.5.1已证实CARD/MuSiC/Matrix全TRUE；六法runner改为CARD直接Rscript，待最终Windows dry-run
+
+- [USER_WINDOWS_DIRECT_R] `D:\R\R-4.5.1\bin\Rscript.exe`实际返回`R_VERSION=4.5.1 CARD=TRUE MuSiC=TRUE Matrix=TRUE`；伴随`RcppML::nmf`与`NMF::nmf`导入替换warning，但此probe退出成功，不能误当CARD包缺失。
+- [CODE_COMMITTED_NOT_WINDOWS_RUN] [六基线批处理](CTW-RF/experiments/ctw_six_baselines_cell_disjoint_batch.py)新增`--rscript-card`默认该绝对路径，用独立R解释器probe + 运行原CARD泛用runner，其余五法环境及全部训练协议不变；run_config记录该路径以便恢复。具体记录[独立R环境及修复](CTW-RF/experiments/records/2026-11-23_card_standalone_R451_environment_repaired.md)。
+- [NEXT ONE ACTION] Windows同步GitHub并`--dry-run`，查看CARD以独立R脚本出现PASS且其他五法也PASS，最终`DRY RUN PASS — no experiment outputs written`。正式原六法严格细胞无交叉24任务尚为0/24；不提前宣称安装或训练成功。用户要求先跑实验再系统审计。
 ## 2026-11-23 最新：六原始方法严格无交叉批dry-run环境错配；直接Python解释器补丁已提交，待Windows再次预检
 
 - [USER_WINDOWS] 六runner hash与两场景来源输入均PASS，但env probe：RCTD/SPOTlight PASS；Tangram用`conda run`未导入tangram，CellDART缺keras，默认CARD/Cell2location虚拟环境名不存在。最新`conda env list`找到`Tangram`, `CellDART-GPU`, `cell2loc_env`, `RCTD`, `SPOTlight`，没有`CARD`命名环境。用户R包输出`CARD=FALSE MuSiC=FALSE`，对应检测环境行没贴全，不臆测另一R环境也缺包。
