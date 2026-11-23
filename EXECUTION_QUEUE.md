@@ -1,3 +1,9 @@
+## 2026-11-23 最新：CTW DLPFC 12片真实应用正式完成，全部96种slice-method预测已生成
+
+- [USER_WINDOWS_RUN] 以`--dry-run --resume`及`--run --resume`正式完成12/12张DLPFC Visium切片，终端`BATCH FINISHED 12 DLPFC slices; 96 slice-method prediction matrices`，输出`D:\Research\STdeconv_benchmark\results\CTWRF_DLPFC_multislice_20261123_v1`。完整实测[12切片分项记录](CTW-RF/experiments/records/2026-11-23_dlpfc_12slice_batch_complete.md)。
+- [COVERAGE] 原H5 spots共47681，实际有539共有基因可预测47679（151508、151510各零表达spot 1个被明确排除及写入文件），其中层标签匹配47327；3NNLS+5融合/控制共96个预测矩阵；人工marker20面板zero NNLS于571个spot（~1.20%可预测spots）回退NNLS_all；top300回退0。synthetic calibration SoftOpt optimizer fallback0。
+- [BOUNDARY] 该批只是一套参考+NNLS3基础策略+融合5策略的真实Visium切片**外部应用**，**绝无真实细胞组成比例真值**，所以不能报告真实spots的JSD/RMSE或称验证定量准确度；现有DLPFC层标签只能做生物合理性/层富集描述性比较。不是原来6方法都重新在12张切片跑。12张切片不是12独立供体。
+- [LOCK] 12片完成，暂不重跑、不后验调参，用户要求先实验后综合审计。下一项候选优先**原CTW六基础法严格参考/伪spot来源细胞隔离下的重训**；若旧5法runner和R/Python依赖缺失，则必须坦诚报告无法全量复跑，再推进另一独立有真值的数据集或mouse Visium外部应用。
 ## 2026-11-23 DLPFC12切片批：151507完成，151508因1个共享基因零表达spot中断，补丁已提交待恢复
 
 - [USER_WINDOWS_RUN] 首次修复NNLS_marker20低信号回退后，DLPFC synthetic calibration完成SoftOpt fallback0；151507实测`COMPLETED SLIDE 151507 spots 4226 labeled 4221 marker_fallback 69 top300_fallback 0 seconds 0.586`；仅151507已完成，**12切片批尚未完成**。
