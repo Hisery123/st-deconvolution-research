@@ -1,3 +1,8 @@
+## 2026-11-23 最新：Visium四份CSV已读两行，mouse-brain外部应用候选（完整对齐待核）
+
+- [USER_WINDOWS_READONLY] `data\visium\sc_mousebrain.csv` 2081.93MB：cell×12819genes、第一列5705STDY8058285_...；`sc_celltype.csv` 1.77MB标注`annotation_1`首例Astro_AMY；`st_count.csv` 161.12MB：gene×2576spots（需要转置）；`st_location.csv`约0.07MB列为spot ID、row、col。共享基因前两行可见Xkr4/Gm1992，但**完整集合、spot对齐和真值尚未验证**。[逐文件证据与外部来源线索](CARR-lite-V2/experiments/records/2026-11-23_visium_external_dataset_schema_first_read.md)。
+- [EXTERNAL_SOURCE_HYPOTHESIS] cell2location官方小鼠脑教程使用相邻切片snRNAseq/Visium，BayraktarLab Github discussion列有5705STDY8058285样本；因此本地sc ID与公开cell2location数据存在强线索，但**本地Visium空间数据对应哪张具体切片尚不能据此断定**。
+- [NEXT SINGLE ACTION] Windows只读、内存友好检查：仅读取sc_mousebrain的表头（2GB矩阵不全载）、st_count的第一列和表头、坐标文件和细胞标签文件；报告gene交集、spot/coords匹配、重复ID、标签类别数。进一步设计跨平台外部应用前先确认定量真值是否存在，不能用模型输出当真值。
 ## 2026-11-23 最新：CARR reference-only 5FOV完整逐折结果+全部负指标已经核对
 
 - [USER_WINDOWS_CSV_SUMMARY] 用户贴出`all_fov_metrics.csv`15行、`paired_fov_differences.csv`10行，已逐项转录为[五FOV全部配对证据记录](CARR-lite-V2/experiments/records/2026-11-23_reference_only_seqfishplus_all_fov_paired_confirmed.md)。不是助手实际读取本地CSV字节。
