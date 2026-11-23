@@ -1,3 +1,9 @@
+## 2026-11-23 当前下一步：读EnDecon权重、无监督简单对照指标，然后推进新数据批实验
+
+- [USER_WINDOWS_STDOUT] EnDecon**Python聚合核心移植版**3池运行结束：strong2 JSD .098996, RMSE .056752；expanded4 .119340/.051988；full6 .233707/.073754，各3轮收敛，调度器声明共9个变体结果、18个CTW参照比较。[原始日志](CTW-RF/experiments/records/2026-11-23_endecon_aggregation_run_results.md)。
+- [FINDING] strong2池EnDecon JSD好于CTW SoftOpt（CTW三seed均值.114850），但CTW RMSE好于EnDecon（.052449 vs .056752）；expanded4/full6池CTW两个指标都好。不得过滤或隐瞒strong2这个反例，也不能把seed视作独立外部样本。
+- [NEXT SINGLE ACTION] Windows一条只读命令打印`endecon_weights_by_pool.csv`、`ensemble_metrics_by_pool.csv`、`endecon_diagnostics_by_pool.csv`；仅在得到真实权重后分析强2池退化/全6池恶化原因。
+- [AFTER] 优先CARR参考scRNA-only训练→留出FOV真实目标，和CTW DLPFC/新外部真实数据上的泛化；批量脚本、严守数据边界；全面论文/泄漏审计在实验完成后交Claude。
 ## 2026-11-22 当前唯一下一实验：EnDecon论文算法近邻对照（聚合核心移植），先同步预检
 
 - [USER_RESULT] CTW同折3seed×3pool最新原始控制台输出：full6 SoftOpt JSD .101723、matrixRMSE .041453、aggregateRMSE .725489，对Global .113531/.048966/.867231；9/9 JSD+RMSE改善Global、HardSelect；对InvRMSE_p2与EqualWeight JSD仅6/9改善。fit mean SoftOpt .331s vs Global .015s。详见[实际CSV摘要归档](CTW-RF/experiments/records/2026-11-22_ctw_matched_fusion_metrics_from_user_console.md)。
