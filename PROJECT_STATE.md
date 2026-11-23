@@ -1,3 +1,12 @@
+## 2026-11-23 最新：CARR五FOV reference-cell-only训练批处理已创建GitHub，等待Windows预检
+
+- [USER_PASTED_SOURCE] 用户提供`D:\Research\STdeconv_benchmark\methods\Tangram\run_tangram_self_benchmark.py`完整源码，确认Tangram的实际4文件输入及`map_cells_to_space`调用、3000基因选择和现有预测输出接口。见[新方案说明](CARR-lite-V2/experiments/records/2026-11-23_reference_cell_only_5fov_batch_protocol.md)。
+- [CODE_COMMITTED_NOT_RUN] 新建[CARR参考细胞合成训练→留出seqFISH+五FOV批处理](CARR-lite-V2/experiments/carr_reference_only_seqfishplus_batch.py)：每outer fold参考细胞按类拆成generator与mapping细胞不重叠，固定400个6–12细胞训练伪spots（自然/稀有富集各50%），用相同mapper分别对训练伪spot与留出目标FOV重跑Tangram（总计划10次Tangram映射），用原CARR三分支12特征+HGBC固定marker40/confusion3/Gate_a50训练和推理。测试FOV真值仅在三种预测输出后用于评价；每FOV单独日志和结果，非空输出目录禁止覆盖，可--resume。
+- [SCIENTIFIC_BOUNDARY] 这里的“reference-only”不等同独立scRNA测序平台，因为参考细胞仍来自seqFISH+来源；测试70spot仍为按真实空间单细胞网格汇聚的pseudo spots，不是物理捕获spot；5 FOV不等于5独立供体。原始旧CARR FOV基线参考设置与新matched Tangram不完全相同，不直接用旧baseline效应比较归因。训练400伪spots复用generator细胞，是合成增强并非独立样本。
+- [STATE] 新批脚本仅提交GitHub，**Windows尚未git pull/--dry-run/--run；没有任何新CARR reference-only真实数据泛化实验结果**。不推断新实验改善，静态语法也需通过用户预检确认。
+- [NEXT SINGLE ACTION] Windows一条PowerShell先`git pull --ff-only`，拉取成功则执行`python ...\CARR-lite-V2\experiments\carr_reference_only_seqfishplus_batch.py --dry-run`。通过后再单条`--run`批量完成5折；失败贴原始日志，保护已有CARR/CTW结果。
+- [WORKFLOW] 用户已决定批量做完计划实验，最后由Claude集中全面审计；当前保留必要数据/标签边界和失败记录。
+
 ## 2026-11-23 最新：已收到完整seqFISH+ CARR五FOV runner，reference-only训练仍缺Tangram生成接口
 
 - [USER_PASTED_SOURCE] 用户已上传本地`run_carr_lite_v2_seqfishplus_5fold.py`完整`Get-Content -Raw`结果；在助手容器提取shebang至if-main并`compile()`语法检查PASS。完整来源与C3实施方案见[源码阅读与下一批实验计划](CARR-lite-V2/experiments/records/2026-11-23_seqfishplus_runner_source_received_deployment_plan.md)。
