@@ -1,3 +1,9 @@
+## 2026-11-24 MERFISH外部CARR首折CPU Tangram中断后的GPU根因已由Windows证实；下步盘点现有Torch GPU环境
+
+- [USER_WINDOWS_GPU_DIAG] 当前`D:\ProgramData\miniconda3\envs\Tangram\python.exe`：Python **3.7.12**、`torch 1.13.1+cpu`、`torch.version.cuda=None`、`torch.cuda.is_available()=False`；Windows`nvidia-smi`实测`NVIDIA GeForce RTX 4070 Laptop GPU, driver 616.56, 8188 MiB`。因此Tangram映射用CPU的原因是CPU-only PyTorch build，**不是GPU硬件不兼容、模型OOM或数据加载错误**。Moffitt外部CARR正式五折尚0/5，FOV0第一张Tangram train在loss.backward因KeyboardInterrupt中止，原CPU日志完整保留。
+- [ENV STRATEGY] 尽可能先在已有Conda env中查找CUDA-enabled torch+Tangram可运行性；若无，用**全新隔离Python3.10 CUDA版PyTorch+Tangram-sc环境**，GPU smoke和语义一致性预检后才启动正式Moffitt验证。**不得在旧Python3.7/Torch1.13.1+cpu Tangram env内直接升级替换，旧CTW/CARR结果需可复现**。PyTorch官方 Windows目前支持Python3.10+，公开可选Torch2.5.1+cu121构建；与旧Tangram版本是否完全兼容，尚需实际测试，不声称已成功安装/加速。
+- [OUTPUT PROVENANCE] 本次CPU失败的输出目录`D:\Research\STdeconv_benchmark\results\CARR_MERFISH_Moffitt_sections_20261124_v1`已有`tangram_python_runtime.json`冻结旧Tangram Python，`--run --resume`**不能直接切换为新GPU解释器**（runner会拒路径不一致），避免混合解释器来源；GPU正式任务应写新的`..._gpu_v1`结果目录，原旧目录不删除；同5折/seed/500epochs/400train/密度uniform等对照协议冻结。
+- [NEXT ONE STEP] Windows一条只读PowerShell枚举`D:\ProgramData\miniconda3\envs\*\python.exe`，报告Python版本及torch/cuda可用性，存在GPU且tangram可用者优先复用；不要直接启动另一轮CPU完整训练。
 ## 2026-11-24 最新 MERFISH CARR 首次正式运行：FOV0 train Tangram CPU计算被KeyboardInterrupt中断，需先检查GPU可用性
 
 - [USER_WINDOWS_RUNTIME_LOG] 首次`carr_reference_only_seqfishplus_batch.py --run`输出`TANGRAM SUBPROCESS PYTHON D:\ProgramData\miniconda3\envs\Tangram\python.exe`，`START FOV 0`后在`train_tangram.log`中确认`n_training_genes = 160`,`device = cpu`,`num_epochs = 500`,`mode = cells`,`density_prior = uniform`,训练Score连续`0.692 → 0.952 → 0.953`，随后`loss.backward()`内发生`KeyboardInterrupt`；用户上层栈在`subprocess.run`的`WaitForSingleObject`也收到`KeyboardInterrupt`。**这不是CUDA OOM证据，也没有任何外部5折完成或成绩**；原因仅能确定训练进程收到中断信号，不能假定用户按了Ctrl+C。
