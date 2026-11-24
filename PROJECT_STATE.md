@@ -1,3 +1,10 @@
+## 2026-11-24 MERFISH独立来源下载实测：仅一个Animal_ID，不可跨动物；CARR真实空间跨切片留出输入生成器已提交，Windows待dry-run
+
+- [USER_WINDOWS_SOURCE_INSPECTION] Moffitt2018 Squidpy 73,655cells×161genes MERFISH H5AD已下载、`SOURCE INSPECTION PASS`；`Animal_ID unique 1` (73655个都为1)、`Bregma unique 12`、`Cell_class unique16`含`Ambiguous`9282 cells、`SPATIAL 73655/73655 finite XY`；**无法使用该H5AD进行跨动物独立验证**。12个Bregma为一只动物的不同section，不等价独立供体。
+- [NEW CODE NOT RUN] [Moffitt MERFISH外部真实空间bins生成器](CARR-lite-V2/experiments/prepare_merfish_moffitt_external_sections.py) 和 [完整冻结方案](CARR-lite-V2/experiments/records/2026-11-24_merfish_moffitt_single_animal_section_holdout_preparation_ready.md)已提交。按固定Bregma序号0/3/5/8/11作5个外层leave-one-section-out测试，参考只取其它11sections且每已知细胞类上限120；bin网格宽度仅从训练切片细胞(x,y)密度估算，目标切片bin选择只用所有细胞的坐标/占据数而非标签；真值是作者已确信细胞类的空间bin计数占比，Ambiguous排除且逐fold记录未知细胞量；预处理`adata.X`求和不声称raw RNA counts。
+- [CARR BACKWARD-COMPATIBLE PATCH] 已完成seqFISH+的`carr_reference_only_seqfishplus_batch.py`新增可选`--density-prior uniform`，默认仍为旧RNA-count-prior，不修改历史已完成结果。预处理MERFISH不能直接以X totals代替真实分子数估计Tangram空间密度；后续若开展外部CARR，将统一设uniform并清楚标为另一数据域。
+- [IMPORTANT] 用户贴日志未包含`EXPRESSION`抽样或`layers/raw`字段；新源只标为preprocessed，未证原始counts；**外部5切片CARR新实验尚未开始**。该数据属于新的研究及成像技术来源，但只有1个animal，定量结果将是annotation-derived spatial aggregate的探索性测试，不能冒充多动物泛化。
+- [NEXT SINGLE WINDOWS STEP] git pull更新后 `& "D:\ProgramData\miniconda3\envs\cell2loc_env\python.exe" "D:\Research\st-deconvolution-research\CARR-lite-V2\experiments\prepare_merfish_moffitt_external_sections.py" --dry-run`，预计SOURCE/X SAMPLE、5FOLD READY、DRY RUN PASS。若预处理X为负/不合适、特定section无法形成足够空间bins则报告失败且不强行处理。用户想先完成验证最后集中审计，不重跑此前CTW 24基线。
 ## 2026-11-24 当前唯一待做：第二独立数据来源 Moffitt 2018 真实MERFISH首次下载/预检（尚未运行）
 
 - [PUBLIC_VERIFIED] Squidpy官方预处理MERFISH mouse hypothalamus，`73,655 cells × 161 genes`，动物ID、空间(x,y)、Cell_class、Bregma与批次信息已由官方文档公开说明；来源Moffitt et al. 2018（Dryad`10.5061/dryad.8t8s248`），Squidpy/figshare公共直链`https://ndownloader.figshare.com/files/28169379`约49.2MB。**原Dryad数据的部分表达单位是cell-volume-scaled density/fluorescence，不可推定为原始count**，必须先看到h5ad表达layer及抽样值，不直接强行喂入RCTD/cell2location。
