@@ -1,3 +1,8 @@
+## 2026-11-24 用户明确更正GPU策略：只给cell2location未来新训练用GPU，Tangram及其他算法一律保持CPU/旧环境；当前MERFISH直接CPU断点恢复
+
+- [USER_DIRECTIVE] 用户明确说“我们只给最耗时间的那个cell2用gpu，其他的实验并不用gpu啊”。**取消此前提出的Tangram-GPU环境搭建、GPU torch迁移及其他环境CUDA盘点**；这不是本次MERFISH实验的必要前置步骤。已有CTW24/24任务冻结不重跑，cell2location GPU仅用于将来确有新训练任务时单独准备，不能声称已启用。
+- [CURRENT MERFISH] Moffitt CARR 5fold CPU Tangram FOV0 train遇`KeyboardInterrupt`；外部评测尚0/5。根据已检查`carr_reference_only_seqfishplus_batch.py`，现有原输出文件夹有`run_config.json`及`tangram_python_runtime.json`且两次运行均使用相同Python解释器和参数，**应该使用`--run --resume`**保留并恢复；未完成FOV0 Tangram训练从头开始该map，已完成源文件与输入无须重建。提醒用户不要按Ctrl+C、不要删除旧目录；如再无进度，查看日志而非擅自改变500 epochs。 
+- [NEXT ONE COMMAND] `& "D:\ProgramData\miniconda3\envs\cell2loc_env\python.exe" "D:\Research\st-deconvolution-research\CARR-lite-V2\experiments\carr_reference_only_seqfishplus_batch.py" --run --resume --data-root "D:\Research\STdeconv_benchmark\data\external\MERFISH_Moffitt_2018\carr_sections_v1" --out-dir "D:\Research\STdeconv_benchmark\results\CARR_MERFISH_Moffitt_sections_20261124_v1" --tangram-python "D:\ProgramData\miniconda3\envs\Tangram\python.exe" --density-prior uniform`; 成功时5FOV、15heldout行，失败贴trace/log。
 ## 2026-11-24 MERFISH外部CARR首折CPU Tangram中断后的GPU根因已由Windows证实；下步盘点现有Torch GPU环境
 
 - [USER_WINDOWS_GPU_DIAG] 当前`D:\ProgramData\miniconda3\envs\Tangram\python.exe`：Python **3.7.12**、`torch 1.13.1+cpu`、`torch.version.cuda=None`、`torch.cuda.is_available()=False`；Windows`nvidia-smi`实测`NVIDIA GeForce RTX 4070 Laptop GPU, driver 616.56, 8188 MiB`。因此Tangram映射用CPU的原因是CPU-only PyTorch build，**不是GPU硬件不兼容、模型OOM或数据加载错误**。Moffitt外部CARR正式五折尚0/5，FOV0第一张Tangram train在loss.backward因KeyboardInterrupt中止，原CPU日志完整保留。
