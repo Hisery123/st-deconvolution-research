@@ -1,3 +1,7 @@
+## 2026-11-24 MERFISH跨切片独立来源外部试验：5/5 Windows dry-run PASS，下一步仅--prepare数据、不训练
+
+- [USER_WINDOWS] 73,655细胞、1动物、12 Bregma、16类别(含9,282 Ambiguous)的Moffitt预处理H5AD完成本机跨切片dry-run；固定留出第0/3/5/8/11个Bregma（-29/-14/-4/11/26），每折1676–1685训练切片参考、350真实坐标格网分箱、15有确信类别，未知Ambiguous在这些bin中分别544/340/331/398/418；`DRY RUN PASS — no files written; no model training`。严格外部**独立来源**但非跨动物重复，1750个bins不能当1750个生物学重复。详见[预检终端归档](CARR-lite-V2/experiments/records/2026-11-24_merfish_moffitt_single_animal_section_holdout_preflight_pass.md)。
+- [NEXT ONE STEP] Windows使用已经拉取的`CARR-lite-V2/experiments/prepare_merfish_moffitt_external_sections.py --prepare`写五组`held_out_FOV0..4` CSV至`D:\Research\STdeconv_benchmark\data\external\MERFISH_Moffitt_2018\carr_sections_v1`，仅备数据；**尚无真正外部模型训练、预测或指标**。生成成功后再配置沿用CARR reference-only训练命令（预处理MERFISH优先`--density-prior uniform`，单独output目录并先dry-run）。不得删除已成功CTW24任务或将PREP通过误认实验完成。
 ## 2026-11-24 MERFISH独立来源下载实测：仅一个Animal_ID，不可跨动物；CARR真实空间跨切片留出输入生成器已提交，Windows待dry-run
 
 - [USER_WINDOWS_SOURCE_INSPECTION] Moffitt2018 Squidpy 73,655cells×161genes MERFISH H5AD已下载、`SOURCE INSPECTION PASS`；`Animal_ID unique 1` (73655个都为1)、`Bregma unique 12`、`Cell_class unique16`含`Ambiguous`9282 cells、`SPATIAL 73655/73655 finite XY`；**无法使用该H5AD进行跨动物独立验证**。12个Bregma为一只动物的不同section，不等价独立供体。
