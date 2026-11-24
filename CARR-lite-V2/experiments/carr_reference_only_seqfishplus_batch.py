@@ -68,6 +68,10 @@ def arguments():
     p.add_argument("--num-epochs", type=int, default=500)
     p.add_argument("--max-genes", type=int, default=3000)
     p.add_argument("--device", default="auto")
+    p.add_argument("--density-prior", default="rna_count_based",
+                   choices=("rna_count_based", "uniform"),
+                   help="Uniform for cross-platform preprocessed MERFISH intensity; "
+                        "default keeps completed seqFISH+ protocol unchanged")
     return p.parse_args()
 
 
@@ -222,7 +226,7 @@ def tangram(folder, runner, args, log_dir, role):
     log_dir.mkdir(parents=True, exist_ok=True)
     cmd = [str(args.tangram_python), str(runner), "--base_dir", str(folder),
            "--seed", str(args.seed), "--num_epochs", str(args.num_epochs),
-           "--mode", "cells", "--density_prior", "rna_count_based",
+           "--mode", "cells", "--density_prior", args.density_prior,
            "--device", str(args.device), "--max_genes", str(args.max_genes)]
     log = log_dir / (role + "_tangram.log")
     t0 = perf_counter()
@@ -354,7 +358,7 @@ def main():
         "tangram_runner": str(args.tangram_runner.resolve()),
         "folds": [f.name for f in folds],
         "protocol": "40 percent stratified generator, rest mapping; 50pct natural/rare enriched;",
-        "base_method": "Tangram mode=cells density_prior=rna_count_based (both train and test)",
+        "base_method": "Tangram mode=cells density_prior=" + args.density_prior + " (both train and test)",
         "CARR": "historical runner 12 features, marker_k40, confusion_k3, Gate_a50",
         "evaluation": "5 leave-one-FOV-out spatially-informed pseudo-spots; truth only after inference",
         "scientific_boundary": [
