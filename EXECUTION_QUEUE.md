@@ -1,3 +1,8 @@
+## 2026-11-24 最新 MERFISH CARR 首次正式运行：FOV0 train Tangram CPU计算被KeyboardInterrupt中断，需先检查GPU可用性
+
+- [USER_WINDOWS_RUNTIME_LOG] 首次`carr_reference_only_seqfishplus_batch.py --run`输出`TANGRAM SUBPROCESS PYTHON D:\ProgramData\miniconda3\envs\Tangram\python.exe`，`START FOV 0`后在`train_tangram.log`中确认`n_training_genes = 160`,`device = cpu`,`num_epochs = 500`,`mode = cells`,`density_prior = uniform`,训练Score连续`0.692 → 0.952 → 0.953`，随后`loss.backward()`内发生`KeyboardInterrupt`；用户上层栈在`subprocess.run`的`WaitForSingleObject`也收到`KeyboardInterrupt`。**这不是CUDA OOM证据，也没有任何外部5折完成或成绩**；原因仅能确定训练进程收到中断信号，不能假定用户按了Ctrl+C。
+- [LAST_PREFLIGHT] Tangram Python先前实际`CUDA False`，所以当前映射走CPU。不应在首次map完成前声称完成或给耗时估计。第0折最初生成/准备子目录可能已存在，现有`--run --resume`设计能复用完整预测和不中断其余脚本，未完成的第0折训练需重跑。
+- [NEXT] **先单条只读PowerShell诊断真实Tangram Python/Torch/CUDA build与NVIDIA驱动/显卡**，决定是否安全在该Python3.x环境单独安装匹配的GPU PyTorch或新建隔离env，保留目前CPU原runner和已有CTW结果；不要立即重跑CPU或改500epochs公平预算。若CUDA合适，优先在正式新5折开始前固定新环境路径、全5折同一GPU运行设置并记录；否则CPU中断可`--run --resume`恢复。
 ## 2026-11-24 MERFISH CARR外部批：用户Windows 5/5 dry-run PASS、Tangram CUDA False，正式模型仍未执行
 
 - [USER_WINDOWS_PREFLIGHT] 在`cell2loc_env`调用`carr_reference_only_seqfishplus_batch.py --dry-run --data-root ...\MERFISH_Moffitt_2018\carr_sections_v1 --out-dir ...\CARR_MERFISH_Moffitt_sections_20261124_v1 --tangram-python ...\envs\Tangram\python.exe --density-prior uniform`：`TANGRAM_IMPORT_PASS D:\ProgramData\miniconda3\envs\Tangram\python.exe CUDA False`；`PLAN 5 held-out FOV x 2 Tangram fits = 10 new Tangram maps`；train 400 synthetic spots/fold；5fold皆`CHECK`通过（每折350 target bins/161 genes、生成池674/673/673/673/670、mapping池1011/1010/1008/1008/1006、15类别）；`DRY RUN PASS — no files written`。
