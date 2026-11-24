@@ -114,14 +114,14 @@ def read_source(path):
 def fixed_bins_for_fold(obs, sections, test_section):
     train = obs["_section"].ne(test_section)
     known = ~obs["_type"].isin(EXCLUDED_LABELS)
-    train_known = obs.loc[train & known]
-    # XY range and density are estimated only from non-test, known-label
-    # training sections, and never based on the target truth labels.
+    train_points = obs.loc[train]
+    # Geometry uses all physical cell coordinates only (no class labels
+    # in the training density estimate or target bin selection).
     widths = []
     for section in sections:
         if section == test_section:
             continue
-        sub = train_known.loc[train_known["_section"].eq(section)]
+        sub = train_points.loc[train_points["_section"].eq(section)]
         if len(sub) < 30:
             continue
         qx = np.percentile(sub["_x"].to_numpy(), [2, 98])
@@ -136,13 +136,14 @@ def fixed_bins_for_fold(obs, sections, test_section):
     # Anchoring each section at (0,0) is deterministic and independent of
     # any target class label. Negative x/y cells are supported.
     src = obs.loc[obs["_section"].eq(test_section)].copy()
-    known_src = src.loc[~src["_type"].isin(EXCLUDED_LABELS)]
-    if not len(known_src):
-        raise ValueError("No confident annotations in target section")
     src["_bx"] = np.floor(src["_x"].to_numpy() / width).astype(np.int64)
     src["_by"] = np.floor(src["_y"].to_numpy() / width).astype(np.int64)
     known_src = src.loc[~src["_type"].isin(EXCLUDED_LABELS)]
-    occupancy = known_src.groupby(["_bx", "_by"], sort=True).size()
+    if not len(known_src):
+        raise ValueError("No confident annotations in target section")
+    # IMPORTANT: selecting which physical bins exist must NOT be based on
+    # held-out class labels. Use all cells, including ambiguous ones.
+    occupancy = src.groupby(["_bx", "_by"], sort=True).size()
     valid = occupancy.loc[(occupancy >= MIN_CELLS_BIN) &
                           (occupancy <= MAX_CELLS_BIN)]
     # If too many bins, geometric ordering alone is used to subsample;
@@ -249,14 +250,16 @@ def build_fold(a, obs, sections, idx):
         "n_target_accepted_known_cells": len(accepted),
         "n_reference_cells": len(ref),
         "n_training_sections": len(sections)-1,
-        "bin_width_source": "median train-section robust density / 10 cells",
+        "bin_width_source": "median train-section all-cell coordinate density / 10 cells",
         "bin_width": width,
-        "n_candidate_valid_bins_by_occupancy": len(occupancy),
+        "n_candidate_valid_bins_by_all_cell_occupancy": len(occupancy),
         "n_target_bins_with_signal": len(spot_expr),
         "test_bin_occupancy_min": int(type_count.sum(axis=1).min()),
         "test_bin_occupancy_median": float(type_count.sum(axis=1).median()),
         "test_bin_occupancy_max": int(type_count.sum(axis=1).max()),
         "known_labels_only": True,
+        "bin_geometry_selection_blind_to_test_class_labels": True,
+        "conditional_truth_warning": "X and class fractions exclude ambiguous cells even when they occupy the physical bin; this is not a native low-resolution assay",
         "n_classes": len(classes),
         "classes": classes,
         "expression_unit": "summed Squidpy preprocessed MERFISH X; not raw molecule counts",
