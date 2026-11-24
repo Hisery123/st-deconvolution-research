@@ -1,3 +1,9 @@
+## 2026-11-24 CTW原六方法严格细胞来源隔离重跑：Windows正式全部完成，24/24成功、54测试结果行已生成
+
+- [USER_WINDOWS_COMPLETED] `ctw_six_baselines_cell_disjoint_batch.py --run`：两场景balanced_celltype/cell_uniform×train/test×Tangram、RCTD、CellDART、CARD、cell2location、SPOTlight共24方法任务全部`DONE`，随后三方法池strong2、expanded4、full6×两场景全`EVALUATED`，最终终端：`BATCH FINISHED 2 scenarios, 24/24 base method runs, 6 matched pool evaluations; 54 held-out metric rows`。结果目录`D:\Research\STdeconv_benchmark\results\CTWRF_six_method_disjoint_20261123_v1`。逐项耗时/六组真实SoftOpt JSD [完整归档](CTW-RF/experiments/records/2026-11-24_six_original_baselines_cell_disjoint_batch_completed.md)。
+- [6 SOFTOPT JSD] balanced: strong2 .225140 / expanded4 .210974 / full6 .213510；cell_uniform: strong2 .178680 / expanded4 .150113 / full6 .139748；六组SoftOpt optimizer fallback全部0。balanced中expanded4 JSD比full6低，自然频率中full6比expanded4低，不能宣称越多法越好。
+- [DATA BOUNDARY] 419独立ID mapping reference、204 train donor、213 test donor，1,200 train/800 test伪spots/场景，六原始方法均重新实际运行且历史同源细胞重叠预测未混入。本批仍同一cortex-SVZ来源且伪spot重复取样donor细胞，**不是独立生物学重复或跨平台外部测试**。完毕后冻结测试结果、禁止后验调参。
+- [NEXT ACTION] 用户Windows**只读**输出`heldout_metrics_by_scenario_pool.csv`的全部54行最基本scenario/pool/method/JSD/matrix_RMSE以与GlobalStacking、EqualWeight、单方法进行实际对照；本文件虽已生成，但助手尚未见具体内容，**不得臆造比较者分数/显著性**。不再重跑24任务。按用户意愿其余实验先完成、最终Claude系统审计。
 ## 2026-11-23 最新：原六方法严格来源细胞无交叉batch已在Windows完成全面dry-run（6/6 ENV PASS），正式24任务待用户执行
 
 - [USER_WINDOWS_DRY_RUN] 两情景均`SOURCE READY`（1200train/800test spots, 419 reference,19 types），六算法原始runner SHA256全部PASS。绝对解释器环境：`ENV Tangram PASS`, `ENV RCTD PASS`, `ENV CellDART PASS`, `ENV CARD D:\R\R-4.5.1\bin\Rscript.exe PASS`, `ENV cell2location PASS`, `ENV SPOTlight PASS`；`DRY RUN PASS — no experiment outputs written`。详见[预检实测归档](CTW-RF/experiments/records/2026-11-23_six_original_baselines_dry_run_all_pass.md)。
