@@ -1,3 +1,10 @@
+## 2026-11-24 Moffitt MERFISH CARR外部来源跨切片5/5全部跑完：15真实测试行、正负指标同报，进入写作准备
+
+- [USER_WINDOWS_COMPLETED] `carr_reference_only_seqfishplus_batch.py --run --resume --density-prior uniform`在Moffitt MERFISH的5个预定section holdout上成功`BATCH FINISHED 5 FOV; 15 held-out method/FOV metric rows`，新结果目录`D:\Research\STdeconv_benchmark\results\CARR_MERFISH_Moffitt_sections_20261124_v1`；**完整原始终端及均值归档**[2026-11-24外部CARR完成](CARR-lite-V2/experiments/records/2026-11-24_merfish_moffitt_five_section_external_carr_run_completed.md)。之前CPU Tangram FOV0中断已恢复，**无需重跑**。
+- [DESCRIPTIVE FIVE-FOLD MEANS] Tangram / CARR AbundanceOnly / CARR Gate_a50: mean_spot_JSD **.305459/.288139/.292347**（Abundance比Tangram相对低5.670%，Gate低4.293%）；matrix_RMSE **.137903/.132678/.133457**；singleton_RMSE **.102149/.094206/.091722**（Gate最好）；singleton_vs_zero_AUPRC **.384522/.435847/.434309**（Abundance最好，较Tangram绝对提高.051325）；singleton_AUROC .724787/.749590/.750083（Gate最好）；zero_prediction_mean .048470/.046960/.047932。**Gate并非全面优于Abundance：Gate JSD/RMSE/AUPRC略差**，结果全部保留。
+- [FOLD HETEROGENEITY] 用户已贴FOV1–4各自的JSD和singleton AUPRC，均正向；FOV0单折数值尚未逐项贴出，不能直接断言五折全部单折优于Tangram。需一次只读输出`all_fov_metrics.csv`/paired差异后归档每折反例，非重复审计。
+- [EVIDENCE SCOPE] 新独立研究和MERFISH成像技术、同source训练参考与测试section互斥，1只动物上5sections、每张350个按真实原位细胞坐标生成的spot-like空间bins；预处理float32非raw count，作者15确信类别不含Ambiguous，真值是按标签构造、仅在确信细胞内部归一化的annotation-derived proportions。**不是跨动物生物重复，也不是把seqFISH+训练的模型跨平台迁移**。本5fold共享训练切片且同1只动物，禁止以折数作独立生物样本p值或夸大普适验证。
+- [NEXT PRIORITY] 不再追加盲目重训/重新挑阈值/改变bin；一次PowerShell只读输出每折`all_fov_metrics.csv`用于表格/作图，随即基于已完成CTW24/24+12真实DLPFC应用、CARR52场景+5FOV原source+新MERFISH5fold开始论文Methods和Results、图表与最后集中审计。用户明确GPU仅为未来真正有必要重训的cell2location服务，Tangram其余保持CPU。
 ## 2026-11-24 用户明确更正GPU策略：只给cell2location未来新训练用GPU，Tangram及其他算法一律保持CPU/旧环境；当前MERFISH直接CPU断点恢复
 
 - [USER_DIRECTIVE] 用户明确说“我们只给最耗时间的那个cell2用gpu，其他的实验并不用gpu啊”。**取消此前提出的Tangram-GPU环境搭建、GPU torch迁移及其他环境CUDA盘点**；这不是本次MERFISH实验的必要前置步骤。已有CTW24/24任务冻结不重跑，cell2location GPU仅用于将来确有新训练任务时单独准备，不能声称已启用。
