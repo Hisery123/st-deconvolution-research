@@ -1,3 +1,10 @@
+## 2026-11-24 最新：CTW原六方法无来源细胞重叠54行指标已由用户Windows读取关键24行，主对照结果固定
+
+- [USER_WINDOWS_CSV_READOUT] `heldout_metrics_by_scenario_pool.csv` **TOTAL METRIC ROWS:54**；按每场景×方法池，用户报告EqualWeight/GlobalStacking/CTW_SoftOpt及同池按测试JSD最低选出的单方法共24行。真实原数、六组百分比及明确负结果见[完整对照记录](CTW-RF/experiments/records/2026-11-24_six_original_baselines_heldout_full_comparison_from_user_csv.md)；助手尚未下载全部54行源CSV。
+- [RESULT] CTW SoftOpt JSD对GlobalStacking **6/6组合更低**（改善1.772%、4.869%、4.749%、2.175%、4.113%、3.715%），对同池测试JSD最佳单方法**6/6更低**，但测试后选最好单方法仅做描述性oracle基准。对EqualWeight **5/6**，负例`cell_uniform/strong2` EqualWeight .177836177 优于CTW .178680319。CTW matrix RMSE 对Global **4/6**更低（balanced/strong2、balanced/full6略差），aggregated-celltype RMSE亦4/6（balanced/strong2及cell_uniform/strong2略差）。
+- [BEST IN THIS SUITE] natural cell_uniform/full6 CTW SoftOpt JSD .139747598, matrixRMSE .062084694，Global JSD .145139861，Tangram JSD .144008665。balanced expanded4 CTW JSD .210974484优于balanced full6 .213509624，更多方法未必更好。
+- [INTERPRETATION LIMIT] 样本为同一cortex-SVZ来源的严格ID-disjoint synthetic train/test，不是独立动物/供体/技术平台；6组共享训练/测试与来源细胞，**6/6不能作为6个独立生物重复统计检验**，没有p值或普适优越性证明。以前旧6法同细胞重叠数据和DLPFC真实无比例真值不混入。完成24/24原始算法任务，结果冻结，不在当前测试上再调参。
+- [NEXT] 按用户要求先补实验、最后统一审计。后续优先找另一个具备明确空间单细胞类型/真值的独立平台用于CARR与CTW适当验证，避免将`simMERFISH`当真实新平台。必要时一次性列出本地`data\MERFISH`/`data\seqFISH+`等目录；不要重新跑六法这一大批。
 ## 2026-11-24 CTW原六方法严格细胞来源隔离重跑：Windows正式全部完成，24/24成功、54测试结果行已生成
 
 - [USER_WINDOWS_COMPLETED] `ctw_six_baselines_cell_disjoint_batch.py --run`：两场景balanced_celltype/cell_uniform×train/test×Tangram、RCTD、CellDART、CARD、cell2location、SPOTlight共24方法任务全部`DONE`，随后三方法池strong2、expanded4、full6×两场景全`EVALUATED`，最终终端：`BATCH FINISHED 2 scenarios, 24/24 base method runs, 6 matched pool evaluations; 54 held-out metric rows`。结果目录`D:\Research\STdeconv_benchmark\results\CTWRF_six_method_disjoint_20261123_v1`。逐项耗时/六组真实SoftOpt JSD [完整归档](CTW-RF/experiments/records/2026-11-24_six_original_baselines_cell_disjoint_batch_completed.md)。
