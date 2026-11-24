@@ -1,3 +1,9 @@
+## 2026-11-24 CARR MERFISH完整逐切片15行已由Windows读取并严格归档，正式停止重训转入论文写作
+
+- [USER_WINDOWS_ALL_15_CSV_ROWS] 用户已从`CARR_MERFISH_Moffitt_sections_20261124_v1\all_fov_metrics.csv`完整返回五切片×Tangram/AbundanceOnly/Gate_a50的原始四指标15行，并按原样复制至[15行原始对照与各折改进表](CARR-lite-V2/experiments/records/2026-11-24_merfish_moffitt_all_15_fov_metric_rows_verified.md)。这是已经完成的`BATCH FINISHED 5 FOV`数据，不新增训练。
+- [ALL_FIVE_FOLD_DIRECTIONS] **五折中CARR AbundanceOnly与Gate_a50各自均（5/5）较Tangram有更低的JSD、matrix RMSE和singleton RMSE，更高的singleton AUPRC。** AbundanceOnly各fold JSD相对降低2.45%,7.09%,12.55%,5.10%,0.83%；Gate相对降低1.44%,4.81%,10.30%,4.15%,0.55%。各折效应大小不均匀，FOV4最弱。负对照：Gate相对AbundanceOnly **5/5 JSD更差但5/5 singleton RMSE更低**，AUPRC Gate仅在FOV4较高。
+- [FIVE_FOLD_DESC_MEANS] Tangram/Abundance/Gate JSD 0.305458545/0.288138806/0.292346808；singleton AUPRC .384522493/.435846992/.434309241；均为用户五折数据之算术描述均值，不构造p值。**同一只Moffitt动物的5切片、每切片350个作者注释来源空间bin**，绝非5生物重复；预处理161genes非RNA raw-count，训练参考与测试切片按Bregma隔离但不是在旧seqFISH+训练模型后直接跨平台迁移。
+- [DECISION] 用户此前要求完成实验、最后统一科研审计：**CARR这批外部验证锁定，不再挑阈值、重训Tangram或增加同源重复来追求更好结果**；现有CTW六法细胞无交叉24/24+12张DLPFC真实应用以及CARR52scenario、seqFISH+5FOV、MERFISH5fold，都已具备写初稿的量化材料。下一阶段先从证据矩阵/论文结构/原始数据可编辑科研图开始，两篇论文分别撰写Methods和Results；投稿前统一集中核实创新性、统计独立单元、资料溯源与负结果。不要宣称两篇已经具备被录用的充分证据。 
 ## 2026-11-24 Moffitt MERFISH CARR外部来源跨切片5/5全部跑完：15真实测试行、正负指标同报，进入写作准备
 
 - [USER_WINDOWS_COMPLETED] `carr_reference_only_seqfishplus_batch.py --run --resume --density-prior uniform`在Moffitt MERFISH的5个预定section holdout上成功`BATCH FINISHED 5 FOV; 15 held-out method/FOV metric rows`，新结果目录`D:\Research\STdeconv_benchmark\results\CARR_MERFISH_Moffitt_sections_20261124_v1`；**完整原始终端及均值归档**[2026-11-24外部CARR完成](CARR-lite-V2/experiments/records/2026-11-24_merfish_moffitt_five_section_external_carr_run_completed.md)。之前CPU Tangram FOV0中断已恢复，**无需重跑**。
