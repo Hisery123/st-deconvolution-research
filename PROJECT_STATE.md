@@ -1,3 +1,9 @@
+## 2026-11-24 当前唯一待做：第二独立数据来源 Moffitt 2018 真实MERFISH首次下载/预检（尚未运行）
+
+- [PUBLIC_VERIFIED] Squidpy官方预处理MERFISH mouse hypothalamus，`73,655 cells × 161 genes`，动物ID、空间(x,y)、Cell_class、Bregma与批次信息已由官方文档公开说明；来源Moffitt et al. 2018（Dryad`10.5061/dryad.8t8s248`），Squidpy/figshare公共直链`https://ndownloader.figshare.com/files/28169379`约49.2MB。**原Dryad数据的部分表达单位是cell-volume-scaled density/fluorescence，不可推定为原始count**，必须先看到h5ad表达layer及抽样值，不直接强行喂入RCTD/cell2location。
+- [CODE_READY_NOT_RUN] 新增[MERFISH自动下载/检查脚本](CTW-RF/experiments/external_merfish_moffitt_source_inspection.py)与[实验选择/边界/设计记录](CTW-RF/experiments/records/2026-11-24_external_merfish_moffitt_source_selected_pending_windows.md)。Windows用户只需一次`git pull`+使用已存在`D:\ProgramData\miniconda3\envs\cell2loc_env\python.exe`运行`--download`，保存独立数据在benchmark外部目录并输出`source_inspection.json`、动物数/类分布/raw count风险；无模型运行。**还没有获取、解析或评测新MERFISH数据**。
+- [DESIGN_NEXT] 如果多个动物有足够标签分布，则独立按Animal_ID留出测试动物，reference与calibration animals不交叉；测试动物每张切片按真实空间坐标bin合成spot并用源作者cell labels构造annotation-derived composition。重点是CARR reference-only rare metrics的独立外部验证；CTW若做则训练本数据匹配方法池并冻结权重。不能重复上一批24任务，也不能混淆不同论文/真值来源；主要缺项从原先算法CPU重训转为外部定量验证及最终统计/创新性审查和写作。
+- [NEXT POWERSHELL] `git -c http.proxy=http://127.0.0.1:7897 -C "D:\Research\st-deconvolution-research" pull --ff-only; if ($LASTEXITCODE -eq 0) { & "D:\ProgramData\miniconda3\envs\cell2loc_env\python.exe" "D:\Research\st-deconvolution-research\CTW-RF\experiments\external_merfish_moffitt_source_inspection.py" --download }`; 预期`SOURCE INSPECTION PASS`且无任何方法训练。用户仍Windows手动运行，ChatGPT不控制本机。
 ## 2026-11-24 最新：CTW原六方法无来源细胞重叠54行指标已由用户Windows读取关键24行，主对照结果固定
 
 - [USER_WINDOWS_CSV_READOUT] `heldout_metrics_by_scenario_pool.csv` **TOTAL METRIC ROWS:54**；按每场景×方法池，用户报告EqualWeight/GlobalStacking/CTW_SoftOpt及同池按测试JSD最低选出的单方法共24行。真实原数、六组百分比及明确负结果见[完整对照记录](CTW-RF/experiments/records/2026-11-24_six_original_baselines_heldout_full_comparison_from_user_csv.md)；助手尚未下载全部54行源CSV。
