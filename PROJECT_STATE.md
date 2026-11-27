@@ -1,3 +1,27 @@
+# 最新权威检查点｜2026-11-27：进入硕士学位论文写作阶段（覆盖下方旧实验待办）
+
+> **新开对话先读本段及 [AGENTS.md](AGENTS.md)、[学术写作标准](ACADEMIC_WRITING_AND_CONTRIBUTION_STANDARD.md)、[三专题论文蓝图](MASTER_THESIS_WRITING_BLUEPRINT_20261127.md)。本文件此前采取逆时序记录，所有旧的“待运行”实验步骤仅为历史。**
+
+## 1. 用户最新决策与论文目标
+
+- 用户2026-11-27明确：“开始大论文写作；第一篇和第二篇的补充工作已经做完；要求学术化、非流水账地凝练研究贡献。”这属于**用户的当前阶段决策**；逐项原始结果完成的范围仍以实际实验日志/源文件为准。**不要据旧计划要求继续重训已完成批次**。
+- 当前优先级：**硕士论文总纲/研究贡献矩阵→三个独立章节正文→可编辑科研图与统一术语→学术规范、统计、近邻文献、学校模板及导师要求集中审查**。实验只在真实关键缺口影响核心结论时明确讨论，不无限追加。
+- 已新建 [学术叙事与贡献凝练标准](ACADEMIC_WRITING_AND_CONTRIBUTION_STANDARD.md) 和 [总论文六章结构蓝图](MASTER_THESIS_WRITING_BLUEPRINT_20261127.md)；根目录`AGENTS.md`、`README.md`已增加强制入口。**内审保留审计与负结果，对外正文按研究问题→方法/评价设计→实证发现→意义组织。** 普通SCI四区是参考水准，不是正式学位认可或顶刊创新门槛。
+
+## 2. 已有真实实验基础（不等于当前远端拥有所有本地原始CSV）
+
+- **CTW-RF**：2026-11-24用户Windows成功完成严格来源cell-ID互斥的六原始方法24/24任务、2场景×3 pool形成54条held-out指标行；已披露JSD相对GlobalStacking六组优势，但EqualWeight有1/6反例、RMSE有2/6反例；DLPFC12真实切片应用不同于伪spot的组成比例定量真值。参考[2026-11-24科研日记](RESEARCH_JOURNAL/2026-11-24.md)、[原六方法批次记录](CTW-RF/experiments/records/2026-11-24_six_original_baselines_cell_disjoint_batch_completed.md)、[用户CSV配对对照](CTW-RF/experiments/records/2026-11-24_six_original_baselines_heldout_full_comparison_from_user_csv.md)。24/24是方法运行，不是24个独立供体。
+- **CARR-lite V2**：已记录seqFISH+的reference-only五FOV、旧52scenario和2026-11-24 Moffitt MERFISH新数据来源五切片的Tangram/AbundanceOnly/Gate三臂15行测试；MERFISH新批五切片均为**1只动物**的section，1750 spot-like spatial bins与作者注释推得真值，并非五只动物或原生Visium比例真值；AbundanceOnly与Gate在JSD和singleton RMSE的胜出不同，应同时写。参考[MERFISH五切片真实完成](CARR-lite-V2/experiments/records/2026-11-24_merfish_moffitt_five_section_external_carr_run_completed.md)、[完整15行记录](CARR-lite-V2/experiments/records/2026-11-24_merfish_moffitt_all_15_fov_metric_rows_verified.md)。
+- **第三专题CellCharter**：权威资料另在[st-clustering-research](https://github.com/Hisery123/st-clustering-research)，此前有P0科学修订/P1学术写作稿，旧检查点显示P1实际编译尚未确认；不能由本仓库推断2026-11-27最新编译状态，需查看对方最新状态。空间域聚类与细胞组成反卷积是不同任务，写作统一主线不等于统一算法。
+- CTW会议论文是否已正式发表、是否可直接复用文字图件/期刊扩展及引用、CARR完整源结果、两仓库最新版论文稿、学校模板与导师意见需在正式撰稿时逐项核对，不能因开始写大论文而伪称这些已获验收。
+
+## 3. 唯一下一阶段行动（当前不是Windows实验命令）
+
+- **先以 [MASTER_THESIS_WRITING_BLUEPRINT_20261127.md](MASTER_THESIS_WRITING_BLUEPRINT_20261127.md) 为底稿确定整篇论文总题目、六章研究故事和“主张→最新CSV/图→独立单位→反例/限制”证据矩阵，再写章节。** 现有源材料足以开始搭骨架；缺少校方模板不阻止内容初稿，但不能称最终格式合格。
+- 助手可直接读GitHub开展结构和写作审稿；若需用户本机提供最新未上传的学位模板/研究材料，每次只问关键一件。默认不再让用户重跑已有CTW/CARR补充实验。
+
+---
+
 ## 2026-11-24 CARR MERFISH完整逐切片15行已由Windows读取并严格归档，正式停止重训转入论文写作
 
 - [USER_WINDOWS_ALL_15_CSV_ROWS] 用户已从`CARR_MERFISH_Moffitt_sections_20261124_v1\all_fov_metrics.csv`完整返回五切片×Tangram/AbundanceOnly/Gate_a50的原始四指标15行，并按原样复制至[15行原始对照与各折改进表](CARR-lite-V2/experiments/records/2026-11-24_merfish_moffitt_all_15_fov_metric_rows_verified.md)。这是已经完成的`BATCH FINISHED 5 FOV`数据，不新增训练。
